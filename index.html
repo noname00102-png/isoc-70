@@ -295,6 +295,10 @@ body{background:linear-gradient(180deg,#eef3f8 0,#f6f8fb 42%,#f3f6fa 100%);color
 .top-main{min-width:0}
 .eyebrow{font-size:11px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:#356083;margin-bottom:5px}
 .top h1{font-size:clamp(24px,2.2vw,32px);line-height:1.15;letter-spacing:-.02em;margin:0 0 6px}
+.top h1 #dbStatus{margin-left:10px;vertical-align:middle;transform:translateY(-2px)}
+.top h1 #dbStatus.db-status{display:inline-flex;align-items:center;gap:6px;min-height:24px;padding:4px 8px;border-radius:8px;font-size:11px;line-height:1;font-weight:800;box-shadow:none;white-space:nowrap}
+.top h1 #dbStatus .db-dot{width:7px;height:7px}
+
 .top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
 .db-status{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:800;box-shadow:var(--shadow-sm);white-space:nowrap}
 .db-dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
@@ -327,6 +331,10 @@ body{background:linear-gradient(180deg,#eef3f8 0,#f6f8fb 42%,#f3f6fa 100%);color
 .event{border-radius:8px;padding:5px;background:#edf5ff;color:#164e80}
 .formgrid{gap:15px}
 .check{border-radius:11px;padding:10px;border-color:var(--line);background:#fbfcfe}
+#personChecks .check{display:flex;align-items:center;justify-content:flex-start;flex-direction:row;gap:8px;text-align:left;direction:ltr}
+#personChecks .check input[type="checkbox"]{order:0;flex:0 0 auto;margin:0}
+#personChecks .check{unicode-bidi:plaintext}
+
 .check:hover{background:#f6f9fc}
 .no-allowance-option{border-radius:11px}
 .modal{background:rgba(9,25,44,.58);backdrop-filter:blur(3px)}
@@ -399,10 +407,873 @@ button{font-size:14px;line-height:1.4}
 .order-evidence-collapsed>summary{font-weight:600;line-height:1.5}
 .db-status{font-weight:700;letter-spacing:0}
 @media(max-width:1050px){body{font-size:14px}.table td{font-size:13px}.field label{font-size:13px}}
-@media(max-width:700px){body{font-size:14px}.top h1{font-size:22px}.card h3{font-size:16px}.kpi strong{font-size:24px}.table td,.table th{font-size:13px}.db-status{font-size:12px}}
+@media(max-width:700px){body{font-size:14px}.top h1{font-size:22px}.top h1 #dbStatus.db-status{font-size:10px;min-height:22px;padding:3px 6px;margin-left:6px}.top h1 #dbStatus .db-dot{width:6px;height:6px}.card h3{font-size:16px}.kpi strong{font-size:24px}.table td,.table th{font-size:13px}.db-status{font-size:12px}}
 </style>
+
+<style id="responsive-shell-hardening">
+/* Responsive Shell Fix — preserve existing UI/logic; harden viewport sizing only */
+html,body{width:100%;min-width:0;max-width:100%;}
+#app.app{width:100%;min-width:0;max-width:100%;}
+
+@media (max-width:1050px){
+  html,body{width:100vw;max-width:100vw;min-width:0;overflow-x:hidden;}
+  #app.app{display:block;width:100vw;max-width:100vw;min-width:0;overflow-x:hidden;}
+  #app.app>.side{width:100vw;max-width:100vw;min-width:0;box-sizing:border-box;}
+  #app.app>.main{width:100vw;max-width:100vw;min-width:0;box-sizing:border-box;overflow-x:hidden;}
+  .top,.top-main,.card,.row,.grid,.toolbar,.formgrid,.daily-grid,
+  .personnel-page,.personnel-hero,.personnel-workspace,.personnel-toolbar,
+  .report-page-card,.report-meta,.report-toolbar{min-width:0;max-width:100%;}
+  .table-wrap,.personnel-table-wrap,.calendar-wrap,.report-table-wrap{
+    width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:visible;
+    -webkit-overflow-scrolling:touch;box-sizing:border-box;
+  }
+}
+
+@media (max-width:720px){
+  #app.app>.side{position:sticky;left:0;top:0;width:100vw;max-width:100vw;min-width:0;}
+  #app.app>.main{width:100vw;max-width:100vw;min-width:0;padding-left:12px;padding-right:12px;}
+  .brand{width:100%;max-width:100%;min-width:0;}
+  .brand small{max-width:100%;overflow-wrap:anywhere;}
+  .nav{width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;}
+  .nav::-webkit-scrollbar{display:none;}
+  .nav button{flex:0 0 auto;white-space:nowrap;}
+  .top-main{width:100%;max-width:100%;}
+  .top h1,.muted,.eyebrow{max-width:100%;overflow-wrap:anywhere;}
+  .card{width:100%;max-width:100%;}
+  .table-wrap,.personnel-table-wrap,.calendar-wrap,.report-table-wrap{width:100%;max-width:100%;}
+  .table,.personnel-table,.report-table{max-width:none;}
+
+  /* Mobile calendar: show the complete 7-day week inside the viewport.
+     Wide data tables keep horizontal scrolling; the calendar itself does not. */
+  .calendar-wrap{overflow-x:hidden;overflow-y:visible;}
+  .calendar{
+    width:100%;
+    min-width:0 !important;
+    max-width:100%;
+    grid-template-columns:repeat(7,minmax(0,1fr));
+    overflow:visible;
+  }
+  .calendar .dow{
+    min-width:0;
+    padding:8px 2px;
+    font-size:10px;
+    text-align:center;
+    white-space:nowrap;
+    overflow:hidden;
+  }
+  .calendar .day{
+    min-width:0;
+    min-height:104px;
+    padding:6px 4px;
+    overflow:hidden;
+    box-sizing:border-box;
+  }
+  .calendar .day>b{font-size:13px;}
+  .calendar .event{
+    font-size:8.5px;
+    line-height:1.25;
+    padding:3px 2px;
+    margin-top:4px;
+    border-radius:6px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+
+  /* Mobile data-table containment: tables never escape their card. */
+  .responsive-data-table{
+    width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:visible;
+    -webkit-overflow-scrolling:touch;box-sizing:border-box;
+  }
+  .responsive-data-table .table{margin:0;}
+  /* Four-column pages fit the mobile viewport without horizontal clipping. */
+  #projects .responsive-data-table .table,
+  #allowance .responsive-data-table .table{
+    width:100%;min-width:0!important;table-layout:fixed;
+  }
+  #projects .responsive-data-table th,#projects .responsive-data-table td,
+  #allowance .responsive-data-table th,#allowance .responsive-data-table td{
+    padding:9px 7px;white-space:normal;overflow-wrap:anywhere;word-break:break-word;
+  }
+  #projects .responsive-data-table th:nth-child(1){width:20%;}
+  #projects .responsive-data-table th:nth-child(2){width:34%;}
+  #projects .responsive-data-table th:nth-child(3){width:23%;}
+  #projects .responsive-data-table th:nth-child(4){width:23%;}
+  #allowance .responsive-data-table th:nth-child(1){width:34%;}
+  #allowance .responsive-data-table th:nth-child(2){width:20%;}
+  #allowance .responsive-data-table th:nth-child(3){width:20%;}
+  #allowance .responsive-data-table th:nth-child(4){width:26%;}
+  /* Wide operational tables remain readable and scroll inside their own container. */
+  #vehicles .responsive-data-table .table,#fuel .responsive-data-table .table{min-width:620px;}
+  .toolbar input,.toolbar select,.toolbar textarea,
+  .form input,.form select,.form textarea{max-width:100%;box-sizing:border-box;}
+}
+</style>
+
+<style id="mobile-dashboard-compact">
+/* Dashboard Mobile Compact — dashboard only; data/logic unchanged */
+@media (max-width:720px){
+  #dashboard .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-bottom:8px;
+  }
+  #dashboard .kpi{
+    min-height:82px;
+    padding:10px 11px;
+    border-radius:12px;
+  }
+  #dashboard .kpi strong{
+    font-size:22px;
+    margin:2px 0 1px;
+  }
+  #dashboard .kpi small:first-of-type{font-size:12px;line-height:1.25}
+  #dashboard .kpi small:last-of-type{font-size:9px;line-height:1.2;color:#98a2b3}
+  #dashboard .row{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-top:8px;
+  }
+  #dashboard .row .card{
+    padding:10px;
+    border-radius:12px;
+  }
+  #dashboard .row .card h3{
+    font-size:13px;
+    margin-bottom:6px;
+    line-height:1.3;
+  }
+  #dashboard .statline{
+    min-height:34px;
+    padding:6px 0;
+    gap:4px;
+    align-items:center;
+  }
+  #dashboard .statline>span:first-child{
+    min-width:0;
+    overflow:hidden;
+    line-height:1.25;
+  }
+  #dashboard .statline b,
+  #dashboard .statline>span:first-child:not(:has(b)){
+    font-size:10px;
+  }
+  #dashboard .statline small{
+    display:block;
+    font-size:8px;
+    line-height:1.2;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  #dashboard .statline .pill{
+    flex:none;
+    padding:3px 5px;
+    font-size:8px;
+    white-space:nowrap;
+  }
+  #dashboard #peopleStatus,
+  #dashboard #vehicleStatus{
+    max-height:220px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
+  #dashboard .card[style*="margin-top"]{
+    margin-top:8px!important;
+    padding:9px 10px;
+  }
+  #dashboard .card[style*="margin-top"] h3{
+    font-size:12px;
+    margin-bottom:5px;
+  }
+  #dashboard #conflictSummary{
+    font-size:9px;
+    line-height:1.35;
+    overflow-wrap:anywhere;
+  }
+  #dashboard #conflictSummary .pill{font-size:8px;padding:3px 6px}
+}
+@media (max-width:420px){
+  #dashboard .grid{gap:7px}
+  #dashboard .kpi{min-height:76px;padding:9px 10px}
+  #dashboard .kpi strong{font-size:20px}
+  #dashboard .kpi small:last-of-type{display:none}
+  #dashboard .row{gap:7px}
+  #dashboard .row .card{padding:9px}
+  #dashboard .row .card h3{font-size:12px}
+  #dashboard .statline{min-height:31px;padding:5px 0}
+  #dashboard .statline b,
+  #dashboard .statline>span:first-child:not(:has(b)){font-size:9px}
+  #dashboard .statline small{font-size:7.5px}
+  #dashboard .statline .pill{font-size:7px;padding:3px 4px}
+  #dashboard #peopleStatus,#dashboard #vehicleStatus{max-height:190px}
+}
+</style>
+
+<style id="mobile-calendar-compact-final">
+/* Final mobile calendar compaction — visual/layout only; data and logic unchanged */
+@media (max-width:720px){
+  #calendar .card{padding:10px;border-radius:13px;}
+  #calendar .toolbar{
+    display:grid;
+    grid-template-columns:42px minmax(0,1fr) 42px;
+    grid-template-areas:"prev month next" "add add add";
+    gap:7px;
+    align-items:center;
+    margin-bottom:8px;
+  }
+  #calendar .toolbar #prev{grid-area:prev;}
+  #calendar .toolbar #month{grid-area:month;text-align:center;font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #calendar .toolbar #next{grid-area:next;}
+  #calendar .toolbar #addPlan{grid-area:add;margin-left:0!important;}
+  #calendar .toolbar button{
+    width:100%;min-height:38px;height:38px;padding:5px 8px;border-radius:9px;
+    flex:none;font-size:15px;
+  }
+  #calendar .toolbar #addPlan{font-size:13px;font-weight:700;}
+  #calendar .calendar-wrap{border-radius:10px;overflow:hidden;}
+  #calendar .calendar{
+    width:100%;max-width:100%;min-width:0!important;
+    grid-template-columns:repeat(7,minmax(0,1fr));
+    grid-auto-rows:78px;
+    overflow:hidden;
+  }
+  #calendar .calendar .dow{
+    height:30px;min-height:30px;padding:7px 1px;
+    font-size:9px;line-height:16px;text-align:center;
+  }
+  #calendar .calendar .day{
+    height:78px;min-height:0;padding:4px 3px;
+    overflow:hidden;box-sizing:border-box;
+  }
+  #calendar .calendar .day>b{display:block;font-size:11px;line-height:14px;margin-bottom:1px;}
+  #calendar .calendar .event{
+    max-height:48px;margin-top:2px;padding:2px 2px;
+    border-radius:5px;font-size:7px;line-height:1.15;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+}
+@media (max-width:420px){
+  #calendar .card{padding:8px;}
+  #calendar .toolbar{grid-template-columns:38px minmax(0,1fr) 38px;gap:5px;}
+  #calendar .toolbar button{min-height:34px;height:34px;font-size:13px;border-radius:8px;}
+  #calendar .toolbar #addPlan{font-size:12px;}
+  #calendar .toolbar #month{font-size:14px;}
+  #calendar .calendar{grid-auto-rows:70px;}
+  #calendar .calendar .dow{height:28px;min-height:28px;padding:6px 1px;font-size:8px;}
+  #calendar .calendar .day{height:70px;padding:3px 2px;}
+  #calendar .calendar .day>b{font-size:10px;line-height:12px;}
+  #calendar .calendar .event{max-height:43px;font-size:6.5px;line-height:1.12;padding:2px 1px;}
+}
+</style>
+
+<style id="mobile-daily-status-compact">
+/* Mobile Daily Status — compact presentation only; no data/logic changes */
+@media (max-width:720px){
+  #dailyStatus>.card{padding:10px;border-radius:12px}
+  #dailyStatus .toolbar{
+    display:grid!important;
+    grid-template-columns:1fr 1.25fr 1fr;
+    gap:6px;
+    align-items:stretch;
+    margin-bottom:7px;
+  }
+  #dailyStatus .toolbar #dailyPrev,
+  #dailyStatus .toolbar #dailyNext{min-height:34px;height:34px;padding:4px 5px;font-size:12px;white-space:nowrap}
+  #dailyStatus .toolbar #dailyDate{min-height:34px;height:34px;padding:4px 6px;font-size:12px}
+  #dailyStatus .toolbar #dailyToday{grid-column:1/-1;min-height:34px;height:34px;padding:4px 8px;font-size:12px}
+  #dailyStatus #dailyDateLabel{font-size:11px;margin-bottom:7px!important;line-height:1.35}
+
+  #dailyStatus .daily-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:6px;
+    margin-bottom:7px;
+  }
+  #dailyStatus .daily-card{
+    padding:8px 9px;
+    border-radius:10px;
+    min-height:0;
+    line-height:1.35;
+  }
+  #dailyStatus .daily-card strong{font-size:19px;margin-top:1px;line-height:1.1}
+  #dailyStatus .daily-card .subtle{font-size:9px;display:block;line-height:1.25;margin-top:2px}
+
+  #dailyStatus>.card>.row{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    margin-top:7px;
+  }
+  #dailyStatus>.card>.row>.card{
+    min-width:0;
+    padding:9px;
+    border-radius:10px;
+    margin:0!important;
+  }
+  #dailyStatus>.card>.row h3{font-size:12px;margin:0 0 6px;line-height:1.3}
+  #dailyStatus .daily-project{padding:7px;margin-top:5px;border-radius:8px;font-size:10px;line-height:1.3}
+  #dailyStatus .daily-project h4{font-size:11px;margin-bottom:3px}
+  #dailyStatus .daily-project .pill,
+  #dailyStatus .daily-project .tag{font-size:9px;padding:2px 5px}
+
+  #dailyStatus .status-list{
+    max-height:180px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-width:thin;
+  }
+  #dailyStatus .status-list .statline{
+    flex-direction:row;
+    align-items:center;
+    gap:5px;
+    padding:5px 0;
+    font-size:10px;
+    line-height:1.25;
+  }
+  #dailyStatus .status-list .statline>strong,
+  #dailyStatus .status-list .statline>span{min-width:0;overflow-wrap:anywhere}
+  #dailyStatus .status-list .pill{font-size:9px;padding:2px 5px;white-space:nowrap}
+
+  #dailyStatus>.card>.card[style*="margin-top"]{
+    margin-top:7px!important;
+    padding:9px!important;
+  }
+  #dailyStatus>.card>.card[style*="margin-top"] h3{font-size:12px;margin-bottom:5px}
+  #dailyStatus>.card>.card[style*="margin-top"] .subtle{font-size:9px;line-height:1.3}
+}
+@media (max-width:420px){
+  #dailyStatus>.card{padding:8px}
+  #dailyStatus .daily-card{padding:7px 8px}
+  #dailyStatus .daily-card strong{font-size:18px}
+  #dailyStatus>.card>.row{gap:6px}
+  #dailyStatus>.card>.row>.card{padding:8px}
+  #dailyStatus .status-list{max-height:155px}
+  #dailyStatus .status-list .statline{font-size:9.5px;padding:4px 0}
+  #dailyStatus .daily-project{font-size:9.5px}
+}
+</style>
+
+<style id="mobile-daily-status-one-screen">
+/* FINAL MOBILE COMPACT — presentation/layout only; data & JS logic unchanged */
+@media (max-width:720px){
+  #dailyStatus>.card{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:6px;
+    padding:8px;
+    border-radius:12px;
+  }
+  #dailyStatus>.card>.toolbar,
+  #dailyStatus>.card>#dailyDateLabel,
+  #dailyStatus>.card>.daily-grid,
+  #dailyStatus>.card>.card[style*="margin-top"]{
+    grid-column:1/-1;
+  }
+  #dailyStatus>.card>.toolbar{
+    display:grid!important;
+    grid-template-columns:36px minmax(0,1fr) 36px;
+    gap:5px;
+    margin:0;
+  }
+  #dailyStatus .toolbar #dailyPrev,
+  #dailyStatus .toolbar #dailyNext{
+    min-height:32px;height:32px;padding:3px 4px;font-size:11px;
+    border-radius:8px;white-space:nowrap;
+  }
+  #dailyStatus .toolbar #dailyDate{
+    min-height:32px;height:32px;padding:3px 5px;font-size:11px;
+    border-radius:8px;
+  }
+  #dailyStatus .toolbar #dailyToday{
+    grid-column:1/-1;min-height:32px;height:32px;padding:3px 6px;
+    font-size:11px;border-radius:8px;
+  }
+  #dailyStatus #dailyDateLabel{
+    font-size:10px;margin:0!important;line-height:1.2;
+  }
+  #dailyStatus .daily-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:5px;
+    margin:0;
+  }
+  #dailyStatus .daily-card{
+    padding:6px 5px;border-radius:8px;line-height:1.15;
+    font-size:9px;text-align:center;
+  }
+  #dailyStatus .daily-card strong{font-size:17px;line-height:1;margin-top:2px}
+  #dailyStatus .daily-card .subtle{display:none}
+  #dailyStatus>.card>.row{display:contents!important}
+  #dailyStatus>.card>.row>.card{
+    min-width:0;margin:0!important;padding:7px;border-radius:9px;
+  }
+  #dailyStatus>.card>.row h3{
+    font-size:10px;margin:0 0 4px;line-height:1.2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  #dailyStatus .daily-project{
+    padding:5px;margin:3px 0 0;border-radius:7px;font-size:8.5px;line-height:1.2;
+  }
+  #dailyStatus .daily-project h4{font-size:9px;margin-bottom:2px}
+  #dailyStatus .daily-project .pill,
+  #dailyStatus .daily-project .tag{font-size:8px;padding:1px 4px}
+  #dailyStatus .status-list{
+    max-height:96px;min-height:0;overflow-y:auto;overflow-x:hidden;
+    scrollbar-width:thin;
+  }
+  #dailyStatus .status-list .statline{
+    flex-direction:row;align-items:center;gap:4px;
+    padding:3px 0;font-size:8.5px;line-height:1.15;
+  }
+  #dailyStatus .status-list .statline>strong,
+  #dailyStatus .status-list .statline>span{
+    min-width:0;overflow-wrap:anywhere;
+  }
+  #dailyStatus .status-list .pill{font-size:8px;padding:1px 4px;white-space:nowrap}
+  #dailyStatus>.card>.card[style*="margin-top"]{
+    margin-top:0!important;padding:7px!important;
+  }
+  #dailyStatus>.card>.card[style*="margin-top"] h3{font-size:10px;margin-bottom:3px}
+  #dailyStatus>.card>.card[style*="margin-top"] .subtle{font-size:8px;line-height:1.2}
+  #dailyStatus #dailyAllowanceSummary{font-size:9px;line-height:1.2;max-height:42px;overflow:hidden}
+  #dailyStatus #dailyAllowanceSummary .tagline{gap:4px;flex-wrap:nowrap}
+  #dailyStatus #dailyAllowanceSummary .pill{font-size:8px;padding:2px 4px;white-space:nowrap}
+}
+@media (max-width:420px){
+  #dailyStatus>.card{padding:7px;gap:5px}
+  #dailyStatus .daily-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+  #dailyStatus .daily-card{padding:5px 3px;font-size:8px}
+  #dailyStatus .daily-card strong{font-size:16px}
+  #dailyStatus>.card>.row>.card{padding:6px}
+  #dailyStatus .status-list{max-height:88px}
+  #dailyStatus .status-list .statline{font-size:8px;padding:2.5px 0}
+  #dailyStatus .daily-project{font-size:8px}
+}
+</style>
+
+<style id="mobile-daily-status-final-tight-grid">
+/* FINAL MOBILE TIGHT GRID — layout/presentation only; data, Supabase and JS logic untouched */
+@media (max-width:720px){
+  #dailyStatus>.card{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:6px;
+    padding:8px;
+    border-radius:12px;
+  }
+
+  /* Date controls stay compact and occupy the full width. */
+  #dailyStatus>.card>.toolbar{
+    grid-column:1/-1;
+    display:grid!important;
+    grid-template-columns:34px minmax(0,1fr) 34px;
+    gap:5px;
+    margin:0;
+  }
+  #dailyStatus .toolbar #dailyPrev,
+  #dailyStatus .toolbar #dailyNext{
+    min-width:0;min-height:32px;height:32px;padding:3px 2px;
+    font-size:10px;border-radius:8px;white-space:nowrap;overflow:hidden;
+  }
+  #dailyStatus .toolbar #dailyDate{
+    min-width:0;min-height:32px;height:32px;padding:3px 5px;
+    font-size:11px;border-radius:8px;
+  }
+  #dailyStatus .toolbar #dailyToday{
+    grid-column:1/-1;min-height:32px;height:32px;padding:3px 6px;
+    font-size:10px;border-radius:8px;
+  }
+  #dailyStatus>.card>#dailyDateLabel{
+    grid-column:1/-1;
+    font-size:9px;line-height:1.2;margin:0!important;
+  }
+
+  /* Four KPI — one compact row. */
+  #dailyStatus>.card>.daily-grid{
+    grid-column:1/-1;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:4px;
+    margin:0;
+  }
+  #dailyStatus .daily-card{
+    min-width:0;min-height:52px;
+    padding:6px 3px;border-radius:8px;
+    font-size:8px;line-height:1.1;text-align:center;
+    overflow:hidden;
+  }
+  #dailyStatus .daily-card strong{
+    display:block;font-size:16px;line-height:1;margin:2px 0 0;
+  }
+  #dailyStatus .daily-card .subtle{display:none}
+
+  /* Plan / personnel / vehicle / fuel — fixed 2-column grid. */
+  #dailyStatus>.card>.row{display:contents!important}
+  #dailyStatus>.card>.row>.card{
+    min-width:0;min-height:0;
+    margin:0!important;padding:7px;border-radius:9px;
+    overflow:hidden;
+  }
+  #dailyStatus>.card>.row h3{
+    margin:0 0 4px;font-size:10px;line-height:1.15;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+
+  /* Keep detail inside each cell; the page itself does not grow from long lists. */
+  #dailyStatus #dailyPlans,
+  #dailyStatus #dailyPeople,
+  #dailyStatus #dailyVehicles,
+  #dailyStatus #dailyFuel{
+    min-width:0;
+    max-height:104px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-width:thin;
+  }
+  #dailyStatus #dailyPlans{font-size:8px;line-height:1.2}
+  #dailyStatus .daily-project{
+    padding:5px;margin:3px 0 0;border-radius:7px;
+    font-size:8px;line-height:1.2;
+  }
+  #dailyStatus .daily-project h4{font-size:9px;margin:0 0 2px}
+  #dailyStatus .daily-project .pill,
+  #dailyStatus .daily-project .tag{
+    font-size:7.5px;padding:1px 3px;
+  }
+  #dailyStatus .status-list .statline{
+    min-width:0;display:flex;flex-direction:row;align-items:center;
+    gap:3px;padding:3px 0;font-size:8px;line-height:1.15;
+  }
+  #dailyStatus .status-list .statline>strong,
+  #dailyStatus .status-list .statline>span{
+    min-width:0;overflow-wrap:anywhere;
+  }
+  #dailyStatus .status-list .pill{
+    flex:none;font-size:7.5px;padding:1px 3px;white-space:nowrap;
+  }
+
+  /* Keep the unrelated allowance section compact but visible. */
+  #dailyStatus>.card>.card[style*="margin-top"]{
+    grid-column:1/-1;
+    margin-top:0!important;
+    padding:6px!important;
+    border-radius:9px;
+    max-height:52px;
+    overflow:hidden;
+  }
+  #dailyStatus>.card>.card[style*="margin-top"] h3{
+    margin:0 0 2px;font-size:9px;line-height:1.15;
+  }
+  #dailyStatus #dailyAllowanceSummary{
+    font-size:8px;line-height:1.15;max-height:30px;overflow:hidden;
+  }
+}
+
+@media (max-width:420px){
+  #dailyStatus>.card{padding:7px;gap:5px}
+  #dailyStatus>.card>.daily-grid{gap:3px}
+  #dailyStatus .daily-card{min-height:48px;padding:5px 2px;font-size:7.5px}
+  #dailyStatus .daily-card strong{font-size:15px}
+  #dailyStatus>.card>.row>.card{padding:6px}
+  #dailyStatus #dailyPlans,
+  #dailyStatus #dailyPeople,
+  #dailyStatus #dailyVehicles,
+  #dailyStatus #dailyFuel{max-height:92px}
+  #dailyStatus .status-list .statline{font-size:7.5px;padding:2.5px 0}
+  #dailyStatus .daily-project{font-size:7.5px}
+}
+</style>
+
+<style id="daily-plan-redesign">
+/* Daily selected-plan redesign: compact but complete; presentation only. */
+.daily-plan-compact{
+  border:1px solid var(--line);border-radius:10px;background:#fff;
+  padding:8px;margin-top:6px;min-width:0;overflow:hidden;
+}
+.daily-plan-head{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;min-width:0}
+.daily-plan-title{font-weight:800;font-size:11px;line-height:1.25;min-width:0;overflow-wrap:anywhere}
+.daily-plan-badges{display:flex;gap:3px;flex:0 0 auto;flex-wrap:wrap;justify-content:flex-end}
+.daily-plan-badges .pill{font-size:8px;padding:2px 4px;white-space:nowrap}
+.daily-plan-detail{margin-top:4px;color:#334155;font-size:8.5px;line-height:1.3;overflow-wrap:anywhere}
+.daily-plan-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3px 6px;margin-top:5px}
+.daily-plan-field{min-width:0;font-size:8px;line-height:1.25;color:#475569;overflow-wrap:anywhere}
+.daily-plan-field b{color:#1e293b;font-weight:700}
+.daily-plan-people{margin-top:4px;font-size:8px;line-height:1.25;color:#475569;overflow-wrap:anywhere}
+@media(max-width:420px){
+  #dailyStatus #dailyPlans{max-height:150px;overflow-y:auto}
+  #dailyStatus .daily-plan-compact{padding:6px;margin:3px 0 0;border-radius:7px}
+  #dailyStatus .daily-plan-head{gap:3px}
+  #dailyStatus .daily-plan-title{font-size:8.5px;line-height:1.2}
+  #dailyStatus .daily-plan-badges{gap:2px}
+  #dailyStatus .daily-plan-badges .pill{font-size:6.5px;padding:1px 3px}
+  #dailyStatus .daily-plan-detail{margin-top:3px;font-size:7.5px;line-height:1.25}
+  #dailyStatus .daily-plan-fields{gap:2px 4px;margin-top:3px}
+  #dailyStatus .daily-plan-field{font-size:7.2px;line-height:1.2}
+  #dailyStatus .daily-plan-people{margin-top:3px;font-size:7.2px;line-height:1.2}
+}
+</style>
+
+<style id="personnel-mobile-compact-fix">
+/* PERSONNEL MOBILE COMPACT — scoped UI-only fix; no data/logic changes */
+@media (max-width:720px){
+  #personnel .personnel-page{gap:8px}
+  #personnel .personnel-hero{
+    flex-direction:row;
+    align-items:center;
+    gap:8px;
+    padding:10px 12px;
+    border-radius:14px;
+  }
+  #personnel .personnel-hero h2{font-size:18px;line-height:1.2}
+  #personnel .personnel-hero p{display:none}
+  #personnel .personnel-hero-actions{flex:0 0 auto}
+  #personnel .personnel-hero-actions .primary{
+    min-height:34px;
+    padding:7px 10px;
+    font-size:12px;
+    white-space:nowrap;
+  }
+  #personnel .personnel-stats{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:5px;
+  }
+  #personnel .personnel-stat{
+    min-height:58px;
+    padding:7px 4px 6px;
+    border-radius:10px;
+    text-align:center;
+  }
+  #personnel .personnel-stat .label{
+    font-size:10px;
+    line-height:1.15;
+    margin-bottom:3px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  #personnel .personnel-stat strong{font-size:21px;line-height:1}
+  #personnel .personnel-stat .hint{display:none}
+  #personnel .personnel-stat.active,
+  #personnel .personnel-stat.inactive,
+  #personnel .personnel-stat.cycle,
+  #personnel .personnel-stat.today{border-top-width:3px}
+
+  #personnel .personnel-workspace{border-radius:14px}
+  #personnel .personnel-workspace-head{
+    padding:10px 12px 8px;
+    align-items:center;
+    flex-direction:row;
+  }
+  #personnel .personnel-workspace-head h3{font-size:15px}
+  #personnel .personnel-workspace-head .subtle{display:none}
+
+  #personnel .personnel-toolbar{
+    display:grid;
+    grid-template-columns:1.45fr .85fr .95fr;
+    gap:5px;
+    padding:7px 8px;
+    align-items:center;
+  }
+  #personnel .personnel-toolbar input,
+  #personnel .personnel-toolbar select{
+    width:100%;
+    min-width:0;
+    height:34px;
+    padding:6px 7px;
+    font-size:11px;
+    box-sizing:border-box;
+  }
+
+  #personnel .personnel-table-wrap{
+    max-height:300px;
+    overflow:auto;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    -webkit-overflow-scrolling:touch;
+  }
+  #personnel .personnel-table{min-width:760px}
+  #personnel .personnel-table thead th{font-size:10px;padding:7px 6px}
+  #personnel .personnel-table tbody td{font-size:11px;padding:6px 6px;line-height:1.25}
+  #personnel .personnel-name{min-width:150px}
+  #personnel .personnel-name b{font-size:12px}
+  #personnel .personnel-sub{font-size:9px;margin-top:1px}
+  #personnel .personnel-duty{font-size:10px}
+  #personnel .personnel-status{min-width:74px}
+  #personnel .personnel-actions{gap:3px;flex-wrap:nowrap}
+  #personnel .personnel-actions button{min-height:28px;padding:4px 7px;font-size:10px;white-space:nowrap}
+  #personnel .personnel-table .pill{font-size:9px;padding:3px 5px;white-space:nowrap}
+
+  #personnel .duty-note{
+    margin:8px 10px 0 !important;
+    padding:8px 10px !important;
+    font-size:10px;
+    line-height:1.35;
+  }
+  #personnel .duty-note .personnel-cycle{gap:4px;margin-top:5px}
+  #personnel .duty-note .duty-badge{padding:4px 6px;font-size:9px}
+  #personnel .duty-note .muted{font-size:9px !important}
+  #personnel .personnel-evidence{margin:8px 10px 10px}
+  #personnel .personnel-evidence summary{padding:9px 10px;font-size:11px}
+  #personnel .personnel-evidence-inner{padding:0 10px 10px;font-size:10px}
+}
+</style>
+
+<style id="mobile-readable-text-final">
+/* FINAL MOBILE READABILITY — typography/presentation only; no data or JS logic changes */
+@media (max-width:720px){
+  body{font-size:16px;line-height:1.6}
+  .main{padding:16px 12px 32px}
+  .top h1{font-size:24px}
+  .muted,.subtle{font-size:14px;line-height:1.5}
+
+  /* Daily Status: keep four KPIs in one row, but make them readable. */
+  #dailyStatus>.card{padding:10px;gap:8px}
+  #dailyStatus>.card>.toolbar{gap:6px}
+  #dailyStatus .toolbar #dailyPrev,
+  #dailyStatus .toolbar #dailyNext{font-size:12px;min-height:38px;height:38px;padding:5px 6px}
+  #dailyStatus .toolbar #dailyDate{font-size:13px;min-height:38px;height:38px;padding:5px 7px}
+  #dailyStatus .toolbar #dailyToday{font-size:13px;min-height:38px;height:38px;padding:5px 8px}
+  #dailyStatus #dailyDateLabel{font-size:13px;line-height:1.4}
+  #dailyStatus>.card>.daily-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  #dailyStatus .daily-card{
+    min-height:68px;padding:8px 4px;border-radius:10px;
+    font-size:10.5px;line-height:1.25;overflow:visible;
+  }
+  #dailyStatus .daily-card strong{font-size:21px;line-height:1.1;margin-top:3px}
+  #dailyStatus .daily-card .subtle{display:block;font-size:10px;line-height:1.25;margin-top:3px}
+
+  /* Plan / personnel / vehicle / fuel: two columns, readable text, taller cells instead of tiny text. */
+  #dailyStatus>.card>.row{gap:8px}
+  #dailyStatus>.card>.row>.card{padding:10px;border-radius:10px;overflow:visible}
+  #dailyStatus>.card>.row h3{font-size:14px;line-height:1.3;margin:0 0 7px;white-space:normal;overflow:visible;text-overflow:clip}
+  #dailyStatus #dailyPlans,
+  #dailyStatus #dailyPeople,
+  #dailyStatus #dailyVehicles,
+  #dailyStatus #dailyFuel{max-height:240px;overflow-y:auto;overflow-x:hidden}
+  #dailyStatus #dailyPlans{font-size:11px;line-height:1.4}
+  #dailyStatus .daily-project{padding:8px;margin:5px 0 0;border-radius:8px;font-size:11px;line-height:1.4}
+  #dailyStatus .daily-project h4{font-size:12px;line-height:1.3;margin:0 0 4px}
+  #dailyStatus .daily-project .pill,
+  #dailyStatus .daily-project .tag{font-size:10px;padding:2px 5px}
+  #dailyStatus .status-list{max-height:240px;overflow-y:auto;overflow-x:hidden}
+  #dailyStatus .status-list .statline{gap:5px;padding:6px 0;font-size:11px;line-height:1.35}
+  #dailyStatus .status-list .pill{font-size:10px;padding:2px 5px}
+  #dailyStatus>.card>.card[style*="margin-top"]{padding:10px!important;max-height:none;overflow:visible}
+  #dailyStatus>.card>.card[style*="margin-top"] h3{font-size:13px;margin-bottom:5px}
+  #dailyStatus #dailyAllowanceSummary{font-size:11px;line-height:1.4;max-height:none;overflow:visible}
+}
+
+@media (max-width:420px){
+  /* Preserve the 4-KPI single row on small phones without shrinking below readable size. */
+  #dailyStatus>.card{padding:9px;gap:7px}
+  #dailyStatus>.card>.daily-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+  #dailyStatus .daily-card{min-height:70px;padding:8px 3px;font-size:10px;line-height:1.25}
+  #dailyStatus .daily-card strong{font-size:20px}
+  #dailyStatus .daily-card .subtle{font-size:9.5px}
+  #dailyStatus>.card>.row{gap:7px}
+  #dailyStatus>.card>.row>.card{padding:9px}
+  #dailyStatus>.card>.row h3{font-size:13px}
+  #dailyStatus #dailyPlans,
+  #dailyStatus #dailyPeople,
+  #dailyStatus #dailyVehicles,
+  #dailyStatus #dailyFuel{max-height:220px}
+  #dailyStatus .daily-project{font-size:10.5px;line-height:1.4}
+  #dailyStatus .daily-project h4{font-size:11.5px}
+  #dailyStatus .status-list{max-height:220px}
+  #dailyStatus .status-list .statline{font-size:10.5px;padding:6px 0}
+
+  /* Personnel page: larger text; allow vertical growth rather than compressing content. */
+  #personnel .personnel-page{gap:10px}
+  #personnel .personnel-hero{padding:12px 13px}
+  #personnel .personnel-hero h2{font-size:21px}
+  #personnel .personnel-stats{gap:6px}
+  #personnel .personnel-stat{min-height:72px;padding:9px 5px}
+  #personnel .personnel-stat .label{font-size:11px;line-height:1.25}
+  #personnel .personnel-stat strong{font-size:23px}
+  #personnel .personnel-workspace-head{padding:12px 13px 10px}
+  #personnel .personnel-workspace-head h3{font-size:17px}
+  #personnel .personnel-toolbar{padding:9px 10px;gap:6px}
+  #personnel .personnel-table-wrap{max-height:520px}
+  #personnel .personnel-table{min-width:760px}
+  #personnel .personnel-table thead th{font-size:12px;padding:8px 7px}
+  #personnel .personnel-table tbody td{font-size:13px;padding:8px 7px;line-height:1.4}
+  #personnel .personnel-name b{font-size:14px}
+  #personnel .personnel-sub{font-size:11px}
+  #personnel .personnel-duty{font-size:12px}
+  #personnel .personnel-table .pill{font-size:10px;padding:3px 6px}
+  #personnel .personnel-actions button{min-height:32px;padding:5px 7px;font-size:11px}
+  #personnel .duty-note{font-size:11px;line-height:1.45}
+  #personnel .duty-note .duty-badge{font-size:10px}
+  #personnel .personnel-evidence summary{font-size:12px;padding:10px 11px}
+  #personnel .personnel-evidence-inner{font-size:11px;line-height:1.45}
+}
+</style>
+
+
+<style id="settings-control-center">
+/* SETTINGS CONTROL CENTER — presentation/interaction only; existing data + Supabase logic untouched */
+#settings .settings-intro{margin-bottom:14px}
+#settings .settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#settings .settings-tile{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 4px 14px rgba(15,23,42,.05);cursor:pointer;text-align:left;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+#settings .settings-tile:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(15,23,42,.08);border-color:#cbd5e1}
+#settings .settings-tile .tile-icon{font-size:25px;flex:0 0 auto}
+#settings .settings-tile .tile-copy{min-width:0;flex:1}
+#settings .settings-tile .tile-title{font-weight:800;font-size:15px}
+#settings .settings-tile .tile-sub{margin-top:3px;color:var(--muted);font-size:12px;line-height:1.45}
+#settings .settings-tile .tile-arrow{font-size:18px;color:#64748b;flex:0 0 auto}
+#settings .settings-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+#settings .settings-mini{border:1px solid var(--line);border-radius:10px;background:#f8fafc;padding:10px 11px}
+#settings .settings-mini b{display:block;font-size:18px;margin-top:2px}
+.settings-modal .modalbox{max-width:680px;height:auto;max-height:calc(100vh - 36px)}
+.settings-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-22px;z-index:2;background:#fff;padding:2px 0 12px;border-bottom:1px solid var(--line)}
+.settings-modal-head h3{margin:0}
+.settings-modal-body{padding-top:14px}
+.settings-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.settings-detail-card{border:1px solid var(--line);border-radius:11px;padding:11px;background:#f8fafc}
+.settings-detail-card span{display:block;color:var(--muted);font-size:12px}
+.settings-detail-card b{display:block;font-size:17px;margin-top:2px}
+.settings-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.settings-rule-list{margin:0;padding-left:20px;color:var(--ink);line-height:1.75}
+.settings-rule-list li+li{margin-top:5px}
+@media(max-width:720px){
+  #settings .settings-grid{grid-template-columns:1fr;gap:8px}
+  #settings .settings-tile{padding:13px 12px}
+  #settings .settings-summary{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  #settings .settings-mini{padding:8px 7px}
+  #settings .settings-mini b{font-size:16px}
+  .settings-modal .modalbox{max-height:calc(100dvh - 16px);padding:14px}
+  .settings-modal-head{top:-14px}
+  .settings-detail-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .settings-detail-card{padding:9px}
+  .settings-modal-actions{display:grid;grid-template-columns:1fr 1fr}
+  .settings-modal-actions button{width:100%}
+}
+</style>
+
+
+<style id="auth-access-control">
+#loginGate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#0b1f3a,#123b63);font-family:inherit}#loginGate.hidden{display:none}.login-card{width:min(420px,100%);background:#fff;border-radius:22px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.28)}.login-card h2{margin:0 0 6px}.login-card .login-sub{margin:0 0 20px;color:#64748b}.login-field{display:grid;gap:6px;margin:12px 0}.login-field input{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px}.login-btn{width:100%;border:0;border-radius:12px;padding:13px 16px;background:#123b63;color:#fff;font-weight:800;font-size:16px;cursor:pointer}.login-msg{min-height:22px;margin-top:10px;font-size:13px}.auth-user{display:flex;align-items:center;gap:8px}.auth-user .pill{cursor:default}.logout-btn{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:7px 10px;cursor:pointer}.role-note{font-size:12px;color:#64748b;margin-top:14px;text-align:center}
+</style>
+<!-- SOURCE OF TRUTH: personnel role guard is intentionally limited to personnel master-data management. -->
 </head>
 <body>
+<div id="loginGate">
+  <div class="login-card">
+    <div style="font-size:34px">🏛️</div>
+    <h2>เข้าสู่ศูนย์บริหารแผนงาน</h2>
+    <p class="login-sub">กรุณาเข้าสู่ระบบก่อนใช้งาน Dashboard</p>
+    <form id="loginForm">
+      <div class="login-field"><label for="loginEmail">อีเมล / ชื่อผู้ใช้</label><input id="loginEmail" type="email" autocomplete="username" required></div>
+      <div class="login-field"><label for="loginPassword">รหัสผ่าน</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+      <button class="login-btn" type="submit">🔐 เข้าสู่ระบบ</button>
+      <div id="loginMsg" class="login-msg" aria-live="polite"></div>
+    </form>
+    <div class="role-note">สิทธิ์และข้อมูลจะถูกกำหนดตามบัญชีที่ได้รับมอบหมาย</div>
+  </div>
+</div>
+
 <div id="app" class="app">
 <aside class="side">
 <div class="brand">🏛️ ระบบบริหารแผนปฏิทิน<small>กำลังพล • รถ • โครงการ • งบ • น้ำมัน • ค่าเลี้ยงดู</small></div>
@@ -415,11 +1286,11 @@ button{font-size:14px;line-height:1.4}
 <header class="top">
   <div class="top-main">
     <div class="eyebrow">ศูนย์บริหารแผนงาน</div>
-    <h1 id="title">Dashboard</h1>
+    <h1 id="title">Dashboard <span id="dbStatus" class="db-status db-offline" role="status" aria-live="polite"><span class="db-dot" aria-hidden="true"></span><span id="dbStatusText">🔴 กำลังตรวจสอบการเชื่อมต่อ</span></span></h1>
     <div class="muted">ข้อมูลทุกหน้ามาจาก Supabase ชุดเดียวกัน</div>
   </div>
   <div class="top-actions">
-    <div id="dbStatus" class="db-status db-offline" role="status" aria-live="polite"><span class="db-dot" aria-hidden="true"></span><span id="dbStatusText">🔴 ฐานข้อมูลยังไม่ยืนยันการเชื่อมต่อ</span></div>
+    <div class="auth-user"><span id="authUserBadge" class="pill blue">🔐 —</span><button id="logoutBtn" class="logout-btn" type="button">ออกจากระบบ</button></div>
     <div class="muted" id="today"></div>
   </div>
 </header>
@@ -601,18 +1472,81 @@ button{font-size:14px;line-height:1.4}
 </div>
 </section>
 
-<section id="vehicles" class="page"><div class="card"><h3>🚙 รถ</h3><table class="table"><thead><tr><th>รหัส</th><th>ประเภท</th><th>ทะเบียน</th><th>สถานะ</th><th>โครงการ</th><th>งบ</th><th>น้ำมัน</th></tr></thead><tbody id="vehicleTable"></tbody></table></div></section>
+<section id="vehicles" class="page"><div class="card"><h3>🚙 รถ</h3><div class="table-wrap responsive-data-table"><table class="table"><thead><tr><th>รหัส</th><th>ประเภท</th><th>ทะเบียน</th><th>สถานะ</th><th>โครงการ</th><th>งบ</th><th>น้ำมัน</th></tr></thead><tbody id="vehicleTable"></tbody></table></div></div></section>
 
-<section id="projects" class="page"><div class="card"><h3>🎯 โครงการ</h3><table class="table"><thead><tr><th>รหัส</th><th>ชื่อโครงการ</th><th>สถานะ</th><th>แผน</th></tr></thead><tbody id="projectTable"></tbody></table></div></section>
+<section id="projects" class="page"><div class="card"><h3>🎯 โครงการ</h3><div class="table-wrap responsive-data-table"><table class="table"><thead><tr><th>รหัส</th><th>ชื่อโครงการ</th><th>สถานะ</th><th>แผน</th></tr></thead><tbody id="projectTable"></tbody></table></div></div></section>
 
 <section id="budget" class="page"><div class="row"><div class="card"><h3>💰 งบทรงชีพ</h3><div id="budgetSustain"></div></div><div class="card"><h3>🎯 งบโครงการ</h3><div id="budgetProject"></div></div></div><div class="card" style="margin-top:14px"><div class="notice">ยังไม่มีการกำหนดวงเงินงบประมาณใน Master Data จึงไม่สร้างยอดงบหรือยอดคงเหลือขึ้นมาเอง</div></div></section>
 
-<section id="fuel" class="page"><div class="card"><h3>⛽ ควบคุมน้ำมัน</h3><div class="toolbar"><input id="fuelDate" type="date"><select id="fuelVehicle"></select><button id="fuelAdd" class="primary">＋ บันทึกน้ำมัน</button></div><div id="fuelDecision" class="notice">เลือกวันที่และรถเพื่อให้ระบบอ่านแผนก่อน</div><table class="table" style="margin-top:12px"><thead><tr><th>วันที่</th><th>รถ</th><th>ประเภทงบ</th><th colspan="2">สถานะ</th></tr></thead><tbody id="fuelTable"></tbody></table></div></section>
+<section id="fuel" class="page"><div class="card"><h3>⛽ ควบคุมน้ำมัน</h3><div class="toolbar"><input id="fuelDate" type="date"><select id="fuelVehicle"></select><button id="fuelAdd" class="primary">＋ บันทึกน้ำมัน</button></div><div id="fuelDecision" class="notice">เลือกวันที่และรถเพื่อให้ระบบอ่านแผนก่อน</div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>วันที่</th><th>รถ</th><th>ประเภทงบ</th><th colspan="2">สถานะ</th></tr></thead><tbody id="fuelTable"></tbody></table></div></div></section>
 
-<section id="allowance" class="page"><div class="card"><div class="toolbar"><input id="allowDate" type="date"></div><div id="allowanceInfo"></div><table class="table" style="margin-top:12px"><thead><tr><th>ชื่อ</th><th>สถานะ</th><th>สิทธิ</th><th>เหตุผล</th></tr></thead><tbody id="allowTable"></tbody></table></div></section>
+<section id="allowance" class="page"><div class="card"><div class="toolbar"><input id="allowDate" type="date"></div><div id="allowanceInfo"></div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>ชื่อ</th><th>สถานะ</th><th>สิทธิ</th><th>เหตุผล</th></tr></thead><tbody id="allowTable"></tbody></table></div></div></section>
 
 <section id="reports" class="page"><div class="card report-page-card"><div class="report-screen-head"><div><h3>📊 รายงานกำลังพลรายเดือน</h3><div class="subtle">ดึงข้อมูลกำลังพลและแผนปฏิบัติงานจริงจาก Supabase • A4 แนวนอน</div></div></div><div class="toolbar report-toolbar"><label class="report-month-field"><span>เดือนที่รายงาน</span><input id="reportMonth" type="month"></label><button id="refreshReport" class="primary" type="button">📊 สร้างรายงาน</button><button id="printReport" class="secondary" type="button">🖨️ พิมพ์ / PDF A4 แนวนอน</button></div><div id="report"></div></div></section>
-<section id="settings" class="page"><div class="card"><h3>⚙️ ตั้งค่า</h3><div class="notice">หน้านี้แสดงสถานะระบบและข้อมูล Master Data เท่านั้น ไม่สร้างข้อมูลอัตโนมัติ</div><div class="row" style="margin-top:14px"><div class="card"><h4>แหล่งข้อมูล</h4><div class="statline"><span>Database</span><b>Supabase</b></div><div class="statline"><span>กำลังพล</span><b id="setPeople">—</b></div><div class="statline"><span>รถ</span><b id="setVehicles">—</b></div><div class="statline"><span>โครงการ</span><b id="setProjects">—</b></div></div><div class="card"><h4>กฎหลัก</h4><div class="statline"><span>กำลังพลซ้ำช่วงวันที่</span><b>ป้องกัน</b></div><div class="statline"><span>รถซ้ำช่วงวันที่</span><b>ป้องกัน</b></div><div class="statline"><span>น้ำมัน</span><b>วันที่ + รถ + ประเภทงบ</b></div><div class="statline"><span>งบ</span><b>แยกทรงชีพ/โครงการ</b></div></div></div></div></section></main></div>
+<section id="settings" class="page">
+  <div class="card">
+    <div class="settings-intro">
+      <h3>⚙️ ตั้งค่า</h3>
+      <div class="notice">ศูนย์ควบคุมข้อมูลพื้นฐาน • เปิดแต่ละรายการเพื่อดูรายละเอียดเฉพาะเรื่อง • ไม่สร้างข้อมูลอัตโนมัติ</div>
+    </div>
+    <div class="settings-summary">
+      <div class="settings-mini"><span class="subtle">กำลังพล</span><b id="setPeople">—</b></div>
+      <div class="settings-mini"><span class="subtle">รถ</span><b id="setVehicles">—</b></div>
+      <div class="settings-mini"><span class="subtle">โครงการ</span><b id="setProjects">—</b></div>
+    </div>
+    <div class="settings-grid" style="margin-top:12px">
+      <button class="settings-tile" type="button" data-settings-modal="dataSource">
+        <span class="tile-icon">🗄️</span><span class="tile-copy"><span class="tile-title">ฐานข้อมูล</span><span class="tile-sub">Supabase และสถานะข้อมูลที่ระบบใช้งาน</span></span><span class="tile-arrow">›</span>
+      </button>
+      <button class="settings-tile" type="button" data-settings-modal="personnel">
+        <span class="tile-icon">👥</span><span class="tile-copy"><span class="tile-title">ข้อมูลกำลังพล</span><span class="tile-sub">จำนวน สถานะ รอบปฏิบัติ และภารกิจวันนี้</span></span><span class="tile-arrow">›</span>
+      </button>
+      <button class="settings-tile" type="button" data-settings-modal="vehicles">
+        <span class="tile-icon">🚙</span><span class="tile-copy"><span class="tile-title">ข้อมูลรถ</span><span class="tile-sub">จำนวนรถ สถานะว่าง/มีภารกิจวันนี้</span></span><span class="tile-arrow">›</span>
+      </button>
+      <button class="settings-tile" type="button" data-settings-modal="projects">
+        <span class="tile-icon">🎯</span><span class="tile-copy"><span class="tile-title">ข้อมูลโครงการ</span><span class="tile-sub">จำนวนโครงการและสถานะแผนปฏิบัติงาน</span></span><span class="tile-arrow">›</span>
+      </button>
+      <button class="settings-tile" type="button" data-settings-modal="rules">
+        <span class="tile-icon">🛡️</span><span class="tile-copy"><span class="tile-title">กฎการทำงาน</span><span class="tile-sub">กฎป้องกันข้อมูลซ้ำและเงื่อนไขหลักของระบบ</span></span><span class="tile-arrow">›</span>
+      </button>
+    </div>
+  </div>
+</section></main></div>
+
+<div id="settingsDataSourceModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsDataSourceTitle">
+  <div class="modalbox">
+    <div class="settings-modal-head"><h3 id="settingsDataSourceTitle">🗄️ ฐานข้อมูล</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
+    <div class="settings-modal-body" id="settingsDataSourceBody"></div>
+  </div>
+</div>
+<div id="settingsPersonnelModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsPersonnelTitle">
+  <div class="modalbox">
+    <div class="settings-modal-head"><h3 id="settingsPersonnelTitle">👥 ข้อมูลกำลังพล</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
+    <div class="settings-modal-body" id="settingsPersonnelBody"></div>
+    <div class="settings-modal-actions"><button class="secondary" type="button" data-settings-close>ปิด</button><button class="primary" type="button" data-settings-goto="personnel">เปิดหน้ากำลังพล</button></div>
+  </div>
+</div>
+<div id="settingsVehiclesModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsVehiclesTitle">
+  <div class="modalbox">
+    <div class="settings-modal-head"><h3 id="settingsVehiclesTitle">🚙 ข้อมูลรถ</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
+    <div class="settings-modal-body" id="settingsVehiclesBody"></div>
+    <div class="settings-modal-actions"><button class="secondary" type="button" data-settings-close>ปิด</button><button class="primary" type="button" data-settings-goto="vehicles">เปิดหน้ารถ</button></div>
+  </div>
+</div>
+<div id="settingsProjectsModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsProjectsTitle">
+  <div class="modalbox">
+    <div class="settings-modal-head"><h3 id="settingsProjectsTitle">🎯 ข้อมูลโครงการ</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
+    <div class="settings-modal-body" id="settingsProjectsBody"></div>
+    <div class="settings-modal-actions"><button class="secondary" type="button" data-settings-close>ปิด</button><button class="primary" type="button" data-settings-goto="projects">เปิดหน้าโครงการ</button></div>
+  </div>
+</div>
+<div id="settingsRulesModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsRulesTitle">
+  <div class="modalbox">
+    <div class="settings-modal-head"><h3 id="settingsRulesTitle">🛡️ กฎการทำงาน</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
+    <div class="settings-modal-body" id="settingsRulesBody"></div>
+  </div>
+</div>
 
 <div id="personnelModal" class="modal hidden"><div class="modalbox">
 <div style="display:flex;justify-content:space-between;align-items:center"><h3 id="personnelModalTitle">👤 เพิ่มกำลังพล</h3><button id="closePersonnelModal" class="secondary" type="button">ปิด</button></div>
@@ -665,6 +1599,56 @@ function overlappingPlansForVehicle(vehicleId,start,end,ignoreId=''){return plan
 function overlappingPlansForPerson(personId,start,end,ignoreId=''){const ids=new Set(planPeople.filter(x=>x.personnel_id===personId).map(x=>x.plan_id));return plans.filter(p=>ids.has(p.id)&&p.id!==ignoreId&&p.status==='planned'&&planStart(p)<=end&&start<=planEnd(p))}
 function cleanDetail(detail){return String(detail||'').trim()}
 
+let authSession=null;let authUser=null;let accessRole='viewer';let accessPersonnelId=null;let accessProjectIds=[];
+async function resolveRoleFromDb(userId){
+ const r=await db.from('user_roles').select('role,active,personnel_id').eq('user_id',userId).maybeSingle();
+ if(r.error)throw r.error;
+ if(!r.data||r.data.active===false)return null;
+ return {role:String(r.data.role||'').toLowerCase(),personnel_id:r.data.personnel_id||null};
+}
+function applyAccessFilter(){
+ if(accessRole==='admin')return;
+ if(accessRole==='personnel'){
+   personnelAll=personnelAll.filter(x=>String(x.id)===String(accessPersonnelId));
+   people=personnelAll.filter(x=>x.active);
+   const ownedPlanIds=new Set(planPeople.filter(x=>String(x.personnel_id)===String(accessPersonnelId)).map(x=>x.plan_id));
+   planPeople=planPeople.filter(x=>String(x.personnel_id)===String(accessPersonnelId));
+   plans=plans.filter(x=>ownedPlanIds.has(x.id));
+   return;
+ }
+ if(accessRole==='project_officer'){
+   const ids=new Set(accessProjectIds.map(String));
+   projects=projects.filter(x=>ids.has(String(x.id)));
+   plans=plans.filter(x=>ids.has(String(x.project_id)));
+   const pids=new Set(plans.flatMap(p=>planPeople.filter(l=>l.plan_id===p.id).map(l=>l.personnel_id)));
+   planPeople=planPeople.filter(l=>plans.some(p=>p.id===l.plan_id));
+   personnelAll=personnelAll.filter(x=>pids.has(x.id));
+   people=personnelAll.filter(x=>x.active);
+   vehicles=vehicles.filter(v=>plans.some(p=>p.vehicle_id===v.id));
+ }
+}
+function updateAuthUI(){const name=authUser?.user_metadata?.full_name||authUser?.email||'ผู้ใช้งาน';const labels={admin:'👑 ผู้ดูแลระบบ',personnel:'👤 กำลังพล',project_officer:'🎯 เจ้าหน้าที่โครงการ',viewer:'👁️ ผู้ดูข้อมูล'};const el=$('authUserBadge');if(el)el.textContent=(labels[accessRole]||labels.viewer)+' · '+name}
+function canManagePersonnel(){return accessRole==='admin'}
+function applyPersonnelRoleGuard(){
+ const manage=canManagePersonnel();
+ /* บุคลากรทุก Role ที่มีสิทธิ์เข้าระบบยังต้องมองเห็นเมนู/ข้อมูลกำลังพล
+    แต่สิทธิ์เพิ่ม-แก้ไข-เปลี่ยนสถานะให้เฉพาะ admin */
+ const nav=document.querySelector('.nav button[data-page="personnel"]');
+ if(nav)nav.hidden=false;
+ const add=$('addPersonnel');
+ if(add){add.hidden=!manage;add.disabled=!manage;add.setAttribute('aria-hidden',String(!manage));}
+}
+
+async function initAuth(){
+ const {data,error}=await db.auth.getSession(); if(error)throw error;
+ authSession=data.session; authUser=data.session?.user||null;
+ if(!authUser){$('loginGate').classList.remove('hidden');return false}
+ const roleInfo=await resolveRoleFromDb(authUser.id);
+ if(!roleInfo){$('loginMsg').textContent='🔴 บัญชีนี้ยังไม่ได้รับสิทธิ์ใช้งานระบบ หรือสิทธิ์ถูกปิดใช้งาน';$('loginGate').classList.remove('hidden');await db.auth.signOut();return false}
+ accessRole=roleInfo.role;accessPersonnelId=roleInfo.personnel_id;accessProjectIds=Array.isArray(authUser.user_metadata?.project_ids)?authUser.user_metadata.project_ids:[];
+ if(accessRole==='personnel'&&!accessPersonnelId){$('loginMsg').textContent='บัญชีนี้ยังไม่ได้ผูกกับรหัสกำลังพล';$('loginGate').classList.remove('hidden');await db.auth.signOut();return false}
+ updateAuthUI();applyPersonnelRoleGuard();$('loginGate').classList.add('hidden');return true
+}
 async function q(table,select='*'){const r=await db.from(table).select(select);if(r.error)throw r.error;return r.data||[]}
 function setDbStatus(online,message){const el=$('dbStatus'),text=$('dbStatusText');if(!el||!text)return;el.classList.toggle('db-online',!!online);el.classList.toggle('db-offline',!online);text.textContent=message||(online?'🟢 ฐานข้อมูลเชื่อมต่อแล้ว':'🔴 ไม่สามารถเชื่อมต่อฐานข้อมูล');}
 function showGlobalError(msg){setDbStatus(false,'🔴 ฐานข้อมูลไม่พร้อมใช้งาน');const el=$('globalError');if(el){el.textContent='🔴 '+msg;el.className='notice bad';el.classList.remove('hidden')}}
@@ -680,7 +1664,7 @@ async function load(){
  q('plan_personnel'),q('fuel_transactions'),q('allowance_transactions')
  ]);
  people=personnelAll.filter(a=>a.active);
- setDbStatus(true,'🟢 ฐานข้อมูลเชื่อมต่อแล้ว');
+ setDbStatus(true,'เชื่อมต่อข้อมูล สำเร็จ');
  render(); fillForm(); renderFuel(); 
  }catch(e){console.error(e);showGlobalError('โหลดข้อมูลไม่สำเร็จ: '+e.message)}
 }
@@ -708,12 +1692,21 @@ function renderDailyStatus(){
    const trip=p.plan_type==='official_trip';
    const ppl=peopleOnPlan(p.id);
    const vehicle=trip&&p.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':(p.vehicle_id?'🚙 '+esc(vname(p.vehicle_id)):'🚙 ยังไม่มีรถ');
-   return `<div class="daily-project">
-     <h4>${trip?'🧑‍💼 เดินทางไปราชการ':'🎯 '+esc(pname(p.project_id))}</h4>
-     <div class="tagline"><span class="pill ${trip?'warn':'blue'}">${trip?'ไปราชการ':'โครงการ'}</span><span class="pill ${p.budget_type==='project'?'blue':'ok'}">${p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'}</span></div>
-     <div style="margin-top:7px">👥 <b>กำลังพล:</b> ${ppl.length?ppl.map(x=>esc(x.full_name)).join('、'):'ยังไม่มีข้อมูลกำลังพล'}</div>
-     <div>${vehicle}</div>
-     <div class="subtle">📅 ${esc(planStart(p))} ถึง ${esc(planEnd(p))}</div>
+   const detail=cleanDetail(p.mission_detail);
+   const peopleText=ppl.length?ppl.map(x=>esc(x.full_name)).join(' · '):'ยังไม่มีข้อมูลกำลังพล';
+   return `<div class="daily-plan-compact">
+     <div class="daily-plan-head">
+       <div class="daily-plan-title">${trip?'🧑‍💼 เดินทางไปราชการ':'🎯 '+esc(pname(p.project_id))}</div>
+       <div class="daily-plan-badges"><span class="pill ${trip?'warn':'blue'}">${trip?'ไปราชการ':'โครงการ'}</span><span class="pill ${p.budget_type==='project'?'blue':'ok'}">${p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'}</span></div>
+     </div>
+     ${detail?`<div class="daily-plan-detail">📝 ${esc(detail)}</div>`:''}
+     <div class="daily-plan-fields">
+       <div class="daily-plan-field">👥 <b>กำลังพล:</b> ${ppl.length?`${ppl.length} คน`:'ไม่มี'}</div>
+       <div class="daily-plan-field">${vehicle}</div>
+       <div class="daily-plan-field">📅 <b>วันที่:</b> ${esc(planStart(p))} ถึง ${esc(planEnd(p))}</div>
+       <div class="daily-plan-field">💰 <b>งบ:</b> ${p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'}</div>
+     </div>
+     <div class="daily-plan-people">👥 ${peopleText}</div>
    </div>`;
  }).join(''):'<div class="empty">ยังไม่มีแผนในวันที่เลือก</div>';
 
@@ -771,21 +1764,23 @@ function renderPersonnelAdmin(){
   const matches=plansOn(td).filter(pl=>planPeople.some(x=>x.plan_id===pl.id&&x.personnel_id===p.id));
   const mission=matches.length?matches.map(pl=>pl.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':'🎯 '+esc(pname(pl.project_id))).join(' / '):'🟢 ว่าง';
   const status=p.active?'<span class="pill ok">ปฏิบัติงาน</span>':'<span class="pill none">พ้นหน้าที่</span>';
-  const action=p.active?`<div class="personnel-actions"><button type="button" class="secondary" onclick="editPersonnel('${p.id}')">แก้ไข</button><button type="button" class="dangerbtn" onclick="deactivatePersonnel('${p.id}')">พ้นหน้าที่</button></div>`:`<div class="personnel-actions"><button type="button" class="secondary" onclick="editPersonnel('${p.id}')">แก้ไข</button><button type="button" class="primary" onclick="activatePersonnel('${p.id}')">เปิดใช้งาน</button></div>`;
+  const action=canManagePersonnel()?(p.active?`<div class="personnel-actions"><button type="button" class="secondary" onclick="editPersonnel('${p.id}')">แก้ไข</button><button type="button" class="dangerbtn" onclick="deactivatePersonnel('${p.id}')">พ้นหน้าที่</button></div>`:`<div class="personnel-actions"><button type="button" class="secondary" onclick="editPersonnel('${p.id}')">แก้ไข</button><button type="button" class="primary" onclick="activatePersonnel('${p.id}')">เปิดใช้งาน</button></div>`):'<span class="muted">ดูข้อมูล</span>';
   const duty=dutyCycleLabel(p.duty_cycle);
   const dutyClass=p.duty_cycle?'':'duty-unknown';
   return `<tr><td class="personnel-name"><b>${esc(p.full_name)}</b><span class="personnel-sub">${p.active?'กำลังพลปัจจุบัน':'พ้นหน้าที่'}</span></td><td><span class="pill ${p.personnel_section==='กอ.รมน.จังหวัด ม.ห.'?'ok':'blue'}">${esc(p.personnel_section||'ยังไม่ระบุ')}</span></td><td>${p.personnel_no??'—'}</td><td class="personnel-duty duty-cycle ${dutyClass}">${duty}</td><td class="personnel-status">${status}</td><td>${mission}</td><td>${action}</td></tr>`;
  }).join(''):'<tr><td colspan="7" class="empty">ไม่พบข้อมูลกำลังพลตามเงื่อนไข</td></tr>';
 }
 function openPersonnelModal(id=''){
+ if(!canManagePersonnel()){alert('🔒 สิทธิ์นี้ไม่สามารถเพิ่มหรือแก้ไขข้อมูลกำลังพลได้');return}
  $('personnelId').value=id;$('personnelModalTitle').textContent=id?'✏️ แก้ไขข้อมูลกำลังพล':'👤 เพิ่มกำลังพล';
  $('personnelValidation').className='notice';$('personnelValidation').textContent=id?'การแก้ไขข้อมูลจะใช้รหัสกำลังพลเดิมและไม่สร้างรายการซ้ำ':'เพิ่มกำลังพลใหม่โดยไม่แตะข้อมูลกำลังพลเดิม';
  if(id){const p=personnelAll.find(x=>x.id===id);if(!p)return;$('personnelName').value=p.full_name||'';$('personnelNo').value=p.personnel_no??'';$('personnelActive').value=String(!!p.active);$('personnelSection').value=p.personnel_section||'';$('personnelDutyCycle').value=p.duty_cycle||''}else{$('personnelName').value='';$('personnelNo').value='';$('personnelActive').value='true';$('personnelSection').value='';$('personnelDutyCycle').value=currentDutyCycle()}
 $('personnelModal').classList.remove('hidden');
 }
-function editPersonnel(id){openPersonnelModal(id)}
+function editPersonnel(id){if(!canManagePersonnel()){alert('🔒 สิทธิ์นี้ไม่สามารถแก้ไขข้อมูลกำลังพลได้');return}openPersonnelModal(id)}
 async function savePersonnel(e){
  e.preventDefault();
+ if(!canManagePersonnel()){if($('personnelValidation')){$('personnelValidation').className='notice bad';$('personnelValidation').textContent='🔒 สิทธิ์นี้ไม่สามารถบันทึกข้อมูลกำลังพลได้'}return}
  const id=$('personnelId').value,full_name=$('personnelName').value.trim(),rawNo=$('personnelNo').value.trim(),personnel_no=rawNo?Number(rawNo):null,active=$('personnelActive').value==='true',personnel_section=$('personnelSection').value||null,duty_cycle=$('personnelDutyCycle').value||null;
  if(!full_name){$('personnelValidation').className='notice bad';$('personnelValidation').textContent='🔴 กรุณาระบุชื่อ-นามสกุล';return}
  if(!personnel_section){$('personnelValidation').className='notice bad';$('personnelValidation').textContent='🔴 กรุณาระบุส่วน/ชุดกำลังพล';return}
@@ -798,13 +1793,14 @@ async function savePersonnel(e){
  $('personnelModal').classList.add('hidden');await load();
 }
 async function deactivatePersonnel(id){
+ if(!canManagePersonnel()){alert('🔒 สิทธิ์นี้ไม่สามารถเปลี่ยนสถานะกำลังพลได้');return}
  const p=personnelAll.find(x=>x.id===id);if(!p)return;
  const future=plans.filter(pl=>pl.status==='planned'&&planEnd(pl)>=today()&&planPeople.some(x=>x.plan_id===pl.id&&x.personnel_id===id));
  if(future.length){alert('🔴 ยังเปลี่ยนเป็นพ้นหน้าที่ไม่ได้: กำลังพลคนนี้ยังมีแผนที่เริ่ม/ดำเนินการตั้งแต่วันนี้อยู่ '+future.length+' แผน กรุณาแก้แผนก่อน');return}
  if(!confirm(`ยืนยันเปลี่ยน ${p.full_name} เป็น “พ้นหน้าที่”?\nข้อมูลแผนงานเดิมจะยังคงอยู่`))return;
  const r=await db.from('personnel').update({active:false}).eq('id',id);if(r.error){alert('🔴 เปลี่ยนสถานะไม่สำเร็จ: '+r.error.message);return}await load();
 }
-async function activatePersonnel(id){const p=personnelAll.find(x=>x.id===id);if(!p)return;if(!confirm(`ยืนยันเปิดใช้งาน ${p.full_name}?`))return;const r=await db.from('personnel').update({active:true}).eq('id',id);if(r.error){alert('🔴 เปิดใช้งานไม่สำเร็จ: '+r.error.message);return}await load()}
+async function activatePersonnel(id){if(!canManagePersonnel()){alert('🔒 สิทธิ์นี้ไม่สามารถเปลี่ยนสถานะกำลังพลได้');return}const p=personnelAll.find(x=>x.id===id);if(!p)return;if(!confirm(`ยืนยันเปิดใช้งาน ${p.full_name}?`))return;const r=await db.from('personnel').update({active:true}).eq('id',id);if(r.error){alert('🔴 เปิดใช้งานไม่สำเร็จ: '+r.error.message);return}await load()}
 function renderPeople(){const el=$('peopleTable');if(!el)return;let term=($('peopleSearch')?.value||'').toLowerCase(),td=today();el.innerHTML=people.filter(p=>p.full_name.toLowerCase().includes(term)).map(p=>{let pp=planPeople.find(x=>x.personnel_id===p.id&&plansOn(td).some(y=>y.id===x.plan_id));let pl=pp?plans.find(x=>x.id===pp.plan_id):null;const isTrip=pl?.plan_type==='official_trip';return `<tr><td>${esc(p.full_name)}</td><td>${pl?(isTrip?'<span class="pill warn">ไปราชการ</span>':'<span class="pill ok">อยู่โครงการ</span>'):'<span class="pill none">ว่าง</span>'}</td><td>${pl?(isTrip?'—':esc(pname(pl.project_id))):'—'}</td><td>${pl?(pl.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':esc(vname(pl.vehicle_id))):'—'}</td><td>${allowances.find(a=>a.personnel_id===p.id&&a.transaction_date===td)?.eligible?'มีสิทธิ':'คำนวณจากแผน'}</td></tr>`}).join('')}
 function renderVehicles(){let td=today(),ps=plansOn(td);$('vehicleTable').innerHTML=vehicles.map(v=>{let p=ps.find(x=>x.vehicle_id===v.id);const trip=p?.plan_type==='official_trip';return `<tr><td>${esc(v.vehicle_code)}</td><td>${esc(v.vehicle_type)}</td><td>${esc(v.registration)}</td><td>${p?'<span class="pill ok">ออกภารกิจ</span>':'<span class="pill none">ว่าง</span>'}</td><td>${p?(trip?'🧑‍💼 ไปราชการ':esc(pname(p.project_id))):'—'}</td><td>${p?(p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'):'—'}</td><td>${trip?'<span class="pill bad">🔴 งบทรงชีพห้ามใช้</span>':p?(p.budget_type==='project'?'<span class="pill blue">🔵 งบโครงการ</span>':'<span class="pill ok">🟢 งบทรงชีพ</span>'):'<span class="pill none">⚪ ไม่มีแผน</span>'}</td></tr>`}).join('')}
 function renderProjects(){$('projectTable').innerHTML=projects.map(p=>{let n=plans.filter(x=>x.project_id===p.id).length;return `<tr><td>${esc(p.project_code)}</td><td>${esc(p.project_name)}</td><td>${n?'<span class="pill ok">มีแผน</span>':'<span class="pill none">ยังไม่มีแผน</span>'}</td><td>${n}</td></tr>`}).join('')}
@@ -914,7 +1910,30 @@ async function uploadOrderEvidence(){
  if(up.error){out.className='notice bad';out.textContent='🔴 อัปโหลดไม่สำเร็จ: '+up.error.message;return}
  out.className='notice';out.textContent='🟢 อัปโหลดหลักฐานคำสั่งแล้ว — ระบบจะใช้ไฟล์นี้เป็นเอกสารอ้างอิงให้เจ้าหน้าที่เปิดตรวจชื่อด้วยตนเอง';$('orderFile').value='';await listOrderDocuments();
 }
-function renderSettings(){$('setPeople').textContent=people.length+' รายการจริง';$('setVehicles').textContent=vehicles.length+' คัน';$('setProjects').textContent=projects.length+' รายการ'}
+function settingsModalEl(key){return $(key==='dataSource'?'settingsDataSourceModal':key==='personnel'?'settingsPersonnelModal':key==='vehicles'?'settingsVehiclesModal':key==='projects'?'settingsProjectsModal':'settingsRulesModal')}
+function renderSettings(){
+  $('setPeople').textContent=people.length+' รายการ';$('setVehicles').textContent=vehicles.length+' คัน';$('setProjects').textContent=projects.length+' รายการ';
+  const td=today(), ps=plansOn(td), busyPeople=assignedPeople(td), busyVehicleIds=new Set(ps.filter(p=>p.vehicle_id).map(p=>p.vehicle_id));
+  const active=personnelAll.filter(p=>p.active).length,inactive=personnelAll.filter(p=>!p.active).length,cycle=personnelAll.filter(p=>p.duty_cycle).length;
+  const projectWithPlans=projects.filter(p=>plans.some(x=>x.project_id===p.id)).length;
+  const projectNoPlans=Math.max(projects.length-projectWithPlans,0);
+  const vehicleBusy=busyVehicleIds.size,vehicleFree=Math.max(vehicles.length-vehicleBusy,0);
+  $('settingsDataSourceBody').innerHTML=`<div class="notice ok">🟢 <b>Supabase</b> — ข้อมูลที่แสดงในศูนย์นี้อ่านจากฐานข้อมูลชุดเดียวกับหน้าหลัก</div><div class="settings-detail-grid" style="margin-top:10px"><div class="settings-detail-card"><span>กำลังพล</span><b>${people.length} รายการ</b></div><div class="settings-detail-card"><span>รถ</span><b>${vehicles.length} คัน</b></div><div class="settings-detail-card"><span>โครงการ</span><b>${projects.length} รายการ</b></div><div class="settings-detail-card"><span>สถานะวันนี้</span><b>${esc(td)}</b></div></div>`;
+  $('settingsPersonnelBody').innerHTML=`<div class="settings-detail-grid"><div class="settings-detail-card"><span>กำลังพลปัจจุบัน</span><b>${active}</b></div><div class="settings-detail-card"><span>พ้นหน้าที่</span><b>${inactive}</b></div><div class="settings-detail-card"><span>ระบุรอบ 6 เดือนแล้ว</span><b>${cycle}</b></div><div class="settings-detail-card"><span>มีภารกิจวันนี้</span><b>${busyPeople.size}</b></div></div><div class="notice" style="margin-top:10px">ข้อมูลสำหรับดูสรุปเท่านั้น หากต้องการเพิ่ม/แก้ไข ให้เปิดหน้ากำลังพลเดิมของระบบ</div>`;
+  $('settingsVehiclesBody').innerHTML=`<div class="settings-detail-grid"><div class="settings-detail-card"><span>รถทั้งหมด</span><b>${vehicles.length}</b></div><div class="settings-detail-card"><span>มีภารกิจวันนี้</span><b>${vehicleBusy}</b></div><div class="settings-detail-card"><span>ว่างวันนี้</span><b>${vehicleFree}</b></div><div class="settings-detail-card"><span>วันที่อ้างอิง</span><b>${esc(td)}</b></div></div><div class="notice" style="margin-top:10px">สถานะรถคำนวณจากแผนปฏิบัติงานจริงของวันที่เลือกในระบบ</div>`;
+  $('settingsProjectsBody').innerHTML=`<div class="settings-detail-grid"><div class="settings-detail-card"><span>โครงการทั้งหมด</span><b>${projects.length}</b></div><div class="settings-detail-card"><span>มีแผนแล้ว</span><b>${projectWithPlans}</b></div><div class="settings-detail-card"><span>ยังไม่มีแผน</span><b>${projectNoPlans}</b></div><div class="settings-detail-card"><span>แผนที่บันทึก</span><b>${plans.length}</b></div></div><div class="notice" style="margin-top:10px">รายการโครงการมาจาก Master Data จริง และไม่สร้างชื่อโครงการใหม่จากหน้านี้</div>`;
+  $('settingsRulesBody').innerHTML=`<ul class="settings-rule-list"><li><b>กำลังพลซ้ำช่วงวันที่:</b> ระบบตรวจสอบก่อนบันทึกแผน</li><li><b>รถซ้ำช่วงวันที่:</b> ระบบตรวจสอบก่อนบันทึกแผน</li><li><b>น้ำมัน:</b> ตรวจวันที่ + รถ + ประเภทงบ และอิงสิทธิจากแผน</li><li><b>งบ:</b> แยกงบทรงชีพ / งบโครงการตามข้อมูลแผน</li><li><b>ข้อมูล:</b> ใช้ข้อมูลจริงจาก Supabase ไม่สร้างข้อมูลจำลอง</li></ul>`;
+}
+function openSettingsModal(key){
+  renderSettings();
+  const m=settingsModalEl(key);if(m)m.classList.remove('hidden');
+}
+function closeSettingsModals(){document.querySelectorAll('.settings-modal').forEach(m=>m.classList.add('hidden'));}
+function settingsGoToPage(page){
+  closeSettingsModals();
+  const btn=document.querySelector(`.nav button[data-page="${page}"]`);if(btn)btn.click();
+}
+
 function reportMonthDates(monthValue){
   const m=/^(\d{4})-(\d{2})$/.exec(monthValue||'');
   if(!m)return [];
@@ -961,7 +1980,10 @@ function renderReport(){
 }
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(b.dataset.page).classList.add('active');document.querySelector('.main').classList.toggle('allowance-active',b.dataset.page==='allowance');$('title').textContent=b.textContent.replace(/^\\S+\\s/,'')});
 $('prev').onclick=()=>{cursor.setMonth(cursor.getMonth()-1);renderCalendar()};$('next').onclick=()=>{cursor.setMonth(cursor.getMonth()+1);renderCalendar()};$('addPlan').onclick=()=>openPlan(today());$('closeModal').onclick=()=>$('modal').classList.add('hidden');$('planForm').onsubmit=savePlan;$('peopleSearch').oninput=()=>{renderPeople();renderPersonnelAdmin()};$('peopleStatusFilter').onchange=renderPersonnelAdmin;$('peopleSectionFilter').onchange=renderPersonnelAdmin;$('addPersonnel').onclick=()=>openPersonnelModal();$('closePersonnelModal').onclick=()=>$('personnelModal').classList.add('hidden');$('personnelForm').onsubmit=savePersonnel;$('planProject').onchange=()=>{$('customProjectName').value='';toggleCustomProject()};$('planType').onchange=togglePlanType;$('planTransport').onchange=updatePlanTransport;document.addEventListener('change',e=>{if(e.target?.id==='noAllowancePersonnel'){const checked=e.target.checked;document.querySelectorAll('#personChecks input').forEach(c=>{c.checked=false;c.disabled=checked});if($('planValidation')){$('planValidation').className='notice';$('planValidation').textContent=checked?'โหมดโครงการใช้เฉพาะพาหนะ — ไม่ผูกกำลังพลและไม่กระทบสิทธิ์ค่าเลี้ยงดู':'ระบบจะตรวจ PERSON+ช่วงวันที่, VEHICLE+ช่วงวันที่ และกฎน้ำมันก่อน Submit';}}else if(e.target?.closest('#personChecks input')){const noAllowance=$('noAllowancePersonnel');if(e.target.checked&&noAllowance){noAllowance.checked=false;document.querySelectorAll('#personChecks input').forEach(c=>c.disabled=false);}}});
-$('orderPeopleSearch').oninput=renderOrderEvidence;$('orderDutyFilter').onchange=renderOrderEvidence;$('orderRefresh').onclick=()=>{renderOrderEvidence();listOrderDocuments()};$('orderUpload').onclick=uploadOrderEvidence;$('orderDate').value=today();$('fuelDate').value=today();$('allowDate').value=today();$('reportMonth').value=today().slice(0,7);$('dailyDate').value=today();$('fuelDate').onchange=renderFuel;$('fuelVehicle').onchange=renderFuel;$('fuelAdd').onclick=addFuel;$('allowDate').onchange=renderAllowance;$('refreshReport').onclick=renderReport;$('reportMonth').onchange=renderReport;$('printReport').onclick=()=>window.print();$('dailyDate').onchange=renderDailyStatus;$('dailyPrev').onclick=()=>{const d=new Date(($('dailyDate').value||today())+'T00:00:00');d.setDate(d.getDate()-1);$('dailyDate').value=localDate(d.getFullYear(),d.getMonth(),d.getDate());renderDailyStatus()};$('dailyNext').onclick=()=>{const d=new Date(($('dailyDate').value||today())+'T00:00:00');d.setDate(d.getDate()+1);$('dailyDate').value=localDate(d.getFullYear(),d.getMonth(),d.getDate());renderDailyStatus()};$('dailyToday').onclick=()=>{$('dailyDate').value=today();renderDailyStatus()};
-load();
+document.querySelectorAll('[data-settings-modal]').forEach(b=>b.addEventListener('click',()=>openSettingsModal(b.dataset.settingsModal)));document.querySelectorAll('[data-settings-close]').forEach(b=>b.addEventListener('click',closeSettingsModals));document.querySelectorAll('[data-settings-goto]').forEach(b=>b.addEventListener('click',()=>settingsGoToPage(b.dataset.settingsGoto)));document.querySelectorAll('.settings-modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeSettingsModals()}));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettingsModals()});$('orderPeopleSearch').oninput=renderOrderEvidence;$('orderDutyFilter').onchange=renderOrderEvidence;$('orderRefresh').onclick=()=>{renderOrderEvidence();listOrderDocuments()};$('orderUpload').onclick=uploadOrderEvidence;$('orderDate').value=today();$('fuelDate').value=today();$('allowDate').value=today();$('reportMonth').value=today().slice(0,7);$('dailyDate').value=today();$('fuelDate').onchange=renderFuel;$('fuelVehicle').onchange=renderFuel;$('fuelAdd').onclick=addFuel;$('allowDate').onchange=renderAllowance;$('refreshReport').onclick=renderReport;$('reportMonth').onchange=renderReport;$('printReport').onclick=()=>window.print();$('dailyDate').onchange=renderDailyStatus;$('dailyPrev').onclick=()=>{const d=new Date(($('dailyDate').value||today())+'T00:00:00');d.setDate(d.getDate()-1);$('dailyDate').value=localDate(d.getFullYear(),d.getMonth(),d.getDate());renderDailyStatus()};$('dailyNext').onclick=()=>{const d=new Date(($('dailyDate').value||today())+'T00:00:00');d.setDate(d.getDate()+1);$('dailyDate').value=localDate(d.getFullYear(),d.getMonth(),d.getDate());renderDailyStatus()};$('dailyToday').onclick=()=>{$('dailyDate').value=today();renderDailyStatus()};
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();const msg=$('loginMsg');msg.textContent='กำลังเข้าสู่ระบบ…';const {data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error){msg.textContent='🔴 เข้าสู่ระบบไม่สำเร็จ: '+error.message;return}authSession=data.session;authUser=data.user;try{const roleInfo=await resolveRoleFromDb(authUser.id);if(!roleInfo){msg.textContent='🔴 บัญชีนี้ยังไม่ได้รับสิทธิ์ใช้งานระบบ หรือสิทธิ์ถูกปิดใช้งาน';await db.auth.signOut();return}accessRole=roleInfo.role;accessPersonnelId=roleInfo.personnel_id;accessProjectIds=Array.isArray(authUser.user_metadata?.project_ids)?authUser.user_metadata.project_ids:[];if(accessRole==='personnel'&&!accessPersonnelId){msg.textContent='🔴 บัญชีนี้ยังไม่ได้ผูกกับรหัสกำลังพล';await db.auth.signOut();return}updateAuthUI();applyPersonnelRoleGuard();$('loginGate').classList.add('hidden');await load()}catch(err){console.error(err);msg.textContent='🔴 ตรวจสอบสิทธิ์ไม่สำเร็จ: '+err.message;await db.auth.signOut()}});
+$('logoutBtn').onclick=async()=>{await db.auth.signOut();location.reload()};
+db.auth.onAuthStateChange((_event,session)=>{authSession=session;authUser=session?.user||null});
+(async()=>{try{if(await initAuth())await load()}catch(e){console.error(e);$('loginMsg').textContent='🔴 ไม่สามารถตรวจสอบการเข้าสู่ระบบ: '+e.message;$('loginGate').classList.remove('hidden')}})();
 </script>
 </body></html>
