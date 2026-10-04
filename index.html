@@ -61,7 +61,10 @@ input,select,textarea{max-width:100%}
 #personChecks .person-group{min-width:0}
 #personChecks .person-group-title{min-width:0}
 #personChecks .check{min-width:0;overflow-wrap:anywhere}
-.check{padding:8px;border:1px solid var(--line);border-radius:8px;font-size:13px}.no-allowance-option{display:flex;align-items:center;gap:8px;margin-top:7px;background:#ecfdf3;border-color:#86efac;color:#166534;font-weight:700}.no-allowance-option input{margin:0}
+.check{padding:8px;border:1px solid var(--line);border-radius:8px;font-size:13px}
+#personChecks .check{display:flex;align-items:center;gap:8px;width:100%;min-height:42px;box-sizing:border-box;line-height:1.45;cursor:pointer;overflow-wrap:anywhere}
+#personChecks .check input[type="checkbox"]{flex:0 0 auto;width:18px;height:18px;min-width:18px;margin:0;accent-color:#2563eb}
+.no-allowance-option{display:flex;align-items:center;gap:8px;margin-top:7px;background:#ecfdf3;border-color:#86efac;color:#166534;font-weight:700}.no-allowance-option input{margin:0}
 .notice{padding:11px;border:1px solid var(--line);border-radius:9px;background:#f8fafc;font-size:13px}
 .notice.ok{border-color:#86efac;background:#ecfdf3;color:#166534}
 .notice.bad{border-color:#fecaca;background:#fff1f1}
@@ -151,6 +154,8 @@ input,select,textarea{max-width:100%}
 }
 
 @media(max-width:720px){
+  #personChecks .check{min-height:40px;padding:8px 9px;gap:7px;font-size:13px}
+  #personChecks .check input[type="checkbox"]{width:18px;height:18px;min-width:18px}
   body{font-size:14px}
   .side{padding:10px 10px}
   .brand{padding:0 6px 12px}
@@ -295,10 +300,6 @@ body{background:linear-gradient(180deg,#eef3f8 0,#f6f8fb 42%,#f3f6fa 100%);color
 .top-main{min-width:0}
 .eyebrow{font-size:11px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:#356083;margin-bottom:5px}
 .top h1{font-size:clamp(24px,2.2vw,32px);line-height:1.15;letter-spacing:-.02em;margin:0 0 6px}
-.top h1 #dbStatus{margin-left:10px;vertical-align:middle;transform:translateY(-2px)}
-.top h1 #dbStatus.db-status{display:inline-flex;align-items:center;gap:6px;min-height:24px;padding:4px 8px;border-radius:8px;font-size:11px;line-height:1;font-weight:800;box-shadow:none;white-space:nowrap}
-.top h1 #dbStatus .db-dot{width:7px;height:7px}
-
 .top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
 .db-status{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:800;box-shadow:var(--shadow-sm);white-space:nowrap}
 .db-dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
@@ -331,10 +332,6 @@ body{background:linear-gradient(180deg,#eef3f8 0,#f6f8fb 42%,#f3f6fa 100%);color
 .event{border-radius:8px;padding:5px;background:#edf5ff;color:#164e80}
 .formgrid{gap:15px}
 .check{border-radius:11px;padding:10px;border-color:var(--line);background:#fbfcfe}
-#personChecks .check{display:flex;align-items:center;justify-content:flex-start;flex-direction:row;gap:8px;text-align:left;direction:ltr}
-#personChecks .check input[type="checkbox"]{order:0;flex:0 0 auto;margin:0}
-#personChecks .check{unicode-bidi:plaintext}
-
 .check:hover{background:#f6f9fc}
 .no-allowance-option{border-radius:11px}
 .modal{background:rgba(9,25,44,.58);backdrop-filter:blur(3px)}
@@ -407,7 +404,7 @@ button{font-size:14px;line-height:1.4}
 .order-evidence-collapsed>summary{font-weight:600;line-height:1.5}
 .db-status{font-weight:700;letter-spacing:0}
 @media(max-width:1050px){body{font-size:14px}.table td{font-size:13px}.field label{font-size:13px}}
-@media(max-width:700px){body{font-size:14px}.top h1{font-size:22px}.top h1 #dbStatus.db-status{font-size:10px;min-height:22px;padding:3px 6px;margin-left:6px}.top h1 #dbStatus .db-dot{width:6px;height:6px}.card h3{font-size:16px}.kpi strong{font-size:24px}.table td,.table th{font-size:13px}.db-status{font-size:12px}}
+@media(max-width:700px){body{font-size:14px}.top h1{font-size:22px}.card h3{font-size:16px}.kpi strong{font-size:24px}.table td,.table th{font-size:13px}.db-status{font-size:12px}}
 </style>
 
 <style id="responsive-shell-hardening">
@@ -1237,6 +1234,8 @@ html,body{width:100%;min-width:0;max-width:100%;}
 .settings-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
 .settings-rule-list{margin:0;padding-left:20px;color:var(--ink);line-height:1.75}
 .settings-rule-list li+li{margin-top:5px}
+
+.settings-users-list{display:grid;gap:8px;margin-top:10px}.settings-user-row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#f8fafc}.settings-user-main{min-width:0}.settings-user-main b{display:block;font-size:13px}.settings-user-main span{display:block;color:var(--muted);font-size:11px;margin-top:2px;overflow-wrap:anywhere}.settings-user-actions{display:flex;gap:6px;flex:0 0 auto}.settings-user-actions button{padding:6px 8px;font-size:11px}.settings-user-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.settings-user-form .full{grid-column:1/-1}.settings-user-form select[multiple]{min-height:130px}.settings-user-hint{font-size:11px;color:var(--muted);line-height:1.45;margin-top:5px}
 @media(max-width:720px){
   #settings .settings-grid{grid-template-columns:1fr;gap:8px}
   #settings .settings-tile{padding:13px 12px}
@@ -1256,7 +1255,234 @@ html,body{width:100%;min-width:0;max-width:100%;}
 <style id="auth-access-control">
 #loginGate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#0b1f3a,#123b63);font-family:inherit}#loginGate.hidden{display:none}.login-card{width:min(420px,100%);background:#fff;border-radius:22px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.28)}.login-card h2{margin:0 0 6px}.login-card .login-sub{margin:0 0 20px;color:#64748b}.login-field{display:grid;gap:6px;margin:12px 0}.login-field input{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px}.login-btn{width:100%;border:0;border-radius:12px;padding:13px 16px;background:#123b63;color:#fff;font-weight:800;font-size:16px;cursor:pointer}.login-msg{min-height:22px;margin-top:10px;font-size:13px}.auth-user{display:flex;align-items:center;gap:8px}.auth-user .pill{cursor:default}.logout-btn{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:7px 10px;cursor:pointer}.role-note{font-size:12px;color:#64748b;margin-top:14px;text-align:center}
 </style>
-<!-- SOURCE OF TRUTH: personnel role guard is intentionally limited to personnel master-data management. -->
+<style id="compact-db-status-ui">
+/* Compact database status — UI only, preserves existing data/connection logic */
+.top{align-items:flex-end}
+.top-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:nowrap;min-width:0}
+.top-date{white-space:nowrap}
+.db-status{display:inline-flex;align-items:center;gap:7px;min-height:30px;height:30px;padding:4px 7px 4px 8px;border:1px solid #dbe4ef;border-radius:10px;background:#fff;box-shadow:0 2px 8px rgba(18,53,91,.06);font-size:10px;font-weight:700;white-space:nowrap;line-height:1}
+.db-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex:none}
+.db-copy{display:flex;align-items:baseline;gap:5px;min-width:0}
+.db-label{font-size:10px;font-weight:800;color:#243b53}
+.db-provider{display:inline-flex;align-items:center;justify-content:center;height:20px;padding:0 7px;border:1px solid #d8e8e1;border-radius:7px;background:#f5fbf8;color:#16724a;font-size:9px;font-weight:900;letter-spacing:.04em}
+.db-online{color:#166534;border-color:#bde7cb;background:#f7fff9}.db-online .db-dot{background:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.10)}
+.db-offline{color:#991b1b;border-color:#f0caca;background:#fffafa}.db-offline .db-dot{background:var(--bad);box-shadow:0 0 0 3px rgba(220,38,38,.08)}
+@media(max-width:1050px){.top-actions{gap:6px}.db-status{padding-inline:7px}.db-provider{display:none}}
+@media(max-width:720px){.top{align-items:flex-start}.top-actions{width:auto;max-width:100%;gap:5px}.top-date{font-size:11px}.db-status{height:28px;min-height:28px;padding:3px 6px;font-size:9px}.db-label{font-size:9px}.db-copy{gap:3px}.auth-user{min-width:0}.auth-user .pill{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.logout-btn{padding:7px 9px}}
+@media(max-width:520px){.top{display:block}.top-actions{width:100%;justify-content:flex-start;margin-top:8px}.top-date{order:0}.db-status{order:1}.auth-user{order:2;margin-left:auto}.db-provider{display:none}}
+</style>
+
+<style id="mobile-db-status-final">
+/* Mobile Layout 2 — utility row: date | database | user/logout.
+   UI-only; Supabase/data/function logic remains untouched. */
+@media (max-width: 720px){
+  .top{
+    display:block;
+    width:100%;
+    min-width:0;
+  }
+  .top-main{
+    width:100%;
+    min-width:0;
+  }
+  .top-main .eyebrow{
+    font-size:12px;
+    line-height:1.35;
+    margin-bottom:2px;
+  }
+  .top h1{
+    font-size:22px;
+    line-height:1.2;
+    margin:0 0 3px;
+  }
+  .top-main > .muted{
+    font-size:12px;
+    line-height:1.4;
+    overflow-wrap:anywhere;
+  }
+
+  /* Layout 2: one compact utility row */
+  .top-actions{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) auto;
+    grid-template-areas:"date db auth";
+    align-items:center;
+    width:100% !important;
+    max-width:100%;
+    min-width:0;
+    margin-top:9px;
+    gap:6px;
+  }
+
+  .top-date{
+    grid-area:date;
+    width:100%;
+    min-width:0;
+    font-size:11px;
+    line-height:1.25;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .db-status{
+    grid-area:db;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    height:30px;
+    min-height:30px;
+    padding:4px 7px;
+    justify-content:flex-start;
+    gap:5px;
+    border-radius:9px;
+    font-size:9px;
+    overflow:hidden;
+  }
+
+  .db-copy{
+    min-width:0;
+    overflow:hidden;
+    white-space:nowrap;
+    display:flex;
+    align-items:baseline;
+    gap:3px;
+  }
+
+  .db-label{
+    flex:none;
+    font-size:9px;
+  }
+
+  .db-status #dbStatusText{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .db-provider{
+    display:inline-flex !important;
+    flex:none;
+    height:18px;
+    padding:0 5px;
+    font-size:7px;
+  }
+
+  .auth-user{
+    grid-area:auth;
+    min-width:0;
+    max-width:100%;
+    justify-content:flex-end;
+    gap:4px;
+  }
+
+  .auth-user .pill{
+    display:none;
+  }
+
+  .logout-btn{
+    flex:none;
+    white-space:nowrap;
+    padding:7px 8px;
+    min-height:30px;
+    font-size:10px;
+    line-height:1.1;
+    border-radius:9px;
+  }
+}
+
+@media (max-width: 480px){
+  .main{
+    padding:12px 10px 24px;
+  }
+
+  .top{
+    margin-bottom:12px;
+    padding-bottom:11px;
+  }
+
+  .top h1{
+    font-size:20px;
+  }
+
+  .top-main > .muted{
+    font-size:11px;
+  }
+
+  .top-actions{
+    grid-template-columns:minmax(0,1.05fr) minmax(0,1fr) auto;
+    gap:5px;
+    margin-top:8px;
+  }
+
+  .top-date{
+    font-size:10px;
+  }
+
+  .db-status{
+    height:29px;
+    min-height:29px;
+    padding:4px 6px;
+    gap:4px;
+    font-size:8px;
+  }
+
+  .db-label{
+    font-size:8px;
+  }
+
+  .db-provider{
+    height:17px;
+    padding:0 4px;
+    font-size:6.5px;
+  }
+
+  .logout-btn{
+    padding:7px 7px;
+    font-size:9px;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .card{
+    min-width:0;
+  }
+}
+
+@media (max-width: 360px){
+  .top-actions{
+    grid-template-columns:minmax(0,1fr) minmax(0,.92fr) auto;
+    gap:4px;
+  }
+
+  .top-date{
+    font-size:9px;
+  }
+
+  .db-status{
+    gap:4px;
+    padding-inline:5px;
+  }
+
+  .db-provider{
+    display:none !important;
+  }
+
+  .logout-btn{
+    padding-inline:6px;
+    font-size:8.5px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
 </head>
 <body>
 <div id="loginGate">
@@ -1286,12 +1512,17 @@ html,body{width:100%;min-width:0;max-width:100%;}
 <header class="top">
   <div class="top-main">
     <div class="eyebrow">ศูนย์บริหารแผนงาน</div>
-    <h1 id="title">Dashboard <span id="dbStatus" class="db-status db-offline" role="status" aria-live="polite"><span class="db-dot" aria-hidden="true"></span><span id="dbStatusText">🔴 กำลังตรวจสอบการเชื่อมต่อ</span></span></h1>
+    <h1 id="title">Dashboard</h1>
     <div class="muted">ข้อมูลทุกหน้ามาจาก Supabase ชุดเดียวกัน</div>
   </div>
   <div class="top-actions">
+    <div class="muted top-date" id="today"></div>
+    <div id="dbStatus" class="db-status db-offline" role="status" aria-live="polite">
+      <span class="db-dot" aria-hidden="true"></span>
+      <span class="db-copy"><span class="db-label">ฐานข้อมูล</span><span id="dbStatusText">🔴 ยังไม่ยืนยันการเชื่อมต่อ</span></span>
+      <span class="db-provider" aria-label="แหล่งข้อมูล">SUPABASE</span>
+    </div>
     <div class="auth-user"><span id="authUserBadge" class="pill blue">🔐 —</span><button id="logoutBtn" class="logout-btn" type="button">ออกจากระบบ</button></div>
-    <div class="muted" id="today"></div>
   </div>
 </header>
 <div id="globalError" class="notice bad hidden" style="margin-bottom:14px"></div>
@@ -1460,6 +1691,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
           <div class="formgrid" style="margin-top:8px">
             <div class="field"><label>เลขที่คำสั่ง</label><input id="orderNo" placeholder="เช่น 15/2569"></div>
             <div class="field"><label>วันที่คำสั่ง</label><input id="orderDate" type="date"></div>
+            <div class="field"><label>รอบปฏิบัติหน้าที่</label><select id="orderDuty"><option value="">เลือกรอบปฏิบัติหน้าที่</option><option value="apr_sep">1 เม.ย. – 30 ก.ย.</option><option value="oct_mar">1 ต.ค. – 31 มี.ค.</option></select></div>
             <div class="field full"><label>ไฟล์คำสั่ง</label><input id="orderFile" type="file" accept="application/pdf,image/jpeg,image/png,image/webp"><div class="muted">อัปโหลดไฟล์คำสั่งเพื่อใช้เป็นหลักฐานอ้างอิง</div></div>
             <div class="full"><button id="orderUpload" class="primary" type="button">📎 บันทึกหลักฐานคำสั่ง</button></div>
           </div>
@@ -1507,6 +1739,9 @@ html,body{width:100%;min-width:0;max-width:100%;}
       <button class="settings-tile" type="button" data-settings-modal="projects">
         <span class="tile-icon">🎯</span><span class="tile-copy"><span class="tile-title">ข้อมูลโครงการ</span><span class="tile-sub">จำนวนโครงการและสถานะแผนปฏิบัติงาน</span></span><span class="tile-arrow">›</span>
       </button>
+      <button class="settings-tile" type="button" data-settings-modal="users" id="settingsUserManagementTile">
+        <span class="tile-icon">👤</span><span class="tile-copy"><span class="tile-title">จัดการผู้ใช้งาน</span><span class="tile-sub">ผู้ดูแลระบบเพิ่มและกำหนดสิทธิ์เจ้าหน้าที่ผ่าน Supabase</span></span><span class="tile-arrow">›</span>
+      </button>
       <button class="settings-tile" type="button" data-settings-modal="rules">
         <span class="tile-icon">🛡️</span><span class="tile-copy"><span class="tile-title">กฎการทำงาน</span><span class="tile-sub">กฎป้องกันข้อมูลซ้ำและเงื่อนไขหลักของระบบ</span></span><span class="tile-arrow">›</span>
       </button>
@@ -1539,6 +1774,30 @@ html,body{width:100%;min-width:0;max-width:100%;}
     <div class="settings-modal-head"><h3 id="settingsProjectsTitle">🎯 ข้อมูลโครงการ</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
     <div class="settings-modal-body" id="settingsProjectsBody"></div>
     <div class="settings-modal-actions"><button class="secondary" type="button" data-settings-close>ปิด</button><button class="primary" type="button" data-settings-goto="projects">เปิดหน้าโครงการ</button></div>
+  </div>
+</div>
+<div id="settingsUsersModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsUsersTitle">
+  <div class="modalbox">
+    <div class="settings-modal-head"><h3 id="settingsUsersTitle">👤 จัดการผู้ใช้งาน</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
+    <div class="settings-modal-body">
+      <div class="notice">🔐 เฉพาะ <b>ผู้ดูแลระบบ</b> เท่านั้นที่สามารถสร้างบัญชีเจ้าหน้าที่ได้ ระบบจะสร้าง Auth User และ Role Mapping ผ่าน Supabase โดยไม่เปิด Service Role Key ในหน้าเว็บ</div>
+      <div id="settingsUsersList" class="settings-users-list"></div>
+      <div class="settings-modal-actions" style="justify-content:space-between">
+        <button class="secondary" type="button" id="settingsUserRefresh">↻ รีเฟรช</button>
+        <button class="primary" type="button" id="settingsUserAdd">＋ เพิ่มเจ้าหน้าที่</button>
+      </div>
+      <form id="settingsUserForm" class="settings-user-form hidden" style="margin-top:12px">
+        <input id="settingsUserId" type="hidden">
+        <div class="field full"><label>ชื่อเจ้าหน้าที่</label><input id="settingsUserName" maxlength="200" required></div>
+        <div class="field"><label>Email</label><input id="settingsUserEmail" type="email" maxlength="254" required></div>
+        <div class="field"><label>รหัสผ่านเริ่มต้น</label><input id="settingsUserPassword" type="password" minlength="8" autocomplete="new-password" placeholder="อย่างน้อย 8 ตัวอักษร"></div>
+        <div class="field"><label>สิทธิ์</label><select id="settingsUserRole"><option value="personnel_officer">👥 เจ้าหน้าที่กำลังพล</option><option value="project_officer">🎯 เจ้าหน้าที่โครงการ</option></select></div>
+        <div class="field"><label>สถานะ</label><select id="settingsUserActive"><option value="true">🟢 ใช้งาน</option><option value="false">⚪ ปิดใช้งาน</option></select></div>
+        <div class="field full"><label>ศปป./โครงการที่รับผิดชอบ</label><select id="settingsUserProjects" multiple></select><div class="settings-user-hint">รายการมาจากโครงการจริงใน Supabase • กด Ctrl/Command เพื่อเลือกหลายรายการ</div></div>
+        <div class="settings-modal-actions full"><button class="secondary" type="button" id="settingsUserCancel">ยกเลิก</button><button class="primary" type="submit">บันทึกบัญชี</button></div>
+        <div id="settingsUserMsg" class="notice full hidden" role="status" aria-live="polite"></div>
+      </form>
+    </div>
   </div>
 </div>
 <div id="settingsRulesModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsRulesTitle">
@@ -1600,12 +1859,21 @@ function overlappingPlansForPerson(personId,start,end,ignoreId=''){const ids=new
 function cleanDetail(detail){return String(detail||'').trim()}
 
 let authSession=null;let authUser=null;let accessRole='viewer';let accessPersonnelId=null;let accessProjectIds=[];
-async function resolveRoleFromDb(userId){
- const r=await db.from('user_roles').select('role,active,personnel_id').eq('user_id',userId).maybeSingle();
- if(r.error)throw r.error;
- if(!r.data||r.data.active===false)return null;
- return {role:String(r.data.role||'').toLowerCase(),personnel_id:r.data.personnel_id||null};
+function normalizeRoleValue(v){return String(v||'viewer').trim().toLowerCase()}
+async function loadRoleMapping(){
+ const roleRows=await q('user_roles');
+ const mine=roleRows.filter(x=>x.user_id===authUser?.id&&x.active!==false).sort((a,b)=>String(b.updated_at||'').localeCompare(String(a.updated_at||'')))[0];
+ if(!mine)throw new Error('บัญชีนี้ยังไม่ได้รับสิทธิ์ใช้งานระบบ');
+ accessRole=normalizeRoleValue(mine.role);
+ accessPersonnelId=mine.personnel_id||null;
+ accessProjectIds=[];
+ if(accessRole==='project_officer'||accessRole==='personnel_officer'){
+   const rows=await q('project_user_access');
+   accessProjectIds=rows.filter(x=>x.user_id===authUser.id).map(x=>x.project_id).filter(Boolean);
+ }
+ if(accessRole==='personnel'&&!accessPersonnelId)throw new Error('บัญชีนี้ยังไม่ได้ผูกกับรหัสกำลังพล');
 }
+function canManagePlan(p){if(!p||!authUser?.id)return false;if(accessRole==='admin')return true;if(accessRole==='personnel_officer')return !!p.project_id&&accessProjectIds.map(String).includes(String(p.project_id));if(String(p.created_by||'')!==String(authUser.id))return false;if(accessRole==='project_officer')return !p.project_id||accessProjectIds.map(String).includes(String(p.project_id));return accessRole==='personnel';}
 function applyAccessFilter(){
  if(accessRole==='admin')return;
  if(accessRole==='personnel'){
@@ -1616,38 +1884,24 @@ function applyAccessFilter(){
    plans=plans.filter(x=>ownedPlanIds.has(x.id));
    return;
  }
- if(accessRole==='project_officer'){
+ if(accessRole==='personnel_officer'){
    const ids=new Set(accessProjectIds.map(String));
    projects=projects.filter(x=>ids.has(String(x.id)));
-   plans=plans.filter(x=>ids.has(String(x.project_id)));
-   const pids=new Set(plans.flatMap(p=>planPeople.filter(l=>l.plan_id===p.id).map(l=>l.personnel_id)));
+   plans=plans.filter(x=>!x.project_id||ids.has(String(x.project_id)));
    planPeople=planPeople.filter(l=>plans.some(p=>p.id===l.plan_id));
-   personnelAll=personnelAll.filter(x=>pids.has(x.id));
-   people=personnelAll.filter(x=>x.active);
-   vehicles=vehicles.filter(v=>plans.some(p=>p.vehicle_id===v.id));
+   return;
  }
+ // project_officer: RLS intentionally supplies the full read view.
+ // Do not client-filter projects/plans/personnel/vehicles; edit/delete is guarded by created_by.
 }
-function updateAuthUI(){const name=authUser?.user_metadata?.full_name||authUser?.email||'ผู้ใช้งาน';const labels={admin:'👑 ผู้ดูแลระบบ',personnel:'👤 กำลังพล',project_officer:'🎯 เจ้าหน้าที่โครงการ',viewer:'👁️ ผู้ดูข้อมูล'};const el=$('authUserBadge');if(el)el.textContent=(labels[accessRole]||labels.viewer)+' · '+name}
-function canManagePersonnel(){return accessRole==='admin'}
-function applyPersonnelRoleGuard(){
- const manage=canManagePersonnel();
- /* บุคลากรทุก Role ที่มีสิทธิ์เข้าระบบยังต้องมองเห็นเมนู/ข้อมูลกำลังพล
-    แต่สิทธิ์เพิ่ม-แก้ไข-เปลี่ยนสถานะให้เฉพาะ admin */
- const nav=document.querySelector('.nav button[data-page="personnel"]');
- if(nav)nav.hidden=false;
- const add=$('addPersonnel');
- if(add){add.hidden=!manage;add.disabled=!manage;add.setAttribute('aria-hidden',String(!manage));}
-}
-
+function applySettingsRoleGuard(){const btn=document.querySelector('.nav button[data-page="settings"]');const tile=$('settingsUserManagementTile');const allowed=accessRole==='admin';if(btn)btn.hidden=!allowed;if(tile)tile.hidden=!allowed;if(!allowed&&$('settingsUsersModal'))$('settingsUsersModal').classList.add('hidden');}
+function updateAuthUI(){const name=authUser?.user_metadata?.full_name||authUser?.email||'ผู้ใช้งาน';const labels={admin:'👑 ผู้ดูแลระบบ',personnel:'👤 กำลังพล',personnel_officer:'👥 เจ้าหน้าที่กำลังพล',project_officer:'🎯 เจ้าหน้าที่โครงการ',viewer:'👁️ ผู้ดูข้อมูล'};const el=$('authUserBadge');if(el)el.textContent=(labels[accessRole]||labels.viewer)+' · '+name}
 async function initAuth(){
  const {data,error}=await db.auth.getSession(); if(error)throw error;
  authSession=data.session; authUser=data.session?.user||null;
  if(!authUser){$('loginGate').classList.remove('hidden');return false}
- const roleInfo=await resolveRoleFromDb(authUser.id);
- if(!roleInfo){$('loginMsg').textContent='🔴 บัญชีนี้ยังไม่ได้รับสิทธิ์ใช้งานระบบ หรือสิทธิ์ถูกปิดใช้งาน';$('loginGate').classList.remove('hidden');await db.auth.signOut();return false}
- accessRole=roleInfo.role;accessPersonnelId=roleInfo.personnel_id;accessProjectIds=Array.isArray(authUser.user_metadata?.project_ids)?authUser.user_metadata.project_ids:[];
- if(accessRole==='personnel'&&!accessPersonnelId){$('loginMsg').textContent='บัญชีนี้ยังไม่ได้ผูกกับรหัสกำลังพล';$('loginGate').classList.remove('hidden');await db.auth.signOut();return false}
- updateAuthUI();applyPersonnelRoleGuard();$('loginGate').classList.add('hidden');return true
+ await loadRoleMapping();
+ updateAuthUI();applySettingsRoleGuard();$('loginGate').classList.add('hidden');return true
 }
 async function q(table,select='*'){const r=await db.from(table).select(select);if(r.error)throw r.error;return r.data||[]}
 function setDbStatus(online,message){const el=$('dbStatus'),text=$('dbStatusText');if(!el||!text)return;el.classList.toggle('db-online',!!online);el.classList.toggle('db-offline',!online);text.textContent=message||(online?'🟢 ฐานข้อมูลเชื่อมต่อแล้ว':'🔴 ไม่สามารถเชื่อมต่อฐานข้อมูล');}
@@ -1663,8 +1917,9 @@ async function load(){
  q('plans').then(x=>x.filter(a=>a.status==='planned')),
  q('plan_personnel'),q('fuel_transactions'),q('allowance_transactions')
  ]);
+ applyAccessFilter();
  people=personnelAll.filter(a=>a.active);
- setDbStatus(true,'เชื่อมต่อข้อมูล สำเร็จ');
+ setDbStatus(true,'🟢 ฐานข้อมูลเชื่อมต่อแล้ว');
  render(); fillForm(); renderFuel(); 
  }catch(e){console.error(e);showGlobalError('โหลดข้อมูลไม่สำเร็จ: '+e.message)}
 }
@@ -1764,23 +2019,23 @@ function renderPersonnelAdmin(){
   const matches=plansOn(td).filter(pl=>planPeople.some(x=>x.plan_id===pl.id&&x.personnel_id===p.id));
   const mission=matches.length?matches.map(pl=>pl.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':'🎯 '+esc(pname(pl.project_id))).join(' / '):'🟢 ว่าง';
   const status=p.active?'<span class="pill ok">ปฏิบัติงาน</span>':'<span class="pill none">พ้นหน้าที่</span>';
-  const action=canManagePersonnel()?(p.active?`<div class="personnel-actions"><button type="button" class="secondary" onclick="editPersonnel('${p.id}')">แก้ไข</button><button type="button" class="dangerbtn" onclick="deactivatePersonnel('${p.id}')">พ้นหน้าที่</button></div>`:`<div class="personnel-actions"><button type="button" class="secondary" onclick="editPersonnel('${p.id}')">แก้ไข</button><button type="button" class="primary" onclick="activatePersonnel('${p.id}')">เปิดใช้งาน</button></div>`):'<span class="muted">ดูข้อมูล</span>';
+  const action=(accessRole==='admin'||accessRole==='personnel_officer')?(p.active?`<div class="personnel-actions"><button type="button" class="secondary" onclick="editPersonnel('${p.id}')">แก้ไข</button><button type="button" class="dangerbtn" onclick="deactivatePersonnel('${p.id}')">พ้นหน้าที่</button></div>`:`<div class="personnel-actions"><button type="button" class="secondary" onclick="editPersonnel('${p.id}')">แก้ไข</button><button type="button" class="primary" onclick="activatePersonnel('${p.id}')">เปิดใช้งาน</button></div>`):'<span class="pill none">ดูอย่างเดียว</span>';
   const duty=dutyCycleLabel(p.duty_cycle);
   const dutyClass=p.duty_cycle?'':'duty-unknown';
   return `<tr><td class="personnel-name"><b>${esc(p.full_name)}</b><span class="personnel-sub">${p.active?'กำลังพลปัจจุบัน':'พ้นหน้าที่'}</span></td><td><span class="pill ${p.personnel_section==='กอ.รมน.จังหวัด ม.ห.'?'ok':'blue'}">${esc(p.personnel_section||'ยังไม่ระบุ')}</span></td><td>${p.personnel_no??'—'}</td><td class="personnel-duty duty-cycle ${dutyClass}">${duty}</td><td class="personnel-status">${status}</td><td>${mission}</td><td>${action}</td></tr>`;
  }).join(''):'<tr><td colspan="7" class="empty">ไม่พบข้อมูลกำลังพลตามเงื่อนไข</td></tr>';
 }
 function openPersonnelModal(id=''){
- if(!canManagePersonnel()){alert('🔒 สิทธิ์นี้ไม่สามารถเพิ่มหรือแก้ไขข้อมูลกำลังพลได้');return}
+ if(accessRole!=='admin'&&accessRole!=='personnel_officer'){alert('🔴 ไม่มีสิทธิ์จัดการกำลังพล');return}
  $('personnelId').value=id;$('personnelModalTitle').textContent=id?'✏️ แก้ไขข้อมูลกำลังพล':'👤 เพิ่มกำลังพล';
  $('personnelValidation').className='notice';$('personnelValidation').textContent=id?'การแก้ไขข้อมูลจะใช้รหัสกำลังพลเดิมและไม่สร้างรายการซ้ำ':'เพิ่มกำลังพลใหม่โดยไม่แตะข้อมูลกำลังพลเดิม';
  if(id){const p=personnelAll.find(x=>x.id===id);if(!p)return;$('personnelName').value=p.full_name||'';$('personnelNo').value=p.personnel_no??'';$('personnelActive').value=String(!!p.active);$('personnelSection').value=p.personnel_section||'';$('personnelDutyCycle').value=p.duty_cycle||''}else{$('personnelName').value='';$('personnelNo').value='';$('personnelActive').value='true';$('personnelSection').value='';$('personnelDutyCycle').value=currentDutyCycle()}
 $('personnelModal').classList.remove('hidden');
 }
-function editPersonnel(id){if(!canManagePersonnel()){alert('🔒 สิทธิ์นี้ไม่สามารถแก้ไขข้อมูลกำลังพลได้');return}openPersonnelModal(id)}
+function editPersonnel(id){openPersonnelModal(id)}
 async function savePersonnel(e){
  e.preventDefault();
- if(!canManagePersonnel()){if($('personnelValidation')){$('personnelValidation').className='notice bad';$('personnelValidation').textContent='🔒 สิทธิ์นี้ไม่สามารถบันทึกข้อมูลกำลังพลได้'}return}
+ if(accessRole!=='admin'&&accessRole!=='personnel_officer'){$('personnelValidation').className='notice bad';$('personnelValidation').textContent='🔴 ไม่มีสิทธิ์จัดการกำลังพล';return}
  const id=$('personnelId').value,full_name=$('personnelName').value.trim(),rawNo=$('personnelNo').value.trim(),personnel_no=rawNo?Number(rawNo):null,active=$('personnelActive').value==='true',personnel_section=$('personnelSection').value||null,duty_cycle=$('personnelDutyCycle').value||null;
  if(!full_name){$('personnelValidation').className='notice bad';$('personnelValidation').textContent='🔴 กรุณาระบุชื่อ-นามสกุล';return}
  if(!personnel_section){$('personnelValidation').className='notice bad';$('personnelValidation').textContent='🔴 กรุณาระบุส่วน/ชุดกำลังพล';return}
@@ -1793,20 +2048,27 @@ async function savePersonnel(e){
  $('personnelModal').classList.add('hidden');await load();
 }
 async function deactivatePersonnel(id){
- if(!canManagePersonnel()){alert('🔒 สิทธิ์นี้ไม่สามารถเปลี่ยนสถานะกำลังพลได้');return}
+ if(accessRole!=='admin'&&accessRole!=='personnel_officer'){alert('🔴 ไม่มีสิทธิ์จัดการกำลังพล');return}
  const p=personnelAll.find(x=>x.id===id);if(!p)return;
  const future=plans.filter(pl=>pl.status==='planned'&&planEnd(pl)>=today()&&planPeople.some(x=>x.plan_id===pl.id&&x.personnel_id===id));
  if(future.length){alert('🔴 ยังเปลี่ยนเป็นพ้นหน้าที่ไม่ได้: กำลังพลคนนี้ยังมีแผนที่เริ่ม/ดำเนินการตั้งแต่วันนี้อยู่ '+future.length+' แผน กรุณาแก้แผนก่อน');return}
  if(!confirm(`ยืนยันเปลี่ยน ${p.full_name} เป็น “พ้นหน้าที่”?\nข้อมูลแผนงานเดิมจะยังคงอยู่`))return;
  const r=await db.from('personnel').update({active:false}).eq('id',id);if(r.error){alert('🔴 เปลี่ยนสถานะไม่สำเร็จ: '+r.error.message);return}await load();
 }
-async function activatePersonnel(id){if(!canManagePersonnel()){alert('🔒 สิทธิ์นี้ไม่สามารถเปลี่ยนสถานะกำลังพลได้');return}const p=personnelAll.find(x=>x.id===id);if(!p)return;if(!confirm(`ยืนยันเปิดใช้งาน ${p.full_name}?`))return;const r=await db.from('personnel').update({active:true}).eq('id',id);if(r.error){alert('🔴 เปิดใช้งานไม่สำเร็จ: '+r.error.message);return}await load()}
+async function activatePersonnel(id){if(accessRole!=='admin'&&accessRole!=='personnel_officer'){alert('🔴 ไม่มีสิทธิ์จัดการกำลังพล');return}const p=personnelAll.find(x=>x.id===id);if(!p)return;if(!confirm(`ยืนยันเปิดใช้งาน ${p.full_name}?`))return;const r=await db.from('personnel').update({active:true}).eq('id',id);if(r.error){alert('🔴 เปิดใช้งานไม่สำเร็จ: '+r.error.message);return}await load()}
 function renderPeople(){const el=$('peopleTable');if(!el)return;let term=($('peopleSearch')?.value||'').toLowerCase(),td=today();el.innerHTML=people.filter(p=>p.full_name.toLowerCase().includes(term)).map(p=>{let pp=planPeople.find(x=>x.personnel_id===p.id&&plansOn(td).some(y=>y.id===x.plan_id));let pl=pp?plans.find(x=>x.id===pp.plan_id):null;const isTrip=pl?.plan_type==='official_trip';return `<tr><td>${esc(p.full_name)}</td><td>${pl?(isTrip?'<span class="pill warn">ไปราชการ</span>':'<span class="pill ok">อยู่โครงการ</span>'):'<span class="pill none">ว่าง</span>'}</td><td>${pl?(isTrip?'—':esc(pname(pl.project_id))):'—'}</td><td>${pl?(pl.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':esc(vname(pl.vehicle_id))):'—'}</td><td>${allowances.find(a=>a.personnel_id===p.id&&a.transaction_date===td)?.eligible?'มีสิทธิ':'คำนวณจากแผน'}</td></tr>`}).join('')}
 function renderVehicles(){let td=today(),ps=plansOn(td);$('vehicleTable').innerHTML=vehicles.map(v=>{let p=ps.find(x=>x.vehicle_id===v.id);const trip=p?.plan_type==='official_trip';return `<tr><td>${esc(v.vehicle_code)}</td><td>${esc(v.vehicle_type)}</td><td>${esc(v.registration)}</td><td>${p?'<span class="pill ok">ออกภารกิจ</span>':'<span class="pill none">ว่าง</span>'}</td><td>${p?(trip?'🧑‍💼 ไปราชการ':esc(pname(p.project_id))):'—'}</td><td>${p?(p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'):'—'}</td><td>${trip?'<span class="pill bad">🔴 งบทรงชีพห้ามใช้</span>':p?(p.budget_type==='project'?'<span class="pill blue">🔵 งบโครงการ</span>':'<span class="pill ok">🟢 งบทรงชีพ</span>'):'<span class="pill none">⚪ ไม่มีแผน</span>'}</td></tr>`}).join('')}
 function renderProjects(){$('projectTable').innerHTML=projects.map(p=>{let n=plans.filter(x=>x.project_id===p.id).length;return `<tr><td>${esc(p.project_code)}</td><td>${esc(p.project_name)}</td><td>${n?'<span class="pill ok">มีแผน</span>':'<span class="pill none">ยังไม่มีแผน</span>'}</td><td>${n}</td></tr>`}).join('')}
 function renderCalendar(){let y=cursor.getFullYear(),m=cursor.getMonth(),f=new Date(y,m,1),l=new Date(y,m+1,0);$('month').textContent=new Intl.DateTimeFormat('th-TH',{month:'long',year:'numeric'}).format(f);let h=['จ','อ','พ','พฤ','ศ','ส','อา'].map(x=>`<div class="dow">${x}</div>`).join(''),start=(f.getDay()+6)%7;for(let i=0;i<start;i++)h+='<div></div>';for(let d=1;d<=l.getDate();d++){let k=localDate(y,m,d);h+=`<div class="day" data-date="${k}"><b>${d}</b>${plansOn(k).map(p=>`<div class="event">${p.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':'🎯 '+esc(pname(p.project_id))}<br>👥 ${peopleNames(p.id)}<br>${p.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':'🚙 '+esc(vname(p.vehicle_id))}</div>`).join('')}</div>`}$('cal').innerHTML=h;document.querySelectorAll('.day[data-date]').forEach(x=>x.onclick=()=>openPlan(x.dataset.date))}
 function fillForm(){
- $('planProject').innerHTML=projects.length?projects.map(p=>`<option value="${p.id}">${esc(p.project_name)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลโครงการ</option>';
+ const planProjectRows=(accessRole==='project_officer'||accessRole==='personnel_officer')
+  ? projects.filter(p=>accessProjectIds.map(String).includes(String(p.id)))
+  : projects;
+ $('planProject').innerHTML=planProjectRows.length
+  ? planProjectRows.map(p=>`<option value="${p.id}">${esc(p.project_name)}</option>`).join('')
+  : ((accessRole==='project_officer'||accessRole==='personnel_officer')
+    ? '<option value="">ไม่มีโครงการที่ได้รับมอบหมาย</option>'
+    : '<option value="">ยังไม่มีข้อมูลโครงการ</option>');
  $('planVehicle').innerHTML=vehicles.length?vehicles.map(v=>`<option value="${v.id}">${esc(v.vehicle_code)} · ${esc(v.vehicle_type)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';
  $('fuelVehicle').innerHTML=vehicles.length?vehicles.map(v=>`<option value="${v.id}">${esc(v.vehicle_code)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';
  const groups=['กอ.รมน.จังหวัด ม.ห.','ชุดครูฝึก อพป.','กำลังพลชุดขุนด่าน']; $('personChecks').innerHTML=people.length?groups.map(g=>{const rows=people.filter(p=>p.personnel_section===g);return `<div class="person-group"><div class="person-group-title">${esc(g)} <span>(${rows.length})</span></div>${rows.length?rows.map(p=>`<label class="check"><input type="checkbox" value="${p.id}"> ${esc(p.full_name)}</label>`).join(''):'<div class="subtle">ยังไม่มีรายชื่อที่ระบุส่วนนี้</div>'}</div>`}).join(''):'<div class="empty">ยังไม่มีข้อมูลกำลังพล</div>';
@@ -1818,14 +2080,17 @@ function togglePlanType(){const trip=$('planType').value==='official_trip';$('pr
 function updatePlanTransport(){togglePlanType();}
 function openPlan(d,id=''){
  $('planId').value=id;$('planDate').value=d;$('planEndDate').value=d;$('planType').value='project';$('planTransport').value='unit_vehicle';
- const day=plansOn(d);$('dayPlans').innerHTML=day.length?'<b>แผนที่ครอบคลุมวันที่ '+esc(d)+'</b>'+day.map(p=>`<div class="statline"><span>${p.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':'🎯 '+esc(pname(p.project_id))}<br>👥 <b>กำลังพล:</b> ${peopleNames(p.id)}<br>${p.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':'🚙 '+esc(vname(p.vehicle_id))}<br>📅 ${esc(planStart(p))} ถึง ${esc(planEnd(p))}<br>💰 ${p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'}</span><span><button type="button" class="secondary" onclick="openPlan('${esc(d)}','${p.id}')">แก้ไข</button> <button type="button" class="dangerbtn" onclick="deletePlan('${p.id}')">ลบ</button></span></div>`).join(''):'ยังไม่มีแผนในวันที่เลือก';
+ const day=plansOn(d);$('dayPlans').innerHTML=day.length?'<b>แผนที่ครอบคลุมวันที่ '+esc(d)+'</b>'+day.map(p=>`<div class="statline"><span>${p.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':'🎯 '+esc(pname(p.project_id))}<br>👥 <b>กำลังพล:</b> ${peopleNames(p.id)}<br>${p.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':'🚙 '+esc(vname(p.vehicle_id))}<br>📅 ${esc(planStart(p))} ถึง ${esc(planEnd(p))}<br>💰 ${p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'}</span><span>${canManagePlan(p)?`<button type="button" class="secondary" onclick="openPlan('${esc(d)}','${p.id}')">แก้ไข</button> <button type="button" class="dangerbtn" onclick="deletePlan('${p.id}')">ลบ</button>`:'<span class="pill none">ดูอย่างเดียว</span>'}</span></div>`).join(''):'ยังไม่มีแผนในวันที่เลือก';
  if(id){const p=plans.find(x=>x.id===id);if(p){$('planType').value=p.plan_type||meta.plan_type||'project';$('planDate').value=planStart(p);$('planEndDate').value=planEnd(p);$('planProject').value=p.project_id||'';$('planVehicle').value=p.vehicle_id||'';$('planTransport').value=p.transport_type||meta.transport_type||'unit_vehicle';$('planBudget').value=p.budget_type||'sustainment';$('planDetail').value=cleanDetail(p.mission_detail);const cp=projects.find(x=>x.id===p.project_id);$('customProjectName').value=cp?.is_custom&&cp.project_name!=='ระบุเพิ่มเติม'?cp.project_name:'';const links=planPeople.filter(x=>x.plan_id===id);document.querySelectorAll('#personChecks input').forEach(c=>c.checked=links.some(x=>x.personnel_id===c.value));const noAllowance=$('noAllowancePersonnel');if(noAllowance)noAllowance.checked=links.length===0;}}
- else{document.querySelectorAll('#personChecks input').forEach(c=>c.checked=false);if(projects[0])$('planProject').value=projects[0].id;if(vehicles[0])$('planVehicle').value=vehicles[0].id;$('customProjectName').value='';$('planDetail').value='';const noAllowance=$('noAllowancePersonnel');if(noAllowance)noAllowance.checked=false;}
+ else{document.querySelectorAll('#personChecks input').forEach(c=>c.checked=false);const planProjectRows=(accessRole==='project_officer'||accessRole==='personnel_officer')?projects.filter(p=>accessProjectIds.map(String).includes(String(p.id))):projects;if(planProjectRows[0])$('planProject').value=planProjectRows[0].id;if(vehicles[0])$('planVehicle').value=vehicles[0].id;$('customProjectName').value='';$('planDetail').value='';const noAllowance=$('noAllowancePersonnel');if(noAllowance)noAllowance.checked=false;}
  toggleCustomProject();togglePlanType();$('planValidation').className='notice';$('planValidation').textContent='ระบบจะตรวจ PERSON+ช่วงวันที่, VEHICLE+ช่วงวันที่ และกฎน้ำมันก่อน Submit';$('modal').classList.remove('hidden');
 }
 async function savePlan(e){
  e.preventDefault();
  const id=$('planId').value,plan_type=$('planType').value,start=$('planDate').value,endDate=$('planEndDate').value,project_id=$('planProject').value||null,transport_type=$('planTransport').value,vehicle_id=transport_type==='private_vehicle'?null:($('planVehicle').value||null),budget_type=$('planBudget').value,mission_detail=$('planDetail').value.trim(),selected=[...document.querySelectorAll('#personChecks input:checked')].map(x=>x.value),noAllowancePersonnel=!!$('noAllowancePersonnel')?.checked,project=projects.find(x=>x.id===project_id);
+ if(id){const target=plans.find(x=>x.id===id);if(!target||!canManagePlan(target)){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 ไม่มีสิทธิแก้ไขแผนนี้ — แก้ไขได้เฉพาะรายการที่บัญชีนี้บันทึกเอง';return}}
+ if(!id&&!['admin','personnel_officer','project_officer','personnel'].includes(accessRole)){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 บัญชีนี้ไม่มีสิทธิ์ลงแผน';return}
+ if(!id&&(accessRole==='project_officer'||accessRole==='personnel_officer')&&plan_type==='project'&&!accessProjectIds.map(String).includes(String(project_id))){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 ไม่มีสิทธิ์ลงข้อมูลในโครงการนี้ — บัญชีเจ้าหน้าที่ลงได้เฉพาะโครงการที่ได้รับมอบหมาย';return}
  if(!start||!endDate||endDate<start){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 วันที่สิ้นสุดต้องไม่ก่อนวันที่เริ่ม';return}
  if(plan_type==='project'&&!project_id){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 กรุณาเลือกโครงการ';return}
  if(plan_type==='official_trip'&&transport_type==='unit_vehicle'&&!vehicle_id){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 กรุณาเลือกรถหน่วยงาน';return}
@@ -1850,8 +2115,9 @@ async function savePlan(e){
  $('modal').classList.add('hidden');await load();
 }
 async function deletePlan(id){
- if(!confirm('ยืนยันลบแผนนี้?'))return;
  const target=plans.find(x=>x.id===id);
+ if(!target||!canManagePlan(target)){alert('🔴 ไม่มีสิทธิลบแผนนี้ — ลบได้เฉพาะรายการที่บัญชีนี้บันทึกเอง');return}
+ if(!confirm('ยืนยันลบแผนนี้?'))return;
  if(target&&target.vehicle_id&&fuels.some(x=>x.vehicle_id===target.vehicle_id&&x.transaction_date>=planStart(target)&&x.transaction_date<=planEnd(target))){
    alert('🔴 ไม่สามารถลบแผนนี้ได้: รถในช่วงภารกิจมีรายการน้ำมันแล้ว');
    return;
@@ -1905,12 +2171,28 @@ async function uploadOrderEvidence(){
  if(file.size>10*1024*1024){out.className='notice bad';out.textContent='🔴 ไฟล์คำสั่งต้องมีขนาดไม่เกิน 10 MB';return}
  if(!/^application\/(pdf)|^image\/(jpeg|png|webp)$/.test(file.type)){out.className='notice bad';out.textContent='🔴 รองรับ PDF, JPG, PNG หรือ WebP เท่านั้น';return}
  if(!no){out.className='notice bad';out.textContent='🔴 กรุณาระบุเลขที่คำสั่ง';return}
+ if(!duty){out.className='notice bad';out.textContent='🔴 กรุณาเลือกรอบปฏิบัติหน้าที่';return}
  const safeNo=no.replace(/[^a-zA-Z0-9ก-๙._-]+/g,'_');const ext=file.type==='application/pdf'?'pdf':file.type.split('/')[1];const path=`commands/${safeNo}_${duty}_${dt||'ไม่ระบุ'}.${ext}`;
  const up=await db.storage.from('personnel-orders').upload(path,file,{upsert:true,contentType:file.type});
  if(up.error){out.className='notice bad';out.textContent='🔴 อัปโหลดไม่สำเร็จ: '+up.error.message;return}
  out.className='notice';out.textContent='🟢 อัปโหลดหลักฐานคำสั่งแล้ว — ระบบจะใช้ไฟล์นี้เป็นเอกสารอ้างอิงให้เจ้าหน้าที่เปิดตรวจชื่อด้วยตนเอง';$('orderFile').value='';await listOrderDocuments();
 }
-function settingsModalEl(key){return $(key==='dataSource'?'settingsDataSourceModal':key==='personnel'?'settingsPersonnelModal':key==='vehicles'?'settingsVehiclesModal':key==='projects'?'settingsProjectsModal':'settingsRulesModal')}
+function settingsModalEl(key){return $(key==='dataSource'?'settingsDataSourceModal':key==='personnel'?'settingsPersonnelModal':key==='vehicles'?'settingsVehiclesModal':key==='projects'?'settingsProjectsModal':key==='users'?'settingsUsersModal':'settingsRulesModal')}
+async function invokeAdminUserManagement(action,payload={}){
+  if(accessRole!=='admin')throw new Error('ADMIN_REQUIRED');
+  const {data,error}=await db.functions.invoke('admin-user-management-v2',{body:{action,...payload}});
+  if(error)throw error;
+  if(data?.error)throw new Error(data.error);
+  return data||{};
+}
+function setSettingsUserMsg(message,ok=false){const el=$('settingsUserMsg');if(!el)return;el.textContent=message;el.className='notice full '+(ok?'ok':'bad');el.classList.remove('hidden');}
+function resetSettingsUserForm(){const f=$('settingsUserForm');if(!f)return;f.reset();$('settingsUserId').value='';$('settingsUserPassword').required=true;$('settingsUserRole').value='personnel_officer';$('settingsUserActive').value='true';Array.from($('settingsUserProjects').options).forEach(o=>o.selected=false);$('settingsUserMsg').classList.add('hidden');}
+function populateSettingsUserProjects(selected=[]){const sel=$('settingsUserProjects');if(!sel)return;const chosen=new Set((selected||[]).map(String));sel.innerHTML=projects.filter(p=>p.active!==false).map(p=>`<option value="${esc(p.id)}" ${chosen.has(String(p.id))?'selected':''}>${esc(p.project_code||'—')} · ${esc(p.project_name||'—')}</option>`).join('');}
+function renderSettingsUserList(users=[]){const box=$('settingsUsersList');if(!box)return;if(!users.length){box.innerHTML='<div class="empty">ยังไม่มีบัญชีเจ้าหน้าที่ที่จัดการผ่านเมนูนี้</div>';return;}const labels={personnel_officer:'👥 เจ้าหน้าที่กำลังพล',project_officer:'🎯 เจ้าหน้าที่โครงการ'};box.innerHTML=users.map(u=>`<div class="settings-user-row"><div class="settings-user-main"><b>${esc(labels[u.role]||u.role||'ไม่ระบุ')} · ${esc(u.full_name||'ไม่ระบุชื่อ')}</b><span>${esc(u.email||'—')} · ${u.active===false?'ปิดใช้งาน':'ใช้งาน'} · ${Array.isArray(u.project_ids)?u.project_ids.length:0} ศปป./โครงการ</span></div><div class="settings-user-actions"><button class="secondary" type="button" data-user-edit="${esc(u.id)}">แก้ไข</button>${u.active===false?'':'<button class="danger" type="button" data-user-deactivate="'+esc(u.id)+'">ปิดใช้งาน</button>'}</div></div>`).join('');box.querySelectorAll('[data-user-edit]').forEach(b=>b.onclick=()=>editSettingsUser(users.find(u=>String(u.id)===String(b.dataset.userEdit))));box.querySelectorAll('[data-user-deactivate]').forEach(b=>b.onclick=()=>deactivateSettingsUser(b.dataset.userDeactivate));}
+async function loadSettingsUsers(){if(accessRole!=='admin')return;const box=$('settingsUsersList');if(box)box.innerHTML='<div class="notice">กำลังอ่านบัญชีเจ้าหน้าที่จาก Supabase…</div>';try{const data=await invokeAdminUserManagement('list');renderSettingsUserList(data.users||[]);populateSettingsUserProjects();}catch(err){if(box)box.innerHTML='<div class="notice bad">🔴 อ่านรายชื่อผู้ใช้งานไม่สำเร็จ: '+esc(err.message||String(err))+'</div>';}}
+function editSettingsUser(u){if(!u)return;const f=$('settingsUserForm');f.classList.remove('hidden');$('settingsUserId').value=u.id;$('settingsUserName').value=u.full_name||'';$('settingsUserEmail').value=u.email||'';$('settingsUserPassword').value='';$('settingsUserPassword').required=false;$('settingsUserRole').value=u.role||'personnel_officer';$('settingsUserActive').value=u.active===false?'false':'true';populateSettingsUserProjects(u.project_ids||[]);$('settingsUserMsg').classList.add('hidden');f.scrollIntoView({behavior:'smooth',block:'nearest'});}
+async function deactivateSettingsUser(userId){if(!confirm('ยืนยันปิดใช้งานบัญชีเจ้าหน้าที่นี้หรือไม่?'))return;try{await invokeAdminUserManagement('deactivate',{user_id:userId});await loadSettingsUsers();}catch(err){setSettingsUserMsg('🔴 ปิดใช้งานไม่สำเร็จ: '+(err.message||String(err)));}}
+async function saveSettingsUser(e){e.preventDefault();if(accessRole!=='admin'){setSettingsUserMsg('🔴 เฉพาะผู้ดูแลระบบเท่านั้น');return}const id=$('settingsUserId').value.trim(),payload={user_id:id||undefined,full_name:$('settingsUserName').value.trim(),email:$('settingsUserEmail').value.trim(),password:$('settingsUserPassword').value,role:$('settingsUserRole').value,active:$('settingsUserActive').value==='true',project_ids:Array.from($('settingsUserProjects').selectedOptions).map(o=>o.value)};if(!payload.full_name||!payload.email){setSettingsUserMsg('🔴 กรุณากรอกชื่อและ Email');return}if(!id&&!payload.password){setSettingsUserMsg('🔴 กรุณากำหนดรหัสผ่านเริ่มต้น');return}if(payload.password&&payload.password.length<8){setSettingsUserMsg('🔴 รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร');return}try{setSettingsUserMsg('กำลังสร้าง/ปรับปรุงบัญชีใน Supabase…',true);await invokeAdminUserManagement('save',payload);setSettingsUserMsg('🟢 บันทึกบัญชีและ Role Mapping สำเร็จ',true);resetSettingsUserForm();await loadSettingsUsers();}catch(err){setSettingsUserMsg('🔴 บันทึกไม่สำเร็จ: '+(err.message||String(err)));}}
 function renderSettings(){
   $('setPeople').textContent=people.length+' รายการ';$('setVehicles').textContent=vehicles.length+' คัน';$('setProjects').textContent=projects.length+' รายการ';
   const td=today(), ps=plansOn(td), busyPeople=assignedPeople(td), busyVehicleIds=new Set(ps.filter(p=>p.vehicle_id).map(p=>p.vehicle_id));
@@ -1925,8 +2207,10 @@ function renderSettings(){
   $('settingsRulesBody').innerHTML=`<ul class="settings-rule-list"><li><b>กำลังพลซ้ำช่วงวันที่:</b> ระบบตรวจสอบก่อนบันทึกแผน</li><li><b>รถซ้ำช่วงวันที่:</b> ระบบตรวจสอบก่อนบันทึกแผน</li><li><b>น้ำมัน:</b> ตรวจวันที่ + รถ + ประเภทงบ และอิงสิทธิจากแผน</li><li><b>งบ:</b> แยกงบทรงชีพ / งบโครงการตามข้อมูลแผน</li><li><b>ข้อมูล:</b> ใช้ข้อมูลจริงจาก Supabase ไม่สร้างข้อมูลจำลอง</li></ul>`;
 }
 function openSettingsModal(key){
+  if(accessRole!=='admin'){alert('🔴 เฉพาะผู้ดูแลระบบเท่านั้น');return}
   renderSettings();
   const m=settingsModalEl(key);if(m)m.classList.remove('hidden');
+  if(key==='users')loadSettingsUsers();
 }
 function closeSettingsModals(){document.querySelectorAll('.settings-modal').forEach(m=>m.classList.add('hidden'));}
 function settingsGoToPage(page){
@@ -1978,10 +2262,11 @@ function renderReport(){
   <div class="notice report-note">แสดงเฉพาะกำลังพล Active ในส่วน กอ.รมน.จังหวัด ม.ห. จาก Supabase ${reportPeople.length} อัตรา × ${dates.length} วันในมุมมองเดียว • รอบปฏิบัติหน้าที่ของเดือนที่เลือก: ${cycle==='apr_sep'?'1 เม.ย. – 30 ก.ย.':'1 ต.ค. – 31 มี.ค.'} • รายงานนี้ไม่รวมชุดครูฝึก อพป. และกำลังพลชุดขุนด่าน แม้ยังมีข้อมูลอยู่ในระบบ • แตะ/ชี้ช่องสีแดงเพื่อดูรายละเอียดภารกิจ</div>
   <div class="report-table-wrap"><table class="report-table"><thead><tr><th class="report-index">#</th><th class="report-person-sticky report-person-head">กำลังพล</th><th class="report-section-head">ส่วน/ชุด</th>${dates.map((d,i)=>{const day=d.slice(-2);const wd=new Intl.DateTimeFormat('th-TH',{weekday:'short'}).format(new Date(d+'T00:00:00'));return `<th class="report-date-head"><span>${Number(day)}</span><small>${esc(wd)}</small></th>`}).join('')}<th class="report-total-head">🟢<small>มีสิทธิ</small></th><th class="report-total-head">🔴<small>ภารกิจ</small></th></tr></thead><tbody>${rows||'<tr><td colspan="'+(dates.length+5)+'" class="empty">ไม่พบกำลังพลที่ปฏิบัติงานในรอบของเดือนที่เลือก</td></tr>'}</tbody></table></div>`;
 }
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(b.dataset.page).classList.add('active');document.querySelector('.main').classList.toggle('allowance-active',b.dataset.page==='allowance');$('title').textContent=b.textContent.replace(/^\\S+\\s/,'')});
-$('prev').onclick=()=>{cursor.setMonth(cursor.getMonth()-1);renderCalendar()};$('next').onclick=()=>{cursor.setMonth(cursor.getMonth()+1);renderCalendar()};$('addPlan').onclick=()=>openPlan(today());$('closeModal').onclick=()=>$('modal').classList.add('hidden');$('planForm').onsubmit=savePlan;$('peopleSearch').oninput=()=>{renderPeople();renderPersonnelAdmin()};$('peopleStatusFilter').onchange=renderPersonnelAdmin;$('peopleSectionFilter').onchange=renderPersonnelAdmin;$('addPersonnel').onclick=()=>openPersonnelModal();$('closePersonnelModal').onclick=()=>$('personnelModal').classList.add('hidden');$('personnelForm').onsubmit=savePersonnel;$('planProject').onchange=()=>{$('customProjectName').value='';toggleCustomProject()};$('planType').onchange=togglePlanType;$('planTransport').onchange=updatePlanTransport;document.addEventListener('change',e=>{if(e.target?.id==='noAllowancePersonnel'){const checked=e.target.checked;document.querySelectorAll('#personChecks input').forEach(c=>{c.checked=false;c.disabled=checked});if($('planValidation')){$('planValidation').className='notice';$('planValidation').textContent=checked?'โหมดโครงการใช้เฉพาะพาหนะ — ไม่ผูกกำลังพลและไม่กระทบสิทธิ์ค่าเลี้ยงดู':'ระบบจะตรวจ PERSON+ช่วงวันที่, VEHICLE+ช่วงวันที่ และกฎน้ำมันก่อน Submit';}}else if(e.target?.closest('#personChecks input')){const noAllowance=$('noAllowancePersonnel');if(e.target.checked&&noAllowance){noAllowance.checked=false;document.querySelectorAll('#personChecks input').forEach(c=>c.disabled=false);}}});
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(b.dataset.page==='settings'&&accessRole!=='admin'){alert('🔴 เฉพาะผู้ดูแลระบบเท่านั้นที่เข้าถึงตั้งค่า');return}document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(b.dataset.page).classList.add('active');document.querySelector('.main').classList.toggle('allowance-active',b.dataset.page==='allowance');$('title').textContent=b.textContent.replace(/^\\S+\\s/,'')});
+$('prev').onclick=()=>{cursor.setMonth(cursor.getMonth()-1);renderCalendar()};$('next').onclick=()=>{cursor.setMonth(cursor.getMonth()+1);renderCalendar()};$('addPlan').onclick=()=>openPlan(today());$('closeModal').onclick=()=>$('modal').classList.add('hidden');$('planForm').onsubmit=savePlan;$('peopleSearch').oninput=()=>{renderPeople();renderPersonnelAdmin()};$('peopleStatusFilter').onchange=renderPersonnelAdmin;$('peopleSectionFilter').onchange=renderPersonnelAdmin;$('addPersonnel').onclick=()=>{if(accessRole!=='admin'&&accessRole!=='personnel_officer'){alert('🔴 ไม่มีสิทธิ์จัดการกำลังพล');return}openPersonnelModal()};$('closePersonnelModal').onclick=()=>$('personnelModal').classList.add('hidden');$('personnelForm').onsubmit=savePersonnel;$('planProject').onchange=()=>{$('customProjectName').value='';toggleCustomProject()};$('planType').onchange=togglePlanType;$('planTransport').onchange=updatePlanTransport;document.addEventListener('change',e=>{if(e.target?.id==='noAllowancePersonnel'){const checked=e.target.checked;document.querySelectorAll('#personChecks input').forEach(c=>{c.checked=false;c.disabled=checked});if($('planValidation')){$('planValidation').className='notice';$('planValidation').textContent=checked?'โหมดโครงการใช้เฉพาะพาหนะ — ไม่ผูกกำลังพลและไม่กระทบสิทธิ์ค่าเลี้ยงดู':'ระบบจะตรวจ PERSON+ช่วงวันที่, VEHICLE+ช่วงวันที่ และกฎน้ำมันก่อน Submit';}}else if(e.target?.closest('#personChecks input')){const noAllowance=$('noAllowancePersonnel');if(e.target.checked&&noAllowance){noAllowance.checked=false;document.querySelectorAll('#personChecks input').forEach(c=>c.disabled=false);}}});
 document.querySelectorAll('[data-settings-modal]').forEach(b=>b.addEventListener('click',()=>openSettingsModal(b.dataset.settingsModal)));document.querySelectorAll('[data-settings-close]').forEach(b=>b.addEventListener('click',closeSettingsModals));document.querySelectorAll('[data-settings-goto]').forEach(b=>b.addEventListener('click',()=>settingsGoToPage(b.dataset.settingsGoto)));document.querySelectorAll('.settings-modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeSettingsModals()}));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettingsModals()});$('orderPeopleSearch').oninput=renderOrderEvidence;$('orderDutyFilter').onchange=renderOrderEvidence;$('orderRefresh').onclick=()=>{renderOrderEvidence();listOrderDocuments()};$('orderUpload').onclick=uploadOrderEvidence;$('orderDate').value=today();$('fuelDate').value=today();$('allowDate').value=today();$('reportMonth').value=today().slice(0,7);$('dailyDate').value=today();$('fuelDate').onchange=renderFuel;$('fuelVehicle').onchange=renderFuel;$('fuelAdd').onclick=addFuel;$('allowDate').onchange=renderAllowance;$('refreshReport').onclick=renderReport;$('reportMonth').onchange=renderReport;$('printReport').onclick=()=>window.print();$('dailyDate').onchange=renderDailyStatus;$('dailyPrev').onclick=()=>{const d=new Date(($('dailyDate').value||today())+'T00:00:00');d.setDate(d.getDate()-1);$('dailyDate').value=localDate(d.getFullYear(),d.getMonth(),d.getDate());renderDailyStatus()};$('dailyNext').onclick=()=>{const d=new Date(($('dailyDate').value||today())+'T00:00:00');d.setDate(d.getDate()+1);$('dailyDate').value=localDate(d.getFullYear(),d.getMonth(),d.getDate());renderDailyStatus()};$('dailyToday').onclick=()=>{$('dailyDate').value=today();renderDailyStatus()};
-$('loginForm').addEventListener('submit',async e=>{e.preventDefault();const msg=$('loginMsg');msg.textContent='กำลังเข้าสู่ระบบ…';const {data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error){msg.textContent='🔴 เข้าสู่ระบบไม่สำเร็จ: '+error.message;return}authSession=data.session;authUser=data.user;try{const roleInfo=await resolveRoleFromDb(authUser.id);if(!roleInfo){msg.textContent='🔴 บัญชีนี้ยังไม่ได้รับสิทธิ์ใช้งานระบบ หรือสิทธิ์ถูกปิดใช้งาน';await db.auth.signOut();return}accessRole=roleInfo.role;accessPersonnelId=roleInfo.personnel_id;accessProjectIds=Array.isArray(authUser.user_metadata?.project_ids)?authUser.user_metadata.project_ids:[];if(accessRole==='personnel'&&!accessPersonnelId){msg.textContent='🔴 บัญชีนี้ยังไม่ได้ผูกกับรหัสกำลังพล';await db.auth.signOut();return}updateAuthUI();applyPersonnelRoleGuard();$('loginGate').classList.add('hidden');await load()}catch(err){console.error(err);msg.textContent='🔴 ตรวจสอบสิทธิ์ไม่สำเร็จ: '+err.message;await db.auth.signOut()}});
+$('settingsUserAdd').onclick=()=>{resetSettingsUserForm();populateSettingsUserProjects();$('settingsUserForm').classList.remove('hidden');$('settingsUserPassword').required=true;$('settingsUserForm').scrollIntoView({behavior:'smooth',block:'nearest'});};$('settingsUserCancel').onclick=()=>{$('settingsUserForm').classList.add('hidden');resetSettingsUserForm()};$('settingsUserRefresh').onclick=loadSettingsUsers;$('settingsUserForm').addEventListener('submit',saveSettingsUser);
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();const msg=$('loginMsg');msg.textContent='กำลังเข้าสู่ระบบ…';const {data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error){msg.textContent='🔴 เข้าสู่ระบบไม่สำเร็จ: '+error.message;return}authSession=data.session;authUser=data.user;try{await loadRoleMapping();}catch(err){msg.textContent='🔴 ตรวจสอบสิทธิ์ไม่สำเร็จ: '+err.message;await db.auth.signOut();return}updateAuthUI();applySettingsRoleGuard();$('loginGate').classList.add('hidden');await load()});
 $('logoutBtn').onclick=async()=>{await db.auth.signOut();location.reload()};
 db.auth.onAuthStateChange((_event,session)=>{authSession=session;authUser=session?.user||null});
 (async()=>{try{if(await initAuth())await load()}catch(e){console.error(e);$('loginMsg').textContent='🔴 ไม่สามารถตรวจสอบการเข้าสู่ระบบ: '+e.message;$('loginGate').classList.remove('hidden')}})();
