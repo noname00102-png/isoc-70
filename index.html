@@ -503,18 +503,6 @@ html,body{width:100%;min-width:0;max-width:100%;}
   #allowance .responsive-data-table th:nth-child(4){width:26%;}
   /* Wide operational tables remain readable and scroll inside their own container. */
   #vehicles .responsive-data-table .table,#fuel .responsive-data-table .table{min-width:620px;}
-  .fuel-vehicle-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0 12px;}
-  .fuel-vehicle-item{width:100%;box-sizing:border-box;border:1px solid #d5dce7;border-radius:12px;background:#fff;padding:12px;text-align:left;cursor:pointer;transition:.15s ease;min-width:0;}
-  .fuel-vehicle-item:hover{border-color:#7b9dbd;}
-  .fuel-vehicle-item.selected{border-color:#1d5688;box-shadow:0 0 0 3px rgba(29,86,136,.12);background:#f4f8fc;}
-  .fuel-vehicle-item .vehicle-main{display:flex;align-items:center;gap:9px;min-width:0;}
-  .fuel-vehicle-item .vehicle-radio{flex:0 0 auto;width:18px;height:18px;border:2px solid #9aa9b8;border-radius:50%;box-sizing:border-box;background:#fff;position:relative;}
-  .fuel-vehicle-item.selected .vehicle-radio{border-color:#1d5688;}
-  .fuel-vehicle-item.selected .vehicle-radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#1d5688;}
-  .fuel-vehicle-item .vehicle-name{font-weight:800;min-width:0;overflow-wrap:anywhere;}
-  .fuel-vehicle-item .vehicle-status{margin-top:7px;}
-  #fuelVehicle{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;}
-  .fuel-vehicle-empty{padding:12px;border:1px dashed #cbd5e1;border-radius:10px;color:#64748b;text-align:center;}
   .toolbar input,.toolbar select,.toolbar textarea,
   .form input,.form select,.form textarea{max-width:100%;box-sizing:border-box;}
 }
@@ -617,8 +605,6 @@ html,body{width:100%;min-width:0;max-width:100%;}
   #dashboard .statline>span:first-child:not(:has(b)){font-size:9px}
   #dashboard .statline small{font-size:7.5px}
   #dashboard .statline .pill{font-size:7px;padding:3px 4px}
-  #fuel .fuel-vehicle-list{grid-template-columns:1fr;gap:8px;}
-  #fuel .fuel-vehicle-item{padding:11px;}
   #dashboard #peopleStatus,#dashboard #vehicleStatus{max-height:190px}
 }
 </style>
@@ -1774,6 +1760,22 @@ html,body{width:100%;min-width:0;max-width:100%;}
 .audit-new{background:#ecfdf3;border:1px solid #bbf7d0;padding:5px;border-radius:6px}
 @media(max-width:720px){#settings .settings-audit-grid{grid-template-columns:1fr}.settings-audit-table{min-width:680px}.audit-change{grid-template-columns:1fr}.audit-change>span:nth-child(2){display:none}}
 </style>
+<style id="dashboard-visual-match-lock">
+/* Dashboard Visual Match Lock — dashboard-only presentation; data and business logic remain Supabase-driven. */
+.dashboard-command-center{display:grid;gap:12px}
+.dash-hero{display:grid;grid-template-columns:minmax(0,1.6fr) auto auto;gap:10px;align-items:center;background:linear-gradient(135deg,#062c52,#0d4c7c);color:#fff;border-radius:16px;padding:12px 16px;box-shadow:0 10px 24px rgba(7,43,77,.18)}
+.dash-hero-brand,.dash-hero-date,.dash-hero-status{display:flex;align-items:center;gap:10px;min-width:0}.dash-hero-mark{font-size:30px;line-height:1}.dash-hero-title{font-size:20px;font-weight:800;line-height:1.2}.dash-hero-sub{font-size:11px;opacity:.82;margin-top:3px}.dash-hero-date,.dash-hero-status{padding:7px 10px;border-left:1px solid rgba(255,255,255,.18)}.dash-hero-date span{font-size:20px}.dash-hero-date b,.dash-hero-status b{display:block;font-size:13px}.dash-hero-date small,.dash-hero-status small{display:block;font-size:10px;opacity:.78}.dash-status-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.16);flex:none}
+.dash-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.dash-kpi{min-width:0;border-radius:14px;color:#fff;padding:12px 12px 10px;display:grid;grid-template-columns:auto 1fr;gap:8px;box-shadow:0 8px 18px rgba(15,35,60,.12);overflow:hidden}.dash-kpi.people{background:linear-gradient(135deg,#0b82df,#075baf)}.dash-kpi.projects{background:linear-gradient(135deg,#0aa64f,#087f3d)}.dash-kpi.budget{background:linear-gradient(135deg,#f6a900,#e27b00)}.dash-kpi.fuel{background:linear-gradient(135deg,#ef2737,#c90e20)}.dash-kpi.allowance{background:linear-gradient(135deg,#8439e9,#5d16b9)}.dash-kpi-icon{font-size:25px;line-height:1}.dash-kpi-main{min-width:0}.dash-kpi-main small{display:block;font-size:11px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dash-kpi-main strong{font-size:27px;line-height:1.05;display:inline-block;margin-top:2px}.dash-kpi-main span{font-size:10px;margin-left:4px}.dash-kpi-break{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.22);padding-top:6px;display:flex;gap:10px;flex-wrap:wrap;font-size:10px;min-width:0}.dash-kpi-break span{white-space:nowrap}.dash-kpi-break b{font-size:11px}
+.dash-main-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,1fr) minmax(280px,.95fr);gap:9px}.dash-panel,.dash-resource-panel{background:#fff;border:1px solid #dbe3ec;border-radius:14px;box-shadow:0 6px 18px rgba(15,35,60,.06);min-width:0;overflow:hidden}.dash-panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 12px;border-bottom:1px solid #e6edf3;background:#fbfcfe}.dash-panel-head h3{margin:0;font-size:15px;color:#17314d}.dash-link{font-size:10px;color:#0b62b0;white-space:nowrap}.dash-table-wrap{overflow:auto}.dash-table{width:100%;border-collapse:collapse;min-width:650px;font-size:10px}.dash-table th,.dash-table td{padding:7px 6px;border-bottom:1px solid #edf1f5;text-align:left;vertical-align:top}.dash-table th{background:#eef4f9;color:#334e68;font-weight:800;white-space:nowrap}.dash-table td{color:#243b53}.dash-status-pill{display:inline-flex;align-items:center;padding:4px 7px;border-radius:8px;font-size:9px;font-weight:800;white-space:nowrap}.dash-status-pill.ok{background:#dcfce7;color:#166534}.dash-status-pill.warn{background:#ffedd5;color:#9a3412}.dash-status-pill.free{background:#ecfdf3;color:#166534}.dash-empty{text-align:center;color:#64748b;padding:20px 10px;font-size:11px}
+.dash-area-content{padding:12px;min-height:265px}.dash-data-empty{height:100%;min-height:240px;border:1px dashed #cbd5e1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;background:linear-gradient(180deg,#f8fafc,#fff)}.dash-data-empty-icon{font-size:30px;margin-bottom:6px}.dash-data-empty b{font-size:14px;color:#234}.dash-data-empty p{max-width:300px;font-size:11px;line-height:1.6;color:#64748b;margin:5px 0 10px}.dash-mini-list{width:100%;display:grid;gap:6px;text-align:left}.dash-mini-list>div{display:grid;grid-template-columns:24px 1fr;gap:4px;padding:6px 8px;border:1px solid #e5e7eb;border-radius:8px;background:#fff}.dash-mini-list b{font-size:10px}.dash-mini-list small{grid-column:2;color:#64748b;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dash-vehicle-summary{display:flex;align-items:center;gap:15px;padding:13px}.dash-donut{--busy:0%;width:108px;height:108px;border-radius:50%;background:conic-gradient(#2563eb 0 var(--busy),#22c55e var(--busy) 100%);display:grid;place-items:center;flex:none}.dash-donut>div{width:68px;height:68px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}.dash-donut strong{font-size:22px}.dash-donut small{font-size:9px;color:#64748b}.dash-vehicle-legend{display:grid;gap:8px;font-size:11px}.dash-vehicle-legend>div{display:flex;align-items:center;gap:6px}.dash-vehicle-legend b{margin-left:auto}.dot{display:inline-block;width:9px;height:9px;border-radius:50%}.dot.blue{background:#2563eb}.dot.green{background:#22c55e}.dash-vehicle-list{max-height:185px;overflow:auto;border-top:1px solid #edf1f5}.dash-vehicle-row{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px 11px;border-bottom:1px solid #edf1f5}.dash-vehicle-row b{display:block;font-size:10px}.dash-vehicle-row small{display:block;font-size:9px;color:#64748b;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.dash-lower-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:9px}.dash-person-table{min-width:760px}.dash-free-list{padding:8px;max-height:300px;overflow:auto}.dash-free-person{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:8px 4px;border-bottom:1px solid #edf1f5}.dash-free-avatar{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#edf5ff}.dash-free-person b{display:block;font-size:10px}.dash-free-person small{display:block;color:#64748b;font-size:9px;margin-top:2px}
+.dash-bottom-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.8fr);gap:9px}.dash-resource-panel{padding-bottom:9px}.dash-resource-panel>.dash-panel-head{margin-bottom:8px}.dash-resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 9px}.resource-item{display:flex;gap:9px;align-items:center;border:1px solid #e6edf3;border-radius:10px;padding:10px;background:#fff}.resource-icon{font-size:24px}.resource-item b,.resource-item strong,.resource-item small{display:block}.resource-item b{font-size:10px}.resource-item strong{font-size:15px;margin-top:2px}.resource-item small{font-size:9px;color:#64748b;margin-top:1px}.resource-item.budget{border-top:3px solid #f59e0b}.resource-item.fuel{border-top:3px solid #ef3340}.resource-item.allowance{border-top:3px solid #8b3eea}.dash-followup{min-height:100%}.dash-followup #dashFollowupRows{padding:7px 11px}.dash-follow-item{display:flex;align-items:flex-start;gap:8px;padding:8px 2px;border-bottom:1px solid #edf1f5;font-size:10px;line-height:1.45}.follow-dot{width:9px;height:9px;border-radius:50%;margin-top:4px;flex:none}.follow-dot.red{background:#ef3340}.follow-dot.orange{background:#f59e0b}.follow-dot.yellow{background:#eab308}
+.main.dashboard-active>.top{background:linear-gradient(135deg,#062c52,#0d4c7c);color:#fff;border-radius:16px;padding:11px 14px 12px;margin-bottom:10px;border:0;box-shadow:0 8px 18px rgba(7,43,77,.14)}.main.dashboard-active>.top .muted{color:rgba(255,255,255,.8)}.main.dashboard-active>.top h1{font-size:18px}.main.dashboard-active>.top .db-status{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;box-shadow:none}.main.dashboard-active>.top .auth-user .pill{background:rgba(255,255,255,.1);color:#fff}.main.dashboard-active>.top .logout-btn{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff}
+@media(max-width:1100px){.dash-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.dash-main-grid{grid-template-columns:1fr 1fr}.dash-vehicle-panel{grid-column:1/-1}.dash-lower-grid{grid-template-columns:1fr}.dash-bottom-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.dashboard-command-center{gap:8px}.dash-hero{grid-template-columns:1fr 1fr;padding:10px 11px;border-radius:12px}.dash-hero-brand{grid-column:1/-1}.dash-hero-title{font-size:17px}.dash-hero-sub{font-size:9px}.dash-hero-date,.dash-hero-status{border-left:0;padding:5px 0}.dash-hero-date{border-right:1px solid rgba(255,255,255,.18)}.dash-hero-date b,.dash-hero-status b{font-size:10px}.dash-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.dash-kpi{border-radius:11px;padding:9px}.dash-kpi-icon{font-size:21px}.dash-kpi-main small{font-size:9px}.dash-kpi-main strong{font-size:21px}.dash-kpi-break{font-size:8px;gap:5px}.dash-main-grid{grid-template-columns:1fr;gap:8px}.dash-panel-head{padding:9px 10px}.dash-panel-head h3{font-size:13px}.dash-table{font-size:9px}.dash-table th,.dash-table td{padding:6px 5px}.dash-area-content{min-height:220px;padding:9px}.dash-data-empty{min-height:200px}.dash-vehicle-summary{padding:10px}.dash-donut{width:92px;height:92px}.dash-donut>div{width:58px;height:58px}.dash-donut strong{font-size:19px}.dash-vehicle-list{max-height:220px}.dash-lower-grid,.dash-bottom-grid{grid-template-columns:1fr;gap:8px}.dash-resource-grid{grid-template-columns:1fr;gap:6px}.resource-item{padding:8px}.dash-follow-item{font-size:9px}.dash-free-list{max-height:250px}.main.dashboard-active>.top{border-radius:12px;padding:9px 10px}.main.dashboard-active>.top h1{font-size:16px}}
+@media(max-width:420px){.dash-kpis{grid-template-columns:1fr 1fr}.dash-kpi-main strong{font-size:19px}.dash-kpi-break span{max-width:100%;overflow:hidden;text-overflow:ellipsis}.dash-hero-title{font-size:15px}.dash-hero-sub{font-size:8px}.dash-table{min-width:700px}}
+</style>
 </head>
 <body>
 <div id="loginGate">
@@ -1799,7 +1801,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
 </nav>
 </aside>
 
-<main class="main">
+<main class="main dashboard-active">
 <header class="top">
   <div class="top-main">
     <div class="eyebrow">ศูนย์บริหารแผนงาน</div>
@@ -1818,19 +1820,55 @@ html,body{width:100%;min-width:0;max-width:100%;}
 </header>
 <div id="globalError" class="notice bad hidden" style="margin-bottom:14px"></div>
 
-<section id="dashboard" class="page active">
-<div class="grid">
-<div class="card kpi">👥<small>กำลังพล</small><strong id="kPeople">—</strong><small>รายการจริงจาก Supabase</small></div>
-<div class="card kpi">🚙<small>รถ</small><strong id="kVehicles">—</strong><small>คัน</small></div>
-<div class="card kpi">🎯<small>โครงการ</small><strong id="kProjects">—</strong><small>รายการ</small></div>
-<div class="card kpi">⛽<small>น้ำมันวันนี้</small><strong id="kFuel">—</strong><small>รายการจริง</small></div>
-<div class="card kpi">🍱<small>ค่าเลี้ยงดูวันนี้</small><strong id="kAllow">—</strong><small>รายการจริง</small></div>
-</div>
-<div class="row">
-<div class="card"><h3>🚙 สถานะรถวันนี้</h3><div id="vehicleStatus"></div></div>
-<div class="card"><h3>👥 สถานะกำลังพลวันนี้</h3><div id="peopleStatus"></div></div>
-</div>
-<div class="card" style="margin-top:14px"><h3>🔴 การตรวจสอบความขัดกัน</h3><div id="conflictSummary"></div></div>
+<section id="dashboard" class="page active dashboard-command-center">
+  <div class="dash-hero">
+    <div class="dash-hero-brand">
+      <div class="dash-hero-mark">🏛️</div>
+      <div><div class="dash-hero-title">แดชบอร์ดบริหารภารกิจ</div><div class="dash-hero-sub">กองอำนวยการรักษาความมั่นคงภายในจังหวัดมุกดาหาร</div></div>
+    </div>
+    <div class="dash-hero-date"><span>📅</span><div><b id="dashTodayLabel">—</b><small id="dashTodayTime">—</small></div></div>
+    <div class="dash-hero-status"><span class="dash-status-dot"></span><div><b>ข้อมูลจาก Supabase</b><small>ชุดข้อมูลจริง</small></div></div>
+  </div>
+
+  <div class="dash-kpis">
+    <div class="dash-kpi people"><div class="dash-kpi-icon">👥</div><div class="dash-kpi-main"><small>กำลังพลทั้งหมด</small><strong id="kPeople">—</strong><span>คน</span></div><div class="dash-kpi-break"><span>🔴 ติดภารกิจ <b id="dashBusyPeople">—</b></span><span>🟢 ไม่ติดภารกิจ <b id="dashFreePeople">—</b></span></div></div>
+    <div class="dash-kpi projects"><div class="dash-kpi-icon">📋</div><div class="dash-kpi-main"><small>โครงการ/ภารกิจวันนี้</small><strong id="kProjects">—</strong><span>รายการ</span></div><div class="dash-kpi-break"><span>มีข้อมูลจริงจากแผน <b id="dashProjectPlanCount">—</b></span></div></div>
+    <div class="dash-kpi budget"><div class="dash-kpi-icon">🪙</div><div class="dash-kpi-main"><small>งบประมาณวันนี้</small><strong id="dashBudgetValue">—</strong><span>ยอดเงินจริง</span></div><div class="dash-kpi-break"><span>ยังไม่มีฟิลด์ยอดเงินในข้อมูลปัจจุบัน</span></div></div>
+    <div class="dash-kpi fuel"><div class="dash-kpi-icon">⛽</div><div class="dash-kpi-main"><small>น้ำมันวันนี้</small><strong id="dashFuelCount">—</strong><span>รายการ</span></div><div class="dash-kpi-break"><span>ปริมาณลิตร <b>—</b></span></div></div>
+    <div class="dash-kpi allowance"><div class="dash-kpi-icon">🍱</div><div class="dash-kpi-main"><small>ค่าเลี้ยงดูวันนี้</small><strong id="dashAllowanceEligible">—</strong><span>คนมีสิทธิ</span></div><div class="dash-kpi-break"><span>ยอดเงินจริง <b>—</b></span></div></div>
+  </div>
+
+  <div class="dash-main-grid">
+    <div class="dash-panel dash-mission-panel">
+      <div class="dash-panel-head"><h3>📅 ภารกิจ/โครงการ วันนี้</h3><span class="dash-link">ข้อมูลจากแผนวันนี้</span></div>
+      <div class="dash-table-wrap"><table class="dash-table"><thead><tr><th>เวลา</th><th>โครงการ/ภารกิจ</th><th>พื้นที่</th><th>กำลังพล</th><th>รถ</th><th>งบ</th><th>สถานะ</th></tr></thead><tbody id="dashMissionRows"></tbody></table></div>
+    </div>
+
+    <div class="dash-panel dash-area-panel">
+      <div class="dash-panel-head"><h3>📍 ภารกิจวันนี้</h3><span class="dash-link">ดูรายละเอียด ›</span></div>
+      <div id="dashAreaContent" class="dash-area-content"></div>
+    </div>
+
+    <div class="dash-panel dash-vehicle-panel">
+      <div class="dash-panel-head"><h3>🚗 สถานะรถทั้งหมด (<span id="dashVehicleHeadingTotal">—</span> คัน)</h3><span class="dash-link">ข้อมูลจริง</span></div>
+      <div class="dash-vehicle-summary"><div id="dashVehicleDonut" class="dash-donut"><div><strong id="dashVehicleTotal">—</strong><small>คัน</small></div></div><div class="dash-vehicle-legend"><div><i class="dot blue"></i>ออกภารกิจ <b id="dashVehicleBusy">—</b></div><div><i class="dot green"></i>พร้อมใช้งาน <b id="dashVehicleFree">—</b></div></div></div>
+      <div id="dashVehicleRows" class="dash-vehicle-list"></div>
+    </div>
+  </div>
+
+  <div class="dash-lower-grid">
+    <div class="dash-panel"><div class="dash-panel-head"><h3>👥 กำลังพลติดภารกิจวันนี้ (<span id="dashBusyPeopleTitle">—</span> คน)</h3><span class="dash-link">ตามแผนจริง</span></div><div class="dash-table-wrap"><table class="dash-table dash-person-table"><thead><tr><th>ลำดับ</th><th>ชื่อ-สกุล</th><th>ตำแหน่ง/ส่วน</th><th>ไปที่ไหน/โครงการ</th><th>รถ</th><th>งบ</th><th>ช่วงเวลา</th></tr></thead><tbody id="dashBusyPeopleRows"></tbody></table></div></div>
+    <div class="dash-panel"><div class="dash-panel-head"><h3>👥 กำลังพลไม่ติดภารกิจวันนี้ (<span id="dashFreePeopleTitle">—</span> คน)</h3><span class="dash-link">พร้อมปฏิบัติงาน</span></div><div id="dashFreePeopleRows" class="dash-free-list"></div></div>
+  </div>
+
+  <div class="dash-bottom-grid">
+    <div class="dash-resource-panel"><div class="dash-panel-head"><h3>📊 การใช้ทรัพยากรวันนี้</h3><span class="dash-link">ไม่สร้างยอดที่ไม่มีในฐานข้อมูล</span></div><div class="dash-resource-grid">
+      <div class="resource-item budget"><span class="resource-icon">🪙</span><div><b>งบประมาณ</b><strong>—</strong><small>ยังไม่มีข้อมูลยอดเงิน</small></div></div>
+      <div class="resource-item fuel"><span class="resource-icon">⛽</span><div><b>น้ำมัน</b><strong id="dashResourceFuel">—</strong><small>รายการวันนี้</small></div></div>
+      <div class="resource-item allowance"><span class="resource-icon">🍱</span><div><b>ค่าเลี้ยงดู</b><strong id="dashResourceAllowance">—</strong><small>คนมีสิทธิวันนี้</small></div></div>
+    </div></div>
+    <div class="dash-panel dash-followup"><div class="dash-panel-head"><h3>🔔 ประเด็นที่ต้องติดตาม</h3><span class="dash-link">จากข้อมูลวันนี้</span></div><div id="dashFollowupRows"></div></div>
+  </div>
 </section>
 
 <section id="calendar" class="page"><div class="card"><div class="toolbar"><button id="prev" class="primary">‹</button><button id="next" class="primary">›</button><b id="month"></b><button id="addPlan" class="primary" style="margin-left:auto">＋ เพิ่มแผน</button></div><div id="cal" class="calendar"></div></div></section>
@@ -2001,7 +2039,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
 
 <section id="budget" class="page"><div class="row"><div class="card"><h3>💰 งบทรงชีพ</h3><div id="budgetSustain"></div></div><div class="card"><h3>🎯 งบโครงการ</h3><div id="budgetProject"></div></div></div><div class="card" style="margin-top:14px"><div class="notice">ยังไม่มีการกำหนดวงเงินงบประมาณใน Master Data จึงไม่สร้างยอดงบหรือยอดคงเหลือขึ้นมาเอง</div></div></section>
 
-<section id="fuel" class="page"><div class="card"><h3>⛽ ควบคุมน้ำมัน</h3><div class="toolbar"><input id="fuelDate" type="date"><button id="fuelAdd" class="primary">＋ บันทึกน้ำมัน</button></div><select id="fuelVehicle" aria-hidden="true" tabindex="-1"></select><div id="fuelVehicleList" class="fuel-vehicle-list" aria-label="รายการรถสำหรับควบคุมน้ำมัน"></div><div id="fuelDecision" class="notice">เลือกวันที่และรถเพื่อให้ระบบอ่านแผนก่อน</div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>วันที่</th><th>รถ</th><th>ประเภทงบ</th><th colspan="2">สถานะ</th></tr></thead><tbody id="fuelTable"></tbody></table></div></div></section>
+<section id="fuel" class="page"><div class="card"><h3>⛽ ควบคุมน้ำมัน</h3><div class="toolbar"><input id="fuelDate" type="date"><select id="fuelVehicle"></select><button id="fuelAdd" class="primary">＋ บันทึกน้ำมัน</button></div><div id="fuelDecision" class="notice">เลือกวันที่และรถเพื่อให้ระบบอ่านแผนก่อน</div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>วันที่</th><th>รถ</th><th>ประเภทงบ</th><th colspan="2">สถานะ</th></tr></thead><tbody id="fuelTable"></tbody></table></div></div></section>
 
 <section id="allowance" class="page"><div class="card"><div class="toolbar"><input id="allowDate" type="date"></div><div id="allowanceInfo"></div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>ชื่อ</th><th>สถานะ</th><th>สิทธิ</th><th>เหตุผล</th></tr></thead><tbody id="allowTable"></tbody></table></div></div></section>
 
@@ -2146,12 +2184,61 @@ html,body{width:100%;min-width:0;max-width:100%;}
 </form></div></div>
 
 <script>
+const $=id=>document.getElementById(id);
+let authSession=null;let authUser=null;let accessRole='viewer';let accessPersonnelId=null;let accessProjectIds=[];
+
+/* NAVIGATION ROOT-CAUSE FIX: DOM-only page switching is initialized before Supabase/Auth. */
+function activatePage(pageId, button){
+  const page=$(pageId);
+  if(!page)return;
+
+  /* Runtime root-cause fix: force a single visible page at DOM level.
+     This keeps navigation deterministic even if a later CSS/media rule
+     overrides .page/.page.active display behavior on mobile. */
+  document.querySelectorAll('.page').forEach(x=>{
+    x.classList.remove('active');
+    x.style.display='none';
+  });
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+
+  page.classList.add('active');
+  page.style.display=pageId==='dashboard'?'grid':'block';
+  if(button)button.classList.add('active');
+
+  const main=document.querySelector('.main');
+  if(main){
+    main.classList.toggle('allowance-active',pageId==='allowance');
+    main.classList.toggle('dashboard-active',pageId==='dashboard');
+  }
+
+  const title=$('title');
+  if(title&&button){
+    title.textContent=button.textContent.replace(/^\S+\s/,'');
+  }
+}
+
+document.querySelectorAll('.nav button').forEach(button=>{
+  button.addEventListener('click',()=>{
+    const pageId=button.dataset.page;
+    if(pageId==='settings'&&accessRole!=='admin'){
+      alert('🔴 เฉพาะผู้ดูแลระบบเท่านั้นที่เข้าถึงตั้งค่า');
+      return;
+    }
+    activatePage(pageId,button);
+  });
+});
+
+/* Initialize the same explicit DOM state used by runtime navigation. */
+(function initNavigationState(){
+  const initialButton=document.querySelector('.nav button.active')||document.querySelector('.nav button[data-page="dashboard"]');
+  activatePage(initialButton?.dataset.page||'dashboard',initialButton);
+})();
+
 const SUPABASE_URL='https://fbehuqojyebgaeoxubud.supabase.co';
 const SUPABASE_KEY='sb_publishable_91PHdBPTs1hI2cMzKkD8bg_q_PGjxsf';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let people=[],personnelAll=[],vehicles=[],projects=[],plans=[],planPeople=[],fuels=[],allowances=[],cursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
 
-const $=id=>document.getElementById(id);
 function localDate(y,m,d){const dt=new Date(y,m,d);return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`}
 const today=()=>localDate(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
 $('today').textContent=new Intl.DateTimeFormat('th-TH',{dateStyle:'full'}).format(new Date());
@@ -2168,7 +2255,6 @@ function overlappingPlansForVehicle(vehicleId,start,end,ignoreId=''){return plan
 function overlappingPlansForPerson(personId,start,end,ignoreId=''){const ids=new Set(planPeople.filter(x=>x.personnel_id===personId).map(x=>x.plan_id));return plans.filter(p=>ids.has(p.id)&&p.id!==ignoreId&&p.status==='planned'&&planStart(p)<=end&&start<=planEnd(p))}
 function cleanDetail(detail){return String(detail||'').trim()}
 
-let authSession=null;let authUser=null;let accessRole='viewer';let accessPersonnelId=null;let accessProjectIds=[];
 function normalizeRoleValue(v){return String(v||'viewer').trim().toLowerCase()}
 async function loadRoleMapping(){
  const roleRows=await q('user_roles');
@@ -2234,16 +2320,51 @@ async function load(){
  }catch(e){console.error(e);showGlobalError('โหลดข้อมูลไม่สำเร็จ: '+e.message)}
 }
 function render(){
- $('kPeople').textContent=people.length;
- $('kVehicles').textContent=vehicles.length;$('kProjects').textContent=projects.length;
  const td=today(), ps=plansOn(td), used=assignedPeople(td);
- $('kFuel').textContent=fuels.filter(x=>x.transaction_date===td).length;
- $('kAllow').textContent=allowances.filter(x=>x.transaction_date===td).length;
- $('vehicleStatus').innerHTML=vehicles.map(v=>{let p=ps.find(x=>x.vehicle_id===v.id);let fuel=p?(p.budget_type==='project'?'🔵 งบโครงการ':'🟢 งบทรงชีพ'):'⚪ ไม่มีแผน';let label=p?(p.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':pname(p.project_id)):'ว่าง';return `<div class="statline"><span><b>${esc(v.vehicle_type)} · ${esc(v.registration)}</b><br><small>${esc(label)}${p&&planEnd(p)>td?' · ถึง '+esc(planEnd(p)):''}</small></span><span class="pill ${p?'ok':'none'}">${fuel}</span></div>`}).join('');
- $('peopleStatus').innerHTML=people.map(p=>`<div class="statline"><span>${esc(p.full_name)}</span><span class="pill ${used.has(p.id)?'ok':'none'}">${used.has(p.id)?(plansOn(td).filter(pl=>peopleOnPlan(pl.id).some(pp=>pp.id===p.id)).some(pl=>pl.plan_type==='official_trip')?'🟠 ไปราชการ':'🔵 อยู่โครงการ'):'🟢 ว่าง'}</span></div>`).join('');
- $('conflictSummary').innerHTML=`<span class="pill ok">ตรวจซ้ำที่ Database</span> PERSON+ช่วงวันที่ · VEHICLE+ช่วงวันที่ · FUEL+VEHICLE+DATE · ALLOWANCE+PERSON+DATE`;
+ const busyPeople=[...used].map(id=>people.find(p=>p.id===id)).filter(Boolean);
+ const freePeople=people.filter(p=>!used.has(p.id));
+ const busyVehicles=vehicles.filter(v=>ps.some(p=>p.vehicle_id===v.id));
+ const freeVehicles=vehicles.filter(v=>!ps.some(p=>p.vehicle_id===v.id));
+ $('kPeople').textContent=people.length;
+ $('kProjects').textContent=ps.length;
+ $('dashBusyPeople').textContent=busyPeople.length;
+ $('dashFreePeople').textContent=freePeople.length;
+ $('dashBusyPeopleTitle').textContent=busyPeople.length;
+ $('dashFreePeopleTitle').textContent=freePeople.length;
+ $('dashProjectPlanCount').textContent=ps.length;
+ $('dashFuelCount').textContent=fuels.filter(x=>x.transaction_date===td).length;
+ $('dashResourceFuel').textContent=fuels.filter(x=>x.transaction_date===td).length;
+ $('dashResourceAllowance').textContent=people.filter(p=>p.personnel_section==='กอ.รมน.จังหวัด ม.ห.'&&!used.has(p.id)).length;
+ $('dashAllowanceEligible').textContent=people.filter(p=>p.personnel_section==='กอ.รมน.จังหวัด ม.ห.'&&!used.has(p.id)).length;
+ $('dashTodayLabel').textContent=new Intl.DateTimeFormat('th-TH',{dateStyle:'full'}).format(new Date());
+ $('dashTodayTime').textContent=new Intl.DateTimeFormat('th-TH',{timeStyle:'short'}).format(new Date())+' น.';
+
+ const missionRows=ps.map((p,i)=>{
+   const ppl=peopleOnPlan(p.id); const trip=p.plan_type==='official_trip'; const vehicle=p.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':(p.vehicle_id?vname(p.vehicle_id):'—');
+   const budget=p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ';
+   const status=trip?'ไปราชการ':'ตามแผน';
+   return `<tr><td>—</td><td><b>${trip?'🧑‍💼 ไปราชการ':esc(pname(p.project_id))}</b></td><td>—</td><td>${ppl.length||'—'}</td><td>${esc(vehicle)}</td><td>${budget}</td><td><span class="dash-status-pill ${trip?'warn':'ok'}">${status}</span></td></tr>`;
+ }).join('');
+ $('dashMissionRows').innerHTML=missionRows||'<tr><td colspan="7" class="dash-empty">วันนี้ยังไม่มีแผนภารกิจ</td></tr>';
+
+ $('dashAreaContent').innerHTML=ps.length?`<div class="dash-data-empty"><div class="dash-data-empty-icon">📍</div><b>มี ${ps.length} ภารกิจในวันนี้</b><p>Source of Truth ปัจจุบันไม่มีข้อมูลพิกัด/พื้นที่สำหรับวาง Marker บนแผนที่ จึงไม่สร้างตำแหน่งสมมติ</p><div class="dash-mini-list">${ps.slice(0,6).map(p=>`<div><span>${p.plan_type==='official_trip'?'🧑‍💼':'🎯'}</span><b>${esc(p.plan_type==='official_trip'?'เดินทางไปราชการ':pname(p.project_id))}</b><small>${esc(cleanDetail(p.mission_detail)||'ไม่ระบุรายละเอียดพื้นที่')}</small></div>`).join('')}</div></div>`:'<div class="dash-data-empty"><div class="dash-data-empty-icon">📍</div><b>วันนี้ยังไม่มีภารกิจ</b><p>จะแสดงข้อมูลจริงเมื่อมีแผนใน Supabase</p></div>';
+
+ const total=vehicles.length||1, busy=busyVehicles.length, free=freeVehicles.length, busyPct=Math.round((busy/total)*100);
+ $('dashVehicleTotal').textContent=vehicles.length; $('dashVehicleHeadingTotal').textContent=vehicles.length; $('dashVehicleBusy').textContent=busy; $('dashVehicleFree').textContent=free;
+ $('dashVehicleDonut').style.setProperty('--busy',busyPct+'%');
+ $('dashVehicleRows').innerHTML=vehicles.map(v=>{const p=ps.find(x=>x.vehicle_id===v.id);return `<div class="dash-vehicle-row"><span><b>${esc(v.vehicle_type)} · ${esc(v.registration)}</b><small>${p?(p.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':esc(pname(p.project_id))):'พร้อมใช้งาน'}</small></span><span class="dash-status-pill ${p?'ok':'free'}">${p?'ออกภารกิจ':'พร้อมใช้งาน'}</span></div>`}).join('')||'<div class="dash-empty">ยังไม่มีข้อมูลรถ</div>';
+
+ $('dashBusyPeopleRows').innerHTML=busyPeople.map((person,i)=>{const matches=ps.filter(pl=>peopleOnPlan(pl.id).some(pp=>pp.id===person.id));const p=matches[0];const trip=p?.plan_type==='official_trip';return `<tr><td>${i+1}</td><td><b>${esc(person.full_name)}</b></td><td>${esc(person.personnel_section||'—')}</td><td>${trip?'🧑‍💼 ไปราชการ':'🎯 '+esc(pname(p?.project_id))}</td><td>${p?.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':esc(p?vname(p.vehicle_id):'—')}</td><td>${p?.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'}</td><td>${esc(p?planStart(p)+' ถึง '+planEnd(p):'—')}</td></tr>`}).join('')||'<tr><td colspan="7" class="dash-empty">วันนี้ไม่มีกำลังพลติดภารกิจ</td></tr>';
+
+ $('dashFreePeopleRows').innerHTML=freePeople.map(p=>`<div class="dash-free-person"><span class="dash-free-avatar">👤</span><div><b>${esc(p.full_name)}</b><small>${esc(p.personnel_section||'—')}</small></div><span class="dash-status-pill free">ว่าง</span></div>`).join('')||'<div class="dash-empty">ไม่พบกำลังพลที่ว่าง</div>';
+
+ const follow=[]; if(ps.some(p=>p.plan_type==='official_trip'))follow.push('มีภารกิจเดินทางไปราชการวันนี้'); if(busyPeople.length)follow.push(`กำลังพลติดภารกิจ ${busyPeople.length} คน`); if(freePeople.length)follow.push(`กำลังพลไม่ติดภารกิจ ${freePeople.length} คน`); if(!fuels.some(x=>x.transaction_date===td))follow.push('วันนี้ยังไม่มีรายการน้ำมัน');
+ $('dashFollowupRows').innerHTML=follow.length?follow.map((x,i)=>`<div class="dash-follow-item"><i class="follow-dot ${i===0?'red':i===1?'orange':'yellow'}"></i><span>${esc(x)}</span></div>`).join(''):'<div class="dash-empty">ไม่มีประเด็นที่ต้องติดตามจากข้อมูลวันนี้</div>';
+
+ $('vehicleStatus')?.replaceChildren(); $('peopleStatus')?.replaceChildren(); $('conflictSummary')?.replaceChildren();
  renderPeople();renderPersonnelAdmin();renderOrderEvidence();renderVehicles();renderProjects();renderCalendar();renderFuel();renderAllowance();renderBudget();renderReport();renderSettings();renderDailyStatus();
 }
+
 function renderDailyStatus(){
  const d=$('dailyDate')?.value||today(), dt=new Date(d+'T00:00:00'), ps=plansOn(d);
  const busyPeople=assignedPeople(d), busyVehicleIds=new Set(ps.filter(p=>p.vehicle_id).map(p=>p.vehicle_id));
@@ -2381,7 +2502,6 @@ function fillForm(){
     : '<option value="">ยังไม่มีข้อมูลโครงการ</option>');
  $('planVehicle').innerHTML=vehicles.length?vehicles.map(v=>`<option value="${v.id}">${esc(v.vehicle_type)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';
  $('fuelVehicle').innerHTML=vehicles.length?vehicles.map(v=>`<option value="${v.id}">${esc(v.vehicle_type)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';
- renderFuelVehicleList();
  const groups=['กอ.รมน.จังหวัด ม.ห.','ชุดครูฝึก อพป.','กำลังพลชุดขุนด่าน']; $('personChecks').innerHTML=people.length?groups.map(g=>{const rows=people.filter(p=>p.personnel_section===g);return `<div class="person-group"><div class="person-group-title">${esc(g)} <span>(${rows.length})</span></div>${rows.length?rows.map(p=>`<label class="check"><input type="checkbox" value="${p.id}"> ${esc(p.full_name)}</label>`).join(''):'<div class="subtle">ยังไม่มีรายชื่อที่ระบุส่วนนี้</div>'}</div>`}).join(''):'<div class="empty">ยังไม่มีข้อมูลกำลังพล</div>';
  const noAllowance=$('noAllowancePersonnel');if(noAllowance)noAllowance.checked=false;
  toggleCustomProject();togglePlanType();
@@ -2440,27 +2560,8 @@ async function deletePlan(id){
  $('modal').classList.add('hidden');await load();
 }
 function fuelPlanForDate(v,d){return plans.find(x=>x.vehicle_id===v&&x.status==='planned'&&isDateInPlan(x,d))}
-function renderFuelVehicleList(){
- const box=$('fuelVehicleList');
- const select=$('fuelVehicle');
- if(!box||!select)return;
- const d=$('fuelDate')?.value||today();
- if(!vehicles.length){box.innerHTML='<div class="fuel-vehicle-empty">ยังไม่มีข้อมูลรถจาก Supabase</div>';select.value='';return;}
- if(!vehicles.some(v=>v.id===select.value))select.value=vehicles[0].id;
- box.innerHTML=vehicles.map(v=>{
-   const selected=v.id===select.value;
-   const p=fuelPlanForDate(v.id,d);
-   const status=p?'ออกภารกิจ':'ว่าง';
-   const statusClass=p?'ok':'none';
-   return `<button type="button" class="fuel-vehicle-item${selected?' selected':''}" data-vehicle-id="${esc(v.id)}" aria-pressed="${selected?'true':'false'}"><span class="vehicle-main"><span class="vehicle-radio" aria-hidden="true"></span><span class="vehicle-name">${esc(v.vehicle_type)} · ${esc(v.registration)}</span></span><span class="vehicle-status pill ${statusClass}">${status}</span></button>`;
- }).join('');
- box.querySelectorAll('.fuel-vehicle-item').forEach(btn=>btn.addEventListener('click',()=>{select.value=btn.dataset.vehicleId||'';renderFuel();}));
-}
 function renderFuel(){
- const d=$('fuelDate').value||today();
- if(!$('fuelVehicle').value&&vehicles.length)$('fuelVehicle').value=vehicles[0].id;
- renderFuelVehicleList();
- const v=$('fuelVehicle').value,p=fuelPlanForDate(v,d),tx=fuels.filter(x=>x.transaction_date===d&&x.vehicle_id===v),exists=tx.length>0;
+ const d=$('fuelDate').value||today(),v=$('fuelVehicle').value,p=fuelPlanForDate(v,d),tx=fuels.filter(x=>x.transaction_date===d&&x.vehicle_id===v),exists=tx.length>0;
  if(!v){$('fuelDecision').textContent='⚪ ยังไม่มีข้อมูลรถ';$('fuelAdd').disabled=true;return}
  if(p&&p.plan_type==='official_trip'&&p.transport_type==='unit_vehicle'&&p.budget_type==='project'){$('fuelDecision').className='notice bad';$('fuelDecision').innerHTML='🔵 <b>เติมได้ด้วยงบโครงการ</b><br>รถอยู่ระหว่างไปราชการช่วง '+esc(planStart(p))+' ถึง '+esc(planEnd(p))+' — 🔒 งบทรงชีพใช้ไม่ได้';}
  else if(p&&p.plan_type==='official_trip'&&p.transport_type==='unit_vehicle'){$('fuelDecision').className='notice bad';$('fuelDecision').innerHTML='🔴 <b>รถอยู่ระหว่างไปราชการ</b><br>ช่วง '+esc(planStart(p))+' ถึง '+esc(planEnd(p))+' — 🔒 ห้ามเติมน้ำมันงบทรงชีพจนกว่ารถจะกลับมา';}
@@ -2627,7 +2728,6 @@ function renderReport(){
   <div class="notice report-note">แสดงเฉพาะกำลังพล Active ในส่วน กอ.รมน.จังหวัด ม.ห. จาก Supabase ${reportPeople.length} อัตรา × ${dates.length} วันในมุมมองเดียว • รอบปฏิบัติหน้าที่ของเดือนที่เลือก: ${cycle==='apr_sep'?'1 เม.ย. – 30 ก.ย.':'1 ต.ค. – 31 มี.ค.'} • รายงานนี้ไม่รวมชุดครูฝึก อพป. และกำลังพลชุดขุนด่าน แม้ยังมีข้อมูลอยู่ในระบบ • แตะ/ชี้ช่องสีแดงเพื่อดูรายละเอียดภารกิจ</div>
   <div class="report-table-wrap"><table class="report-table"><thead><tr><th class="report-index">#</th><th class="report-person-sticky report-person-head">กำลังพล</th><th class="report-section-head">ส่วน/ชุด</th>${dates.map((d,i)=>{const day=d.slice(-2);const wd=new Intl.DateTimeFormat('th-TH',{weekday:'short'}).format(new Date(d+'T00:00:00'));return `<th class="report-date-head"><span>${Number(day)}</span><small>${esc(wd)}</small></th>`}).join('')}<th class="report-total-head">🟢<small>มีสิทธิ</small></th><th class="report-total-head">🔴<small>ภารกิจ</small></th></tr></thead><tbody>${rows||'<tr><td colspan="'+(dates.length+5)+'" class="empty">ไม่พบกำลังพลที่ปฏิบัติงานในรอบของเดือนที่เลือก</td></tr>'}</tbody></table></div>`;
 }
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{if(b.dataset.page==='settings'&&accessRole!=='admin'){alert('🔴 เฉพาะผู้ดูแลระบบเท่านั้นที่เข้าถึงตั้งค่า');return}document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(b.dataset.page).classList.add('active');document.querySelector('.main').classList.toggle('allowance-active',b.dataset.page==='allowance');$('title').textContent=b.textContent.replace(/^\\S+\\s/,'')});
 $('prev').onclick=()=>{cursor.setMonth(cursor.getMonth()-1);renderCalendar()};$('next').onclick=()=>{cursor.setMonth(cursor.getMonth()+1);renderCalendar()};$('addPlan').onclick=()=>openPlan(today());$('closeModal').onclick=()=>$('modal').classList.add('hidden');$('planForm').onsubmit=savePlan;$('peopleSearch').oninput=()=>{renderPeople();renderPersonnelAdmin()};$('peopleStatusFilter').onchange=renderPersonnelAdmin;$('peopleSectionFilter').onchange=renderPersonnelAdmin;$('addPersonnel').onclick=()=>{if(accessRole!=='admin'&&accessRole!=='personnel_officer'){alert('🔴 ไม่มีสิทธิ์จัดการกำลังพล');return}openPersonnelModal()};$('closePersonnelModal').onclick=()=>$('personnelModal').classList.add('hidden');$('personnelForm').onsubmit=savePersonnel;$('planProject').onchange=()=>{$('customProjectName').value='';toggleCustomProject()};$('planType').onchange=togglePlanType;$('planTransport').onchange=updatePlanTransport;document.addEventListener('change',e=>{if(e.target?.id==='noAllowancePersonnel'){const checked=e.target.checked;document.querySelectorAll('#personChecks input').forEach(c=>{c.checked=false;c.disabled=checked});if($('planValidation')){$('planValidation').className='notice';$('planValidation').textContent=checked?'โหมดโครงการใช้เฉพาะพาหนะ — ไม่ผูกกำลังพลและไม่กระทบสิทธิ์ค่าเลี้ยงดู':'ระบบจะตรวจ PERSON+ช่วงวันที่, VEHICLE+ช่วงวันที่ และกฎน้ำมันก่อน Submit';}}else if(e.target?.closest('#personChecks input')){const noAllowance=$('noAllowancePersonnel');if(e.target.checked&&noAllowance){noAllowance.checked=false;document.querySelectorAll('#personChecks input').forEach(c=>c.disabled=false);}}});
 document.querySelectorAll('[data-settings-modal]').forEach(b=>b.addEventListener('click',()=>openSettingsModal(b.dataset.settingsModal)));document.querySelectorAll('[data-settings-close]').forEach(b=>b.addEventListener('click',closeSettingsModals));document.querySelectorAll('[data-settings-goto]').forEach(b=>b.addEventListener('click',()=>settingsGoToPage(b.dataset.settingsGoto)));document.querySelectorAll('.settings-modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeSettingsModals()}));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettingsModals()});$('orderPeopleSearch').oninput=renderOrderEvidence;$('orderDutyFilter').onchange=renderOrderEvidence;$('orderRefresh').onclick=()=>{renderOrderEvidence();listOrderDocuments()};$('orderUpload').onclick=uploadOrderEvidence;$('orderDate').value=today();$('fuelDate').value=today();$('allowDate').value=today();$('reportMonth').value=today().slice(0,7);$('dailyDate').value=today();$('fuelDate').onchange=renderFuel;$('fuelVehicle').onchange=renderFuel;$('fuelAdd').onclick=addFuel;$('allowDate').onchange=renderAllowance;$('refreshReport').onclick=renderReport;$('reportMonth').onchange=renderReport;$('printReport').onclick=()=>window.print();$('dailyDate').onchange=renderDailyStatus;$('dailyPrev').onclick=()=>{const d=new Date(($('dailyDate').value||today())+'T00:00:00');d.setDate(d.getDate()-1);$('dailyDate').value=localDate(d.getFullYear(),d.getMonth(),d.getDate());renderDailyStatus()};$('dailyNext').onclick=()=>{const d=new Date(($('dailyDate').value||today())+'T00:00:00');d.setDate(d.getDate()+1);$('dailyDate').value=localDate(d.getFullYear(),d.getMonth(),d.getDate());renderDailyStatus()};$('dailyToday').onclick=()=>{$('dailyDate').value=today();renderDailyStatus()};
 $('settingsUserAdd').onclick=()=>{resetSettingsUserForm();populateSettingsUserProjects();$('settingsUserForm').classList.remove('hidden');$('settingsUserPassword').required=true;$('settingsUserForm').scrollIntoView({behavior:'smooth',block:'nearest'});};$('settingsUserCancel').onclick=()=>{$('settingsUserForm').classList.add('hidden');resetSettingsUserForm()};$('settingsUserRefresh').onclick=loadSettingsUsers;$('settingsUserForm').addEventListener('submit',saveSettingsUser);
