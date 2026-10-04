@@ -328,7 +328,7 @@ body{background:linear-gradient(180deg,#eef3f8 0,#f6f8fb 42%,#f3f6fa 100%);color
 .calendar{background:#fff}
 .dow{background:#f3f6fa;padding:11px}
 .day{background:#fff;transition:.12s ease}
-.day:hover{background:#f8fbff}
+
 .event{border-radius:8px;padding:5px;background:#edf5ff;color:#164e80}
 .formgrid{gap:15px}
 .check{border-radius:11px;padding:10px;border-color:var(--line);background:#fbfcfe}
@@ -348,7 +348,7 @@ body{background:linear-gradient(180deg,#eef3f8 0,#f6f8fb 42%,#f3f6fa 100%);color
 }
 @media(max-width:1050px){
   .side{position:sticky;top:0;width:100%;height:auto;padding:12px 14px;box-shadow:0 7px 20px rgba(15,35,60,.10)}
-  .app{display:block}.main{margin:0;width:100%;padding:20px}
+  .main{margin:0;width:100%;padding:20px}
   .brand{display:flex;align-items:center;gap:12px;padding:0 4px 11px}.brand:before{margin:0;width:30px;flex:none}.brand small{margin:0}
   .nav{display:flex;overflow-x:auto;gap:6px;margin-top:11px;padding-bottom:2px}.nav button{min-width:max-content;padding:10px 13px}
   .top{align-items:flex-start}.top-actions{justify-content:flex-start}
@@ -356,7 +356,7 @@ body{background:linear-gradient(180deg,#eef3f8 0,#f6f8fb 42%,#f3f6fa 100%);color
 @media(max-width:720px){
   .main{padding:15px 12px 26px}.top{margin-bottom:16px;padding-bottom:14px}.top-actions{width:100%;gap:7px}.db-status{flex:1;min-width:0;justify-content:center}.top-actions #today{width:100%}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:14px;border-radius:15px}.kpi{min-height:112px;padding:14px}.kpi strong{font-size:24px}
-  .row{grid-template-columns:1fr;gap:10px;margin-top:10px}.toolbar>*{flex:1 1 100%}.toolbar button{width:100%}
+  .row{grid-template-columns:1fr;gap:10px;margin-top:10px}.toolbar>*{flex:1 1 100%}
   .report-page-card{padding:14px}.report-meta{margin-top:12px}
 }
 @media(max-width:420px){
@@ -503,6 +503,18 @@ html,body{width:100%;min-width:0;max-width:100%;}
   #allowance .responsive-data-table th:nth-child(4){width:26%;}
   /* Wide operational tables remain readable and scroll inside their own container. */
   #vehicles .responsive-data-table .table,#fuel .responsive-data-table .table{min-width:620px;}
+  .fuel-vehicle-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0 12px;}
+  .fuel-vehicle-item{width:100%;box-sizing:border-box;border:1px solid #d5dce7;border-radius:12px;background:#fff;padding:12px;text-align:left;cursor:pointer;transition:.15s ease;min-width:0;}
+  .fuel-vehicle-item:hover{border-color:#7b9dbd;}
+  .fuel-vehicle-item.selected{border-color:#1d5688;box-shadow:0 0 0 3px rgba(29,86,136,.12);background:#f4f8fc;}
+  .fuel-vehicle-item .vehicle-main{display:flex;align-items:center;gap:9px;min-width:0;}
+  .fuel-vehicle-item .vehicle-radio{flex:0 0 auto;width:18px;height:18px;border:2px solid #9aa9b8;border-radius:50%;box-sizing:border-box;background:#fff;position:relative;}
+  .fuel-vehicle-item.selected .vehicle-radio{border-color:#1d5688;}
+  .fuel-vehicle-item.selected .vehicle-radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#1d5688;}
+  .fuel-vehicle-item .vehicle-name{font-weight:800;min-width:0;overflow-wrap:anywhere;}
+  .fuel-vehicle-item .vehicle-status{margin-top:7px;}
+  #fuelVehicle{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;}
+  .fuel-vehicle-empty{padding:12px;border:1px dashed #cbd5e1;border-radius:10px;color:#64748b;text-align:center;}
   .toolbar input,.toolbar select,.toolbar textarea,
   .form input,.form select,.form textarea{max-width:100%;box-sizing:border-box;}
 }
@@ -605,6 +617,8 @@ html,body{width:100%;min-width:0;max-width:100%;}
   #dashboard .statline>span:first-child:not(:has(b)){font-size:9px}
   #dashboard .statline small{font-size:7.5px}
   #dashboard .statline .pill{font-size:7px;padding:3px 4px}
+  #fuel .fuel-vehicle-list{grid-template-columns:1fr;gap:8px;}
+  #fuel .fuel-vehicle-item{padding:11px;}
   #dashboard #peopleStatus,#dashboard #vehicleStatus{max-height:190px}
 }
 </style>
@@ -631,26 +645,8 @@ html,body{width:100%;min-width:0;max-width:100%;}
   }
   #calendar .toolbar #addPlan{font-size:13px;font-weight:700;}
   #calendar .calendar-wrap{border-radius:10px;overflow:hidden;}
-  #calendar .calendar{
-    width:100%;max-width:100%;min-width:0!important;
-    grid-template-columns:repeat(7,minmax(0,1fr));
-    grid-auto-rows:78px;
-    overflow:hidden;
-  }
-  #calendar .calendar .dow{
-    height:30px;min-height:30px;padding:7px 1px;
-    font-size:9px;line-height:16px;text-align:center;
-  }
-  #calendar .calendar .day{
-    height:78px;min-height:0;padding:4px 3px;
-    overflow:hidden;box-sizing:border-box;
-  }
-  #calendar .calendar .day>b{display:block;font-size:11px;line-height:14px;margin-bottom:1px;}
-  #calendar .calendar .event{
-    max-height:48px;margin-top:2px;padding:2px 2px;
-    border-radius:5px;font-size:7px;line-height:1.15;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  }
+  /* Calendar grid/day/event geometry is owned by the later 7-column restore block.
+     Keep toolbar/card compaction here; do not duplicate calendar geometry rules. */
 }
 @media (max-width:420px){
   #calendar .card{padding:8px;}
@@ -658,11 +654,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
   #calendar .toolbar button{min-height:34px;height:34px;font-size:13px;border-radius:8px;}
   #calendar .toolbar #addPlan{font-size:12px;}
   #calendar .toolbar #month{font-size:14px;}
-  #calendar .calendar{grid-auto-rows:70px;}
-  #calendar .calendar .dow{height:28px;min-height:28px;padding:6px 1px;font-size:8px;}
-  #calendar .calendar .day{height:70px;padding:3px 2px;}
-  #calendar .calendar .day>b{font-size:10px;line-height:12px;}
-  #calendar .calendar .event{max-height:43px;font-size:6.5px;line-height:1.12;padding:2px 1px;}
+  /* Calendar geometry remains centralized in the 7-column restore block. */
 }
 </style>
 
@@ -824,10 +816,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
     flex-direction:row;align-items:center;gap:4px;
     padding:3px 0;font-size:8.5px;line-height:1.15;
   }
-  #dailyStatus .status-list .statline>strong,
-  #dailyStatus .status-list .statline>span{
-    min-width:0;overflow-wrap:anywhere;
-  }
+  
   #dailyStatus .status-list .pill{font-size:8px;padding:1px 4px;white-space:nowrap}
   #dailyStatus>.card>.card[style*="margin-top"]{
     margin-top:0!important;padding:7px!important;
@@ -853,13 +842,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
 <style id="mobile-daily-status-final-tight-grid">
 /* FINAL MOBILE TIGHT GRID — layout/presentation only; data, Supabase and JS logic untouched */
 @media (max-width:720px){
-  #dailyStatus>.card{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-    gap:6px;
-    padding:8px;
-    border-radius:12px;
-  }
+  
 
   /* Date controls stay compact and occupy the full width. */
   #dailyStatus>.card>.toolbar{
@@ -904,10 +887,10 @@ html,body{width:100%;min-width:0;max-width:100%;}
   #dailyStatus .daily-card strong{
     display:block;font-size:16px;line-height:1;margin:2px 0 0;
   }
-  #dailyStatus .daily-card .subtle{display:none}
+  
 
   /* Plan / personnel / vehicle / fuel — fixed 2-column grid. */
-  #dailyStatus>.card>.row{display:contents!important}
+  
   #dailyStatus>.card>.row>.card{
     min-width:0;min-height:0;
     margin:0!important;padding:7px;border-radius:9px;
@@ -943,10 +926,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
     min-width:0;display:flex;flex-direction:row;align-items:center;
     gap:3px;padding:3px 0;font-size:8px;line-height:1.15;
   }
-  #dailyStatus .status-list .statline>strong,
-  #dailyStatus .status-list .statline>span{
-    min-width:0;overflow-wrap:anywhere;
-  }
+  
   #dailyStatus .status-list .pill{
     flex:none;font-size:7.5px;padding:1px 3px;white-space:nowrap;
   }
@@ -969,11 +949,11 @@ html,body{width:100%;min-width:0;max-width:100%;}
 }
 
 @media (max-width:420px){
-  #dailyStatus>.card{padding:7px;gap:5px}
+  
   #dailyStatus>.card>.daily-grid{gap:3px}
   #dailyStatus .daily-card{min-height:48px;padding:5px 2px;font-size:7.5px}
   #dailyStatus .daily-card strong{font-size:15px}
-  #dailyStatus>.card>.row>.card{padding:6px}
+  
   #dailyStatus #dailyPlans,
   #dailyStatus #dailyPeople,
   #dailyStatus #dailyVehicles,
@@ -1640,16 +1620,16 @@ html,body{width:100%;min-width:0;max-width:100%;}
     .personnel-toolbar{padding:10px 12px}
     .personnel-toolbar input,.personnel-toolbar select{width:100%;min-width:0;flex:1 1 100%}
 
-    /* Mobile calendar = readable agenda list, not a squeezed 7-column grid. */
-    .calendar-wrap{overflow:hidden}
-    .calendar{display:block;width:100%;min-width:0}
-    .calendar>.dow{display:none}
-    .calendar>div:not(.dow):not(.day){display:none!important}
-    .calendar>.day{display:block;min-height:0;border-right:0;border-left:0;border-top:1px solid var(--line);padding:9px 8px;background:#fff}
-    .calendar>.day:first-of-type{border-top:0}
-    .calendar>.day>b{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:28px;margin-bottom:4px;border-radius:8px;background:#f1f5f9;font-size:14px}
+    /* Mobile Portrait calendar: preserve the real Monday→Sunday 7-column grid.
+       Date placement is generated by renderCalendar(); CSS must not collapse the grid. */
+    .calendar-wrap{overflow-x:hidden;overflow-y:visible}
+    .calendar{display:grid;width:100%;min-width:0;max-width:100%;grid-template-columns:repeat(7,minmax(0,1fr));overflow:visible}
+    .calendar>.dow{display:block;min-width:0;text-align:center;white-space:nowrap;overflow:hidden;padding:8px 2px}
+    .calendar>div:not(.dow):not(.day){display:block;min-width:0}
+    .calendar>.day{display:block;min-width:0;min-height:92px;border-top:1px solid var(--line);border-right:1px solid var(--line);border-left:0;padding:5px;box-sizing:border-box;background:#fff;overflow:hidden}
+    .calendar>.day>b{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:24px;margin-bottom:4px;border-radius:7px;background:#f1f5f9;font-size:13px}
     .calendar>.day:has(.event){background:#fbfdff}
-    .calendar>.day .event{font-size:12px;line-height:1.35;white-space:normal;overflow:visible;text-overflow:clip;margin-top:5px;padding:7px 8px;border-radius:8px}
+    .calendar>.day .event{display:block;max-width:100%;font-size:10px;line-height:1.3;white-space:normal;overflow:hidden;text-overflow:clip;overflow-wrap:anywhere;word-break:break-word;margin-top:4px;padding:5px 4px;border-radius:7px;box-sizing:border-box}
     .calendar>.day .event br{display:block}
 
     .toolbar{width:100%}
@@ -1688,10 +1668,9 @@ html,body{width:100%;min-width:0;max-width:100%;}
 </style>
 
 <style id="mobile-calendar-original-grid-final">
-/* MOBILE ONLY: restore the original 7-column calendar presentation.
-   UI/CSS only — no data, query, event or business logic changes.
-   The JavaScript already places the first day with start=(f.getDay()+6)%7;
-   this block only controls how those existing grid children are rendered. */
+/* MOBILE PORTRAIT: keep the existing 7-column calendar, but remove the
+   artificial spacer-row height that creates the large blank area above the
+   first week. CSS-only fix; calendar data/query/render/navigation unchanged. */
 @media (max-width:560px){
   #calendar .calendar-wrap{
     width:100%;
@@ -1707,22 +1686,11 @@ html,body{width:100%;min-width:0;max-width:100%;}
     max-width:100%;
     min-width:0!important;
     grid-template-columns:repeat(7,minmax(0,1fr));
-    grid-template-rows:32px;
     grid-auto-flow:row;
-    grid-auto-rows:minmax(112px,auto);
+    grid-auto-rows:minmax(72px,auto);
     overflow:hidden;
     box-sizing:border-box;
   }
-  /* Keep the weekday header on one dedicated row.  The generated spacer
-     cells remain in row 2 so the existing JS weekday offset is preserved. */
-  #calendar .calendar>.dow:nth-child(1){grid-column:1;grid-row:1;}
-  #calendar .calendar>.dow:nth-child(2){grid-column:2;grid-row:1;}
-  #calendar .calendar>.dow:nth-child(3){grid-column:3;grid-row:1;}
-  #calendar .calendar>.dow:nth-child(4){grid-column:4;grid-row:1;}
-  #calendar .calendar>.dow:nth-child(5){grid-column:5;grid-row:1;}
-  #calendar .calendar>.dow:nth-child(6){grid-column:6;grid-row:1;}
-  #calendar .calendar>.dow:nth-child(7){grid-column:7;grid-row:1;}
-  #calendar .calendar>div:not(.dow):not(.day){grid-row:2;}
   #calendar .calendar>.dow{
     display:block;
     min-width:0;
@@ -1737,19 +1705,21 @@ html,body{width:100%;min-width:0;max-width:100%;}
     overflow:hidden;
     box-sizing:border-box;
   }
-  /* Empty spacer cells created by renderCalendar() remain real grid items.
-     They must not collapse, because they preserve the correct weekday column. */
+  /* Leading empty cells preserve weekday alignment but must not impose a
+     tall first-week row. Their height is now determined by the real day
+     cells in the same week. */
   #calendar .calendar>div:not(.dow):not(.day){
     display:block;
     min-width:0;
-    min-height:112px;
+    min-height:0;
+    height:auto;
     box-sizing:border-box;
   }
   #calendar .calendar>.day{
     display:block;
     width:auto;
     min-width:0;
-    min-height:112px;
+    min-height:72px;
     height:auto;
     padding:5px 3px;
     border-left:0;
@@ -1775,8 +1745,8 @@ html,body{width:100%;min-width:0;max-width:100%;}
     margin-top:3px;
     padding:3px 2px;
     border-radius:5px;
-    font-size:clamp(7.5px,2.1vw,9px);
-    line-height:1.2;
+    font-size:clamp(7.8px,2.1vw,9px);
+    line-height:1.22;
     white-space:normal;
     overflow:hidden;
     text-overflow:clip;
@@ -1787,99 +1757,22 @@ html,body{width:100%;min-width:0;max-width:100%;}
   #calendar .calendar>.day .event br{display:block;}
 }
 @media (max-width:360px){
-  #calendar .calendar{grid-template-rows:32px;grid-auto-rows:minmax(108px,auto);}
-  #calendar .calendar>div:not(.dow):not(.day){min-height:108px;}
-  #calendar .calendar>.day{min-height:108px;padding:4px 2px;}
-  #calendar .calendar>.day .event{font-size:7.5px;line-height:1.16;padding:2px 1px;}
+  #calendar .calendar{grid-auto-rows:minmax(68px,auto);}
+  #calendar .calendar>div:not(.dow):not(.day){min-height:0;}
+  #calendar .calendar>.day{min-height:68px;padding:4px 2px;}
+  #calendar .calendar>.day .event{font-size:7.5px;line-height:1.18;padding:2px 1px;}
 }
 </style>
-<style id="mobile-calendar-image2-final-fix">
-/* MOBILE ONLY — IMAGE 2 CALENDAR RESTORE
-   CSS-only containment/alignment fix. No JS/data/query changes. */
-@media (max-width:560px){
-  #calendar .calendar-wrap{
-    width:100%;
-    max-width:100%;
-    min-width:0;
-    overflow:hidden;
-    box-sizing:border-box;
-  }
-  #calendar .calendar{
-    display:grid !important;
-    width:100% !important;
-    max-width:100% !important;
-    min-width:0 !important;
-    grid-template-columns:repeat(7,minmax(0,1fr)) !important;
-    grid-template-rows:32px auto !important;
-    grid-auto-rows:auto !important;
-    grid-auto-flow:row !important;
-    overflow:hidden;
-    box-sizing:border-box;
-  }
-  #calendar .calendar>.dow{
-    display:block !important;
-    grid-row:1 !important;
-    height:32px !important;
-    min-height:32px !important;
-    padding:7px 1px !important;
-    font-size:clamp(9px,2.6vw,11px) !important;
-    line-height:16px !important;
-    text-align:center;
-    white-space:nowrap;
-    overflow:hidden;
-    box-sizing:border-box;
-  }
-  #calendar .calendar>.day{
-    display:block !important;
-    width:auto !important;
-    min-width:0 !important;
-    min-height:112px !important;
-    height:auto !important;
-    padding:5px 3px !important;
-    border-top:1px solid var(--line);
-    border-right:1px solid var(--line);
-    overflow:hidden;
-    box-sizing:border-box;
-  }
-  /* Preserve the existing JS-generated weekday offset.
-     Spacer cells occupy only their weekday positions and add no artificial height. */
-  #calendar .calendar>div:not(.dow):not(.day){
-    display:block !important;
-    min-width:0 !important;
-    min-height:0 !important;
-    height:auto !important;
-    padding:0 !important;
-    margin:0 !important;
-    box-sizing:border-box;
-  }
-  #calendar .calendar>.day>b{
-    display:block !important;
-    margin:0 0 3px !important;
-    font-size:clamp(11px,2.9vw,13px) !important;
-    line-height:15px !important;
-    white-space:nowrap;
-  }
-  #calendar .calendar>.day .event{
-    display:block !important;
-    width:100% !important;
-    max-width:100% !important;
-    max-height:none !important;
-    margin-top:3px !important;
-    padding:3px 2px !important;
-    border-radius:5px;
-    font-size:clamp(7.5px,2.1vw,9px) !important;
-    line-height:1.2 !important;
-    white-space:normal !important;
-    overflow:hidden !important;
-    text-overflow:clip !important;
-    overflow-wrap:anywhere;
-    box-sizing:border-box;
-  }
-}
-@media (max-width:360px){
-  #calendar .calendar>.day{min-height:108px !important;padding:4px 2px !important;}
-  #calendar .calendar>.day .event{font-size:7.5px !important;line-height:1.16 !important;padding:2px 1px !important;}
-}
+<style id="settings-audit-log-ui">
+#settings .settings-audit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.settings-audit-table{width:100%;border-collapse:collapse;min-width:760px}
+.settings-audit-table th,.settings-audit-table td{padding:9px 10px;border-bottom:1px solid var(--line);font-size:12px;text-align:left;vertical-align:top}
+.settings-audit-table th{background:#f8fafc;position:sticky;top:0;z-index:1}
+.audit-detail{margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff;white-space:pre-wrap;word-break:break-word}
+.audit-change{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:7px;align-items:start;margin:4px 0}
+.audit-old{background:#fff7ed;border:1px solid #fed7aa;padding:5px;border-radius:6px}
+.audit-new{background:#ecfdf3;border:1px solid #bbf7d0;padding:5px;border-radius:6px}
+@media(max-width:720px){#settings .settings-audit-grid{grid-template-columns:1fr}.settings-audit-table{min-width:680px}.audit-change{grid-template-columns:1fr}.audit-change>span:nth-child(2){display:none}}
 </style>
 </head>
 <body>
@@ -2102,13 +1995,13 @@ html,body{width:100%;min-width:0;max-width:100%;}
 </div>
 </section>
 
-<section id="vehicles" class="page"><div class="card"><h3>🚙 รถ</h3><div class="table-wrap responsive-data-table"><table class="table"><thead><tr><th>รหัส</th><th>ประเภท</th><th>ทะเบียน</th><th>สถานะ</th><th>โครงการ</th><th>งบ</th><th>น้ำมัน</th></tr></thead><tbody id="vehicleTable"></tbody></table></div></div></section>
+<section id="vehicles" class="page"><div class="card"><h3>🚙 รถ</h3><div class="table-wrap responsive-data-table"><table class="table"><thead><tr><th>ประเภท</th><th>ทะเบียน</th><th>สถานะ</th><th>โครงการ</th><th>งบ</th><th>น้ำมัน</th></tr></thead><tbody id="vehicleTable"></tbody></table></div></div></section>
 
 <section id="projects" class="page"><div class="card"><h3>🎯 โครงการ</h3><div class="table-wrap responsive-data-table"><table class="table"><thead><tr><th>รหัส</th><th>ชื่อโครงการ</th><th>สถานะ</th><th>แผน</th></tr></thead><tbody id="projectTable"></tbody></table></div></div></section>
 
 <section id="budget" class="page"><div class="row"><div class="card"><h3>💰 งบทรงชีพ</h3><div id="budgetSustain"></div></div><div class="card"><h3>🎯 งบโครงการ</h3><div id="budgetProject"></div></div></div><div class="card" style="margin-top:14px"><div class="notice">ยังไม่มีการกำหนดวงเงินงบประมาณใน Master Data จึงไม่สร้างยอดงบหรือยอดคงเหลือขึ้นมาเอง</div></div></section>
 
-<section id="fuel" class="page"><div class="card"><h3>⛽ ควบคุมน้ำมัน</h3><div class="toolbar"><input id="fuelDate" type="date"><select id="fuelVehicle"></select><button id="fuelAdd" class="primary">＋ บันทึกน้ำมัน</button></div><div id="fuelDecision" class="notice">เลือกวันที่และรถเพื่อให้ระบบอ่านแผนก่อน</div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>วันที่</th><th>รถ</th><th>ประเภทงบ</th><th colspan="2">สถานะ</th></tr></thead><tbody id="fuelTable"></tbody></table></div></div></section>
+<section id="fuel" class="page"><div class="card"><h3>⛽ ควบคุมน้ำมัน</h3><div class="toolbar"><input id="fuelDate" type="date"><button id="fuelAdd" class="primary">＋ บันทึกน้ำมัน</button></div><select id="fuelVehicle" aria-hidden="true" tabindex="-1"></select><div id="fuelVehicleList" class="fuel-vehicle-list" aria-label="รายการรถสำหรับควบคุมน้ำมัน"></div><div id="fuelDecision" class="notice">เลือกวันที่และรถเพื่อให้ระบบอ่านแผนก่อน</div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>วันที่</th><th>รถ</th><th>ประเภทงบ</th><th colspan="2">สถานะ</th></tr></thead><tbody id="fuelTable"></tbody></table></div></div></section>
 
 <section id="allowance" class="page"><div class="card"><div class="toolbar"><input id="allowDate" type="date"></div><div id="allowanceInfo"></div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>ชื่อ</th><th>สถานะ</th><th>สิทธิ</th><th>เหตุผล</th></tr></thead><tbody id="allowTable"></tbody></table></div></div></section>
 
@@ -2142,6 +2035,12 @@ html,body{width:100%;min-width:0;max-width:100%;}
       </button>
       <button class="settings-tile" type="button" data-settings-modal="rules">
         <span class="tile-icon">🛡️</span><span class="tile-copy"><span class="tile-title">กฎการทำงาน</span><span class="tile-sub">กฎป้องกันข้อมูลซ้ำและเงื่อนไขหลักของระบบ</span></span><span class="tile-arrow">›</span>
+      </button>
+      <button class="settings-tile" type="button" data-settings-modal="loginHistory" id="settingsLoginHistoryTile">
+        <span class="tile-icon">🔐</span><span class="tile-copy"><span class="tile-title">ประวัติการเข้าสู่ระบบ</span><span class="tile-sub">Login / Logout จาก auth.sessions ตามข้อมูลจริง</span></span><span class="tile-arrow">›</span>
+      </button>
+      <button class="settings-tile" type="button" data-settings-modal="auditLog" id="settingsAuditLogTile">
+        <span class="tile-icon">📋</span><span class="tile-copy"><span class="tile-title">ประวัติการทำรายการ</span><span class="tile-sub">เพิ่ม / แก้ไข / ลบ และค่าเดิม → ค่าใหม่</span></span><span class="tile-arrow">›</span>
       </button>
     </div>
   </div>
@@ -2205,6 +2104,19 @@ html,body{width:100%;min-width:0;max-width:100%;}
   </div>
 </div>
 
+<div id="settingsLoginHistoryModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsLoginHistoryTitle">
+  <div class="modalbox">
+    <div class="settings-modal-head"><h3 id="settingsLoginHistoryTitle">🔐 ประวัติการเข้าสู่ระบบ</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
+    <div class="settings-modal-body" id="settingsLoginHistoryBody"></div>
+  </div>
+</div>
+<div id="settingsAuditLogModal" class="modal hidden settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsAuditLogTitle">
+  <div class="modalbox">
+    <div class="settings-modal-head"><h3 id="settingsAuditLogTitle">📋 ประวัติการทำรายการ</h3><button class="secondary" type="button" data-settings-close>ปิด</button></div>
+    <div class="settings-modal-body" id="settingsAuditLogBody"></div>
+  </div>
+</div>
+
 <div id="personnelModal" class="modal hidden"><div class="modalbox">
 <div style="display:flex;justify-content:space-between;align-items:center"><h3 id="personnelModalTitle">👤 เพิ่มกำลังพล</h3><button id="closePersonnelModal" class="secondary" type="button">ปิด</button></div>
 <form id="personnelForm" class="formgrid" style="margin-top:12px">
@@ -2244,7 +2156,7 @@ function localDate(y,m,d){const dt=new Date(y,m,d);return `${dt.getFullYear()}-$
 const today=()=>localDate(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
 $('today').textContent=new Intl.DateTimeFormat('th-TH',{dateStyle:'full'}).format(new Date());
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function pname(id){return projects.find(x=>x.id===id)?.project_name||'—'} function vname(id){let v=vehicles.find(x=>x.id===id);return v?v.vehicle_code+' · '+v.registration:'—'}
+function pname(id){return projects.find(x=>x.id===id)?.project_name||'—'} function vname(id){let v=vehicles.find(x=>x.id===id);return v?v.vehicle_type+' · '+v.registration:'—'}
 function planStart(p){return p.start_date||p.plan_date}
 function planEnd(p){return p.end_date||p.plan_date}
 function isDateInPlan(p,d){return planStart(p)<=d&&d<=planEnd(p)}
@@ -2327,7 +2239,7 @@ function render(){
  const td=today(), ps=plansOn(td), used=assignedPeople(td);
  $('kFuel').textContent=fuels.filter(x=>x.transaction_date===td).length;
  $('kAllow').textContent=allowances.filter(x=>x.transaction_date===td).length;
- $('vehicleStatus').innerHTML=vehicles.map(v=>{let p=ps.find(x=>x.vehicle_id===v.id);let fuel=p?(p.budget_type==='project'?'🔵 งบโครงการ':'🟢 งบทรงชีพ'):'⚪ ไม่มีแผน';let label=p?(p.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':pname(p.project_id)):'ว่าง';return `<div class="statline"><span><b>${esc(v.vehicle_code)}</b> · ${esc(v.registration)}<br><small>${esc(label)}${p&&planEnd(p)>td?' · ถึง '+esc(planEnd(p)):''}</small></span><span class="pill ${p?'ok':'none'}">${fuel}</span></div>`}).join('');
+ $('vehicleStatus').innerHTML=vehicles.map(v=>{let p=ps.find(x=>x.vehicle_id===v.id);let fuel=p?(p.budget_type==='project'?'🔵 งบโครงการ':'🟢 งบทรงชีพ'):'⚪ ไม่มีแผน';let label=p?(p.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':pname(p.project_id)):'ว่าง';return `<div class="statline"><span><b>${esc(v.vehicle_type)} · ${esc(v.registration)}</b><br><small>${esc(label)}${p&&planEnd(p)>td?' · ถึง '+esc(planEnd(p)):''}</small></span><span class="pill ${p?'ok':'none'}">${fuel}</span></div>`}).join('');
  $('peopleStatus').innerHTML=people.map(p=>`<div class="statline"><span>${esc(p.full_name)}</span><span class="pill ${used.has(p.id)?'ok':'none'}">${used.has(p.id)?(plansOn(td).filter(pl=>peopleOnPlan(pl.id).some(pp=>pp.id===p.id)).some(pl=>pl.plan_type==='official_trip')?'🟠 ไปราชการ':'🔵 อยู่โครงการ'):'🟢 ว่าง'}</span></div>`).join('');
  $('conflictSummary').innerHTML=`<span class="pill ok">ตรวจซ้ำที่ Database</span> PERSON+ช่วงวันที่ · VEHICLE+ช่วงวันที่ · FUEL+VEHICLE+DATE · ALLOWANCE+PERSON+DATE`;
  renderPeople();renderPersonnelAdmin();renderOrderEvidence();renderVehicles();renderProjects();renderCalendar();renderFuel();renderAllowance();renderBudget();renderReport();renderSettings();renderDailyStatus();
@@ -2378,7 +2290,7 @@ function renderDailyStatus(){
    const conflict=matches.length>1;
    const labels=matches.map(pl=>pl.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':'🎯 '+esc(pname(pl.project_id))).join(' / ');
    return `<div class="statline ${conflict?'conflict-row':''}">
-     <span><b>${esc(v.vehicle_code)} · ${esc(v.registration)}</b><br><small>${labels||'🟢 ว่าง'}</small></span>
+     <span><b>${esc(v.vehicle_type)} · ${esc(v.registration)}</b><br><small>${labels||'🟢 ว่าง'}</small></span>
      <span class="pill ${conflict?'bad':matches.length?'blue':'none'}">${conflict?'🔴 ซ้ำ '+matches.length+' แผน':matches.length?'ออกภารกิจ':'ว่าง'}</span>
    </div>`;
  }).join(''):'<div class="empty">ยังไม่มีข้อมูลรถ</div>';
@@ -2391,7 +2303,7 @@ function renderDailyStatus(){
    else if(p&&p.plan_type==='official_trip'&&p.transport_type==='private_vehicle'){text='🟢 ไปราชการด้วยรถส่วนตัว — ไม่ล็อกรถหน่วยงาน';cls='ok';}
    else if(p&&p.budget_type==='project'){text='🔵 เติมได้ — งบโครงการ / 🔒 งบทรงชีพใช้ไม่ได้';cls='blue';}
    else if(p){text='🟢 เติมได้ — งบทรงชีพ';cls='ok';}
-   return `<div class="statline"><span><b>${esc(v.vehicle_code)} · ${esc(v.registration)}</b><br><small>${text}</small></span><span class="pill ${cls}">${p?'มีแผน':'ไม่มีแผน'}</span></div>`;
+   return `<div class="statline"><span><b>${esc(v.vehicle_type)} · ${esc(v.registration)}</b><br><small>${text}</small></span><span class="pill ${cls}">${p?'มีแผน':'ไม่มีแผน'}</span></div>`;
  }).join(''):'<div class="empty">ยังไม่มีข้อมูลรถ</div>';
 
  const eligible=Math.max(people.length-busyPeople.size,0), ineligible=busyPeople.size;
@@ -2455,7 +2367,7 @@ async function deactivatePersonnel(id){
 }
 async function activatePersonnel(id){if(accessRole!=='admin'&&accessRole!=='personnel_officer'){alert('🔴 ไม่มีสิทธิ์จัดการกำลังพล');return}const p=personnelAll.find(x=>x.id===id);if(!p)return;if(!confirm(`ยืนยันเปิดใช้งาน ${p.full_name}?`))return;const r=await db.from('personnel').update({active:true}).eq('id',id);if(r.error){alert('🔴 เปิดใช้งานไม่สำเร็จ: '+r.error.message);return}await load()}
 function renderPeople(){const el=$('peopleTable');if(!el)return;let term=($('peopleSearch')?.value||'').toLowerCase(),td=today();el.innerHTML=people.filter(p=>p.full_name.toLowerCase().includes(term)).map(p=>{let pp=planPeople.find(x=>x.personnel_id===p.id&&plansOn(td).some(y=>y.id===x.plan_id));let pl=pp?plans.find(x=>x.id===pp.plan_id):null;const isTrip=pl?.plan_type==='official_trip';return `<tr><td>${esc(p.full_name)}</td><td>${pl?(isTrip?'<span class="pill warn">ไปราชการ</span>':'<span class="pill ok">อยู่โครงการ</span>'):'<span class="pill none">ว่าง</span>'}</td><td>${pl?(isTrip?'—':esc(pname(pl.project_id))):'—'}</td><td>${pl?(pl.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':esc(vname(pl.vehicle_id))):'—'}</td><td>${allowances.find(a=>a.personnel_id===p.id&&a.transaction_date===td)?.eligible?'มีสิทธิ':'คำนวณจากแผน'}</td></tr>`}).join('')}
-function renderVehicles(){let td=today(),ps=plansOn(td);$('vehicleTable').innerHTML=vehicles.map(v=>{let p=ps.find(x=>x.vehicle_id===v.id);const trip=p?.plan_type==='official_trip';return `<tr><td>${esc(v.vehicle_code)}</td><td>${esc(v.vehicle_type)}</td><td>${esc(v.registration)}</td><td>${p?'<span class="pill ok">ออกภารกิจ</span>':'<span class="pill none">ว่าง</span>'}</td><td>${p?(trip?'🧑‍💼 ไปราชการ':esc(pname(p.project_id))):'—'}</td><td>${p?(p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'):'—'}</td><td>${trip?'<span class="pill bad">🔴 งบทรงชีพห้ามใช้</span>':p?(p.budget_type==='project'?'<span class="pill blue">🔵 งบโครงการ</span>':'<span class="pill ok">🟢 งบทรงชีพ</span>'):'<span class="pill none">⚪ ไม่มีแผน</span>'}</td></tr>`}).join('')}
+function renderVehicles(){let td=today(),ps=plansOn(td);$('vehicleTable').innerHTML=vehicles.map(v=>{let p=ps.find(x=>x.vehicle_id===v.id);const trip=p?.plan_type==='official_trip';return `<tr><td>${esc(v.vehicle_type)}</td><td>${esc(v.registration)}</td><td>${p?'<span class="pill ok">ออกภารกิจ</span>':'<span class="pill none">ว่าง</span>'}</td><td>${p?(trip?'🧑‍💼 ไปราชการ':esc(pname(p.project_id))):'—'}</td><td>${p?(p.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'):'—'}</td><td>${trip?'<span class="pill bad">🔴 งบทรงชีพห้ามใช้</span>':p?(p.budget_type==='project'?'<span class="pill blue">🔵 งบโครงการ</span>':'<span class="pill ok">🟢 งบทรงชีพ</span>'):'<span class="pill none">⚪ ไม่มีแผน</span>'}</td></tr>`}).join('')}
 function renderProjects(){$('projectTable').innerHTML=projects.map(p=>{let n=plans.filter(x=>x.project_id===p.id).length;return `<tr><td>${esc(p.project_code)}</td><td>${esc(p.project_name)}</td><td>${n?'<span class="pill ok">มีแผน</span>':'<span class="pill none">ยังไม่มีแผน</span>'}</td><td>${n}</td></tr>`}).join('')}
 function renderCalendar(){let y=cursor.getFullYear(),m=cursor.getMonth(),f=new Date(y,m,1),l=new Date(y,m+1,0);$('month').textContent=new Intl.DateTimeFormat('th-TH',{month:'long',year:'numeric'}).format(f);let h=['จ','อ','พ','พฤ','ศ','ส','อา'].map(x=>`<div class="dow">${x}</div>`).join(''),start=(f.getDay()+6)%7;for(let i=0;i<start;i++)h+='<div></div>';for(let d=1;d<=l.getDate();d++){let k=localDate(y,m,d);h+=`<div class="day" data-date="${k}"><b>${d}</b>${plansOn(k).map(p=>`<div class="event">${p.plan_type==='official_trip'?'🧑‍💼 ไปราชการ':'🎯 '+esc(pname(p.project_id))}<br>👥 ${peopleNames(p.id)}<br>${p.transport_type==='private_vehicle'?'🚗 รถส่วนตัว':'🚙 '+esc(vname(p.vehicle_id))}</div>`).join('')}</div>`}$('cal').innerHTML=h;document.querySelectorAll('.day[data-date]').forEach(x=>x.onclick=()=>openPlan(x.dataset.date))}
 function fillForm(){
@@ -2467,8 +2379,9 @@ function fillForm(){
   : ((accessRole==='project_officer'||accessRole==='personnel_officer')
     ? '<option value="">ไม่มีโครงการที่ได้รับมอบหมาย</option>'
     : '<option value="">ยังไม่มีข้อมูลโครงการ</option>');
- $('planVehicle').innerHTML=vehicles.length?vehicles.map(v=>`<option value="${v.id}">${esc(v.vehicle_code)} · ${esc(v.vehicle_type)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';
- $('fuelVehicle').innerHTML=vehicles.length?vehicles.map(v=>`<option value="${v.id}">${esc(v.vehicle_code)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';
+ $('planVehicle').innerHTML=vehicles.length?vehicles.map(v=>`<option value="${v.id}">${esc(v.vehicle_type)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';
+ $('fuelVehicle').innerHTML=vehicles.length?vehicles.map(v=>`<option value="${v.id}">${esc(v.vehicle_type)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';
+ renderFuelVehicleList();
  const groups=['กอ.รมน.จังหวัด ม.ห.','ชุดครูฝึก อพป.','กำลังพลชุดขุนด่าน']; $('personChecks').innerHTML=people.length?groups.map(g=>{const rows=people.filter(p=>p.personnel_section===g);return `<div class="person-group"><div class="person-group-title">${esc(g)} <span>(${rows.length})</span></div>${rows.length?rows.map(p=>`<label class="check"><input type="checkbox" value="${p.id}"> ${esc(p.full_name)}</label>`).join(''):'<div class="subtle">ยังไม่มีรายชื่อที่ระบุส่วนนี้</div>'}</div>`}).join(''):'<div class="empty">ยังไม่มีข้อมูลกำลังพล</div>';
  const noAllowance=$('noAllowancePersonnel');if(noAllowance)noAllowance.checked=false;
  toggleCustomProject();togglePlanType();
@@ -2500,14 +2413,16 @@ async function savePlan(e){
  for(const pid of selected){if(overlappingPlansForPerson(pid,start,endDate,id).length){const person=people.find(p=>p.id===pid);$('planValidation').className='notice bad';$('planValidation').textContent=`🔴 ${person?person.full_name:'กำลังพล'} ถูกใช้ในภารกิจที่ช่วงวันที่ทับซ้อนกัน`;return}}
  if(project?.is_custom){const customName=$('customProjectName').value.trim();const ucp=await db.from('projects').update({project_name:customName}).eq('id',project_id);if(ucp.error){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 บันทึกชื่อโครงการเพิ่มเติมไม่สำเร็จ: '+ucp.error.message;return}project.project_name=customName;}
  const storedDetail=mission_detail;
- const payload={plan_date:start,project_id,vehicle_id,budget_type,mission_detail:storedDetail,status:'planned',start_date:start,end_date:endDate,plan_type,transport_type};
+ const payload={plan_date:start,project_id,vehicle_id,budget_type,mission_detail:storedDetail,status:'planned',start_date:start,end_date:endDate,plan_type,transport_type,created_by:authUser.id};
+ if(!authUser?.id){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 ไม่พบบัญชีผู้ใช้งานจาก Supabase Auth — ไม่สามารถบันทึกแผนได้';return}
+ if(!id&&accessRole==='personnel_officer'&&plan_type==='official_trip'){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 บัญชีเจ้าหน้าที่กำลังพลไม่สามารถสร้างรายการไปราชการที่ไม่มีโครงการตามสิทธิ์ปัจจุบัน';return}
  if(id){
    const old=plans.find(x=>x.id===id),oldLinks=planPeople.filter(x=>x.plan_id===id);
    const u=await db.from('plans').update(payload).eq('id',id);if(u.error){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 '+u.error.message;return}
    const d=await db.from('plan_personnel').delete().eq('plan_id',id);if(d.error){await db.from('plans').update(old).eq('id',id);$('planValidation').className='notice bad';$('planValidation').textContent='🔴 '+d.error.message;return}
    const ins=await db.from('plan_personnel').insert(selected.map(personnel_id=>({plan_id:id,personnel_id})));if(ins.error){await db.from('plan_personnel').delete().eq('plan_id',id);await db.from('plan_personnel').insert(oldLinks.map(x=>({plan_id:id,personnel_id:x.personnel_id})));await db.from('plans').update(old).eq('id',id);$('planValidation').className='notice bad';$('planValidation').textContent='🔴 บันทึกกำลังพลไม่สำเร็จ คืนค่าเดิมแล้ว: '+ins.error.message;return}
  }else{
-   const r=await db.from('plans').insert(payload).select().single();if(r.error){$('planValidation').className='notice bad';$('planValidation').textContent='🔴 '+r.error.message;return}
+   const r=await db.from('plans').insert(payload).select().single();if(r.error){$('planValidation').className='notice bad';$('planValidation').textContent=r.error.code==='42501'?'🔴 บัญชีนี้ไม่มีสิทธิ์บันทึกแผนในโครงการที่เลือกตามสิทธิ์ของ Supabase RLS':'🔴 '+r.error.message;return}
    const ins=await db.from('plan_personnel').insert(selected.map(personnel_id=>({plan_id:r.data.id,personnel_id})));if(ins.error){await db.from('plans').delete().eq('id',r.data.id);$('planValidation').className='notice bad';$('planValidation').textContent='🔴 '+ins.error.message;return}
  }
  $('modal').classList.add('hidden');await load();
@@ -2525,8 +2440,27 @@ async function deletePlan(id){
  $('modal').classList.add('hidden');await load();
 }
 function fuelPlanForDate(v,d){return plans.find(x=>x.vehicle_id===v&&x.status==='planned'&&isDateInPlan(x,d))}
+function renderFuelVehicleList(){
+ const box=$('fuelVehicleList');
+ const select=$('fuelVehicle');
+ if(!box||!select)return;
+ const d=$('fuelDate')?.value||today();
+ if(!vehicles.length){box.innerHTML='<div class="fuel-vehicle-empty">ยังไม่มีข้อมูลรถจาก Supabase</div>';select.value='';return;}
+ if(!vehicles.some(v=>v.id===select.value))select.value=vehicles[0].id;
+ box.innerHTML=vehicles.map(v=>{
+   const selected=v.id===select.value;
+   const p=fuelPlanForDate(v.id,d);
+   const status=p?'ออกภารกิจ':'ว่าง';
+   const statusClass=p?'ok':'none';
+   return `<button type="button" class="fuel-vehicle-item${selected?' selected':''}" data-vehicle-id="${esc(v.id)}" aria-pressed="${selected?'true':'false'}"><span class="vehicle-main"><span class="vehicle-radio" aria-hidden="true"></span><span class="vehicle-name">${esc(v.vehicle_type)} · ${esc(v.registration)}</span></span><span class="vehicle-status pill ${statusClass}">${status}</span></button>`;
+ }).join('');
+ box.querySelectorAll('.fuel-vehicle-item').forEach(btn=>btn.addEventListener('click',()=>{select.value=btn.dataset.vehicleId||'';renderFuel();}));
+}
 function renderFuel(){
- const d=$('fuelDate').value||today(),v=$('fuelVehicle').value,p=fuelPlanForDate(v,d),tx=fuels.filter(x=>x.transaction_date===d&&x.vehicle_id===v),exists=tx.length>0;
+ const d=$('fuelDate').value||today();
+ if(!$('fuelVehicle').value&&vehicles.length)$('fuelVehicle').value=vehicles[0].id;
+ renderFuelVehicleList();
+ const v=$('fuelVehicle').value,p=fuelPlanForDate(v,d),tx=fuels.filter(x=>x.transaction_date===d&&x.vehicle_id===v),exists=tx.length>0;
  if(!v){$('fuelDecision').textContent='⚪ ยังไม่มีข้อมูลรถ';$('fuelAdd').disabled=true;return}
  if(p&&p.plan_type==='official_trip'&&p.transport_type==='unit_vehicle'&&p.budget_type==='project'){$('fuelDecision').className='notice bad';$('fuelDecision').innerHTML='🔵 <b>เติมได้ด้วยงบโครงการ</b><br>รถอยู่ระหว่างไปราชการช่วง '+esc(planStart(p))+' ถึง '+esc(planEnd(p))+' — 🔒 งบทรงชีพใช้ไม่ได้';}
  else if(p&&p.plan_type==='official_trip'&&p.transport_type==='unit_vehicle'){$('fuelDecision').className='notice bad';$('fuelDecision').innerHTML='🔴 <b>รถอยู่ระหว่างไปราชการ</b><br>ช่วง '+esc(planStart(p))+' ถึง '+esc(planEnd(p))+' — 🔒 ห้ามเติมน้ำมันงบทรงชีพจนกว่ารถจะกลับมา';}
@@ -2575,7 +2509,7 @@ async function uploadOrderEvidence(){
  if(up.error){out.className='notice bad';out.textContent='🔴 อัปโหลดไม่สำเร็จ: '+up.error.message;return}
  out.className='notice';out.textContent='🟢 อัปโหลดหลักฐานคำสั่งแล้ว — ระบบจะใช้ไฟล์นี้เป็นเอกสารอ้างอิงให้เจ้าหน้าที่เปิดตรวจชื่อด้วยตนเอง';$('orderFile').value='';await listOrderDocuments();
 }
-function settingsModalEl(key){return $(key==='dataSource'?'settingsDataSourceModal':key==='personnel'?'settingsPersonnelModal':key==='vehicles'?'settingsVehiclesModal':key==='projects'?'settingsProjectsModal':key==='users'?'settingsUsersModal':'settingsRulesModal')}
+function settingsModalEl(key){return $(key==='dataSource'?'settingsDataSourceModal':key==='personnel'?'settingsPersonnelModal':key==='vehicles'?'settingsVehiclesModal':key==='projects'?'settingsProjectsModal':key==='users'?'settingsUsersModal':key==='loginHistory'?'settingsLoginHistoryModal':key==='auditLog'?'settingsAuditLogModal':'settingsRulesModal')}
 async function invokeAdminUserManagement(action,payload={}){
   if(accessRole!=='admin')throw new Error('ADMIN_REQUIRED');
   const {data,error}=await db.functions.invoke('admin-user-management-v2',{body:{action,...payload}});
@@ -2591,6 +2525,39 @@ async function loadSettingsUsers(){if(accessRole!=='admin')return;const box=$('s
 function editSettingsUser(u){if(!u)return;const f=$('settingsUserForm');f.classList.remove('hidden');$('settingsUserId').value=u.id;$('settingsUserName').value=u.full_name||'';$('settingsUserEmail').value=u.email||'';$('settingsUserPassword').value='';$('settingsUserPassword').required=false;$('settingsUserRole').value=u.role||'personnel_officer';$('settingsUserActive').value=u.active===false?'false':'true';populateSettingsUserProjects(u.project_ids||[]);$('settingsUserMsg').classList.add('hidden');f.scrollIntoView({behavior:'smooth',block:'nearest'});}
 async function deactivateSettingsUser(userId){if(!confirm('ยืนยันปิดใช้งานบัญชีเจ้าหน้าที่นี้หรือไม่?'))return;try{await invokeAdminUserManagement('deactivate',{user_id:userId});await loadSettingsUsers();}catch(err){setSettingsUserMsg('🔴 ปิดใช้งานไม่สำเร็จ: '+(err.message||String(err)));}}
 async function saveSettingsUser(e){e.preventDefault();if(accessRole!=='admin'){setSettingsUserMsg('🔴 เฉพาะผู้ดูแลระบบเท่านั้น');return}const id=$('settingsUserId').value.trim(),payload={user_id:id||undefined,full_name:$('settingsUserName').value.trim(),email:$('settingsUserEmail').value.trim(),password:$('settingsUserPassword').value,role:$('settingsUserRole').value,active:$('settingsUserActive').value==='true',project_ids:Array.from($('settingsUserProjects').selectedOptions).map(o=>o.value)};if(!payload.full_name||!payload.email){setSettingsUserMsg('🔴 กรุณากรอกชื่อและ Email');return}if(!id&&!payload.password){setSettingsUserMsg('🔴 กรุณากำหนดรหัสผ่านเริ่มต้น');return}if(payload.password&&payload.password.length<8){setSettingsUserMsg('🔴 รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร');return}try{setSettingsUserMsg('กำลังสร้าง/ปรับปรุงบัญชีใน Supabase…',true);await invokeAdminUserManagement('save',payload);setSettingsUserMsg('🟢 บันทึกบัญชีและ Role Mapping สำเร็จ',true);resetSettingsUserForm();await loadSettingsUsers();}catch(err){setSettingsUserMsg('🔴 บันทึกไม่สำเร็จ: '+(err.message||String(err)));}}
+function auditJson(value){
+  if(value===null||value===undefined)return '—';
+  try{return JSON.stringify(value,null,2)}catch(_){return String(value)}
+}
+function auditChangedFields(oldData,newData){
+  const oldObj=oldData&&typeof oldData==='object'?oldData:{};
+  const newObj=newData&&typeof newData==='object'?newData:{};
+  const keys=[...new Set([...Object.keys(oldObj),...Object.keys(newObj)])].sort();
+  return keys.filter(k=>JSON.stringify(oldObj[k])!==JSON.stringify(newObj[k])).map(k=>({key:k,oldValue:oldObj[k],newValue:newObj[k]}));
+}
+function formatAuditWhen(v){try{return new Intl.DateTimeFormat('th-TH',{dateStyle:'medium',timeStyle:'medium'}).format(new Date(v))}catch(_){return esc(v||'—')}}
+async function loadLoginHistory(){
+  const box=$('settingsLoginHistoryBody'); if(!box)return;
+  if(accessRole!=='admin'){box.innerHTML='<div class="notice bad">🔴 ไม่มีสิทธิ์ดูประวัติการเข้าสู่ระบบ</div>';return}
+  box.innerHTML='<div class="notice">กำลังอ่านประวัติจาก Supabase…</div>';
+  try{
+    const r=await db.from('login_history').select('occurred_at,user_id,user_email,event_type,session_id,ip_address,user_agent,source').order('occurred_at',{ascending:false}).limit(200);
+    if(r.error)throw r.error;
+    const rows=r.data||[];
+    box.innerHTML=rows.length?`<div class="table-wrap"><table class="settings-audit-table"><thead><tr><th>วันเวลา</th><th>บัญชี</th><th>Action</th><th>สถานะ</th><th>Device / Browser / User Agent</th></tr></thead><tbody>${rows.map(x=>{const ua=x.user_agent||'—';return `<tr><td>${esc(formatAuditWhen(x.occurred_at))}</td><td><b>${esc(x.user_email||x.user_id||'—')}</b><br><span class="subtle">${esc(x.user_id||'—')}</span></td><td><span class="pill ${x.event_type==='LOGIN'?'ok':'none'}">${esc(x.event_type||'—')}</span></td><td>${x.event_type==='LOGIN'?'เข้าสู่ระบบ':'ออกจากระบบ'}</td><td>${esc(ua)}<br><span class="subtle">IP: ${esc(x.ip_address||'—')} · Session: ${esc(x.session_id||'—')}</span></td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">ยังไม่มีประวัติที่อ่านได้จาก Supabase</div>';
+  }catch(err){box.innerHTML='<div class="notice bad">🔴 อ่านประวัติการเข้าสู่ระบบไม่สำเร็จ: '+esc(err.message||String(err))+'</div>'}
+}
+async function loadAuditLog(){
+  const box=$('settingsAuditLogBody'); if(!box)return;
+  if(accessRole!=='admin'){box.innerHTML='<div class="notice bad">🔴 ไม่มีสิทธิ์ดู Audit Log</div>';return}
+  box.innerHTML='<div class="notice">กำลังอ่าน Audit Log จาก Database Trigger…</div>';
+  try{
+    const r=await db.from('audit_logs').select('occurred_at,actor_id,actor_email,action,table_name,record_id,old_data,new_data,source').order('occurred_at',{ascending:false}).limit(200);
+    if(r.error)throw r.error;
+    const rows=r.data||[];
+    box.innerHTML=rows.length?`<div class="table-wrap"><table class="settings-audit-table"><thead><tr><th>วันเวลา</th><th>ผู้ดำเนินการ</th><th>Action</th><th>รายการ</th><th>Record ID</th><th>รายละเอียด</th></tr></thead><tbody>${rows.map(x=>{const changes=x.action==='UPDATE'?auditChangedFields(x.old_data,x.new_data):[];let detail='';if(x.action==='UPDATE'){detail=changes.length?changes.map(c=>`<div class="audit-change"><div class="audit-old"><b>${esc(c.key)}</b><br>${esc(auditJson(c.oldValue))}</div><span>→</span><div class="audit-new"><b>${esc(c.key)}</b><br>${esc(auditJson(c.newValue))}</div></div>`).join(''):'<span class="subtle">ไม่มีค่าที่เปลี่ยนแปลง</span>'}else{detail=`<div class="audit-detail"><b>${x.action==='INSERT'?'ค่าใหม่':'ค่าเดิม'}</b><br>${esc(auditJson(x.action==='INSERT'?x.new_data:x.old_data))}</div>`}return `<tr><td>${esc(formatAuditWhen(x.occurred_at))}</td><td><b>${esc(x.actor_email||'—')}</b><br><span class="subtle">${esc(x.actor_id||'—')}</span></td><td><span class="pill ${x.action==='INSERT'?'ok':x.action==='DELETE'?'bad':'blue'}">${x.action==='INSERT'?'เพิ่ม':x.action==='UPDATE'?'แก้ไข':x.action==='DELETE'?'ลบ':esc(x.action)}</span></td><td>${esc(x.table_name||'—')}</td><td>${esc(x.record_id||'—')}</td><td>${detail}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">ยังไม่มี Audit Log ที่อ่านได้จาก Supabase</div>';
+  }catch(err){box.innerHTML='<div class="notice bad">🔴 อ่าน Audit Log ไม่สำเร็จ: '+esc(err.message||String(err))+'</div>'}
+}
 function renderSettings(){
   $('setPeople').textContent=people.length+' รายการ';$('setVehicles').textContent=vehicles.length+' คัน';$('setProjects').textContent=projects.length+' รายการ';
   const td=today(), ps=plansOn(td), busyPeople=assignedPeople(td), busyVehicleIds=new Set(ps.filter(p=>p.vehicle_id).map(p=>p.vehicle_id));
@@ -2608,7 +2575,7 @@ function openSettingsModal(key){
   if(accessRole!=='admin'){alert('🔴 เฉพาะผู้ดูแลระบบเท่านั้น');return}
   renderSettings();
   const m=settingsModalEl(key);if(m)m.classList.remove('hidden');
-  if(key==='users')loadSettingsUsers();
+  if(key==='users')loadSettingsUsers(); if(key==='loginHistory')loadLoginHistory(); if(key==='auditLog')loadAuditLog();
 }
 function closeSettingsModals(){document.querySelectorAll('.settings-modal').forEach(m=>m.classList.add('hidden'));}
 function settingsGoToPage(page){
