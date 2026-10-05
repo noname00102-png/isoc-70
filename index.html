@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ระบบบริหารแผนปฏิทิน — กำลังพล • รถ • โครงการ • งบ • น้ำมัน • ค่าเลี้ยงดู</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <style>
 :root{--nav:#12355b;--bg:#f4f7fb;--card:#fff;--line:#e3e8ef;--ink:#172033;--muted:#667085;--ok:#15803d;--warn:#c2410c;--bad:#b91c1c;--blue:#2563eb}
 *{box-sizing:border-box}
@@ -68,6 +69,7 @@ input,select,textarea{max-width:100%}
 .notice{padding:11px;border:1px solid var(--line);border-radius:9px;background:#f8fafc;font-size:13px}
 .notice.ok{border-color:#86efac;background:#ecfdf3;color:#166534}
 .notice.bad{border-color:#fecaca;background:#fff1f1}
+.fuel-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.fuel-summary-card{border:1px solid var(--line);border-top:4px solid #e11d48;border-radius:12px;padding:14px;background:#fff}.fuel-summary-card.operational{border-top-color:#2563eb}.fuel-summary-card h4{margin:0 0 10px;font-size:15px}.fuel-summary-card .fuel-amount{font-size:23px;font-weight:800;color:#172033}.fuel-summary-card dl{display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin:10px 0 0;font-size:13px}.fuel-summary-card dt{color:var(--muted)}.fuel-summary-card dd{margin:0;font-weight:700;text-align:right}.fuel-form-card{margin-top:14px}.fuel-table-title{margin:18px 0 8px;font-size:16px}.fuel-fixed{background:#f1f5f9;color:#334155;padding:9px;border:1px solid #d5dce7;border-radius:8px;min-height:42px;display:flex;align-items:center}.fuel-result{font-weight:700;color:#075baf}@media(max-width:720px){.fuel-summary-grid{grid-template-columns:1fr}}
 .modal{position:fixed;inset:0;background:#0f172a88;display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}
 .modalbox{width:calc(100vw - 36px);max-width:none;height:calc(100vh - 36px);max-height:none;overflow-x:hidden;overflow-y:auto;background:#fff;border-radius:14px;padding:22px}
 .statline{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #eee;gap:10px}
@@ -1763,8 +1765,9 @@ html,body{width:100%;min-width:0;max-width:100%;}
 <style id="dashboard-visual-match-lock">
 /* Dashboard Visual Match Lock — dashboard-only presentation; data and business logic remain Supabase-driven. */
 .dashboard-command-center{display:grid;gap:12px}
-.dash-hero{display:grid;grid-template-columns:minmax(0,1.6fr) auto auto;gap:10px;align-items:center;background:linear-gradient(135deg,#062c52,#0d4c7c);color:#fff;border-radius:16px;padding:12px 16px;box-shadow:0 10px 24px rgba(7,43,77,.18)}
-.dash-hero-brand,.dash-hero-date,.dash-hero-status{display:flex;align-items:center;gap:10px;min-width:0}.dash-hero-mark{font-size:30px;line-height:1}.dash-hero-title{font-size:20px;font-weight:800;line-height:1.2}.dash-hero-sub{font-size:11px;opacity:.82;margin-top:3px}.dash-hero-date,.dash-hero-status{padding:7px 10px;border-left:1px solid rgba(255,255,255,.18)}.dash-hero-date span{font-size:20px}.dash-hero-date b,.dash-hero-status b{display:block;font-size:13px}.dash-hero-date small,.dash-hero-status small{display:block;font-size:10px;opacity:.78}.dash-status-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.16);flex:none}
+.dash-hero{display:grid;grid-template-columns:minmax(0,1.6fr) auto auto auto;gap:10px;align-items:center;background:linear-gradient(135deg,#062c52,#0d4c7c);color:#fff;border-radius:16px;padding:12px 16px;box-shadow:0 10px 24px rgba(7,43,77,.18)}
+.dash-hero-brand,.dash-hero-date,.dash-hero-status{display:flex;align-items:center;gap:10px;min-width:0}.dash-hero-mark{font-size:30px;line-height:1}.dash-hero-title{font-size:20px;font-weight:800;line-height:1.2}.dash-hero-sub{font-size:11px;opacity:.82;margin-top:3px}.dash-hero-date,.dash-hero-status,.dash-hero .auth-user{padding:7px 10px;border-left:1px solid rgba(255,255,255,.18)}.dash-hero-date span{font-size:20px}.dash-hero-date b,.dash-hero-status b{display:block;font-size:13px}.dash-hero-date small,.dash-hero-status small{display:block;font-size:10px;opacity:.78}.dash-status-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.16);flex:none}
+.dash-hero .auth-user{justify-content:flex-end;min-width:0}.dash-hero .auth-user .pill{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.14);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dash-hero .logout-btn{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;white-space:nowrap}
 .dash-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.dash-kpi{min-width:0;border-radius:14px;color:#fff;padding:12px 12px 10px;display:grid;grid-template-columns:auto 1fr;gap:8px;box-shadow:0 8px 18px rgba(15,35,60,.12);overflow:hidden}.dash-kpi.people{background:linear-gradient(135deg,#0b82df,#075baf)}.dash-kpi.projects{background:linear-gradient(135deg,#0aa64f,#087f3d)}.dash-kpi.budget{background:linear-gradient(135deg,#f6a900,#e27b00)}.dash-kpi.fuel{background:linear-gradient(135deg,#ef2737,#c90e20)}.dash-kpi.allowance{background:linear-gradient(135deg,#8439e9,#5d16b9)}.dash-kpi-icon{font-size:25px;line-height:1}.dash-kpi-main{min-width:0}.dash-kpi-main small{display:block;font-size:11px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dash-kpi-main strong{font-size:27px;line-height:1.05;display:inline-block;margin-top:2px}.dash-kpi-main span{font-size:10px;margin-left:4px}.dash-kpi-break{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.22);padding-top:6px;display:flex;gap:10px;flex-wrap:wrap;font-size:10px;min-width:0}.dash-kpi-break span{white-space:nowrap}.dash-kpi-break b{font-size:11px}
 .dash-main-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,1fr) minmax(280px,.95fr);gap:9px}.dash-panel,.dash-resource-panel{background:#fff;border:1px solid #dbe3ec;border-radius:14px;box-shadow:0 6px 18px rgba(15,35,60,.06);min-width:0;overflow:hidden}.dash-panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 12px;border-bottom:1px solid #e6edf3;background:#fbfcfe}.dash-panel-head h3{margin:0;font-size:15px;color:#17314d}.dash-link{font-size:10px;color:#0b62b0;white-space:nowrap}.dash-table-wrap{overflow:auto}.dash-table{width:100%;border-collapse:collapse;min-width:650px;font-size:10px}.dash-table th,.dash-table td{padding:7px 6px;border-bottom:1px solid #edf1f5;text-align:left;vertical-align:top}.dash-table th{background:#eef4f9;color:#334e68;font-weight:800;white-space:nowrap}.dash-table td{color:#243b53}.dash-status-pill{display:inline-flex;align-items:center;padding:4px 7px;border-radius:8px;font-size:9px;font-weight:800;white-space:nowrap}.dash-status-pill.ok{background:#dcfce7;color:#166534}.dash-status-pill.warn{background:#ffedd5;color:#9a3412}.dash-status-pill.free{background:#ecfdf3;color:#166534}.dash-empty{text-align:center;color:#64748b;padding:20px 10px;font-size:11px}
 .dash-area-content{padding:12px;min-height:265px}.dash-data-empty{height:100%;min-height:240px;border:1px dashed #cbd5e1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;background:linear-gradient(180deg,#f8fafc,#fff)}.dash-data-empty-icon{font-size:30px;margin-bottom:6px}.dash-data-empty b{font-size:14px;color:#234}.dash-data-empty p{max-width:300px;font-size:11px;line-height:1.6;color:#64748b;margin:5px 0 10px}.dash-mini-list{width:100%;display:grid;gap:6px;text-align:left}.dash-mini-list>div{display:grid;grid-template-columns:24px 1fr;gap:4px;padding:6px 8px;border:1px solid #e5e7eb;border-radius:8px;background:#fff}.dash-mini-list b{font-size:10px}.dash-mini-list small{grid-column:2;color:#64748b;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1773,7 +1776,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
 .dash-bottom-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.8fr);gap:9px}.dash-resource-panel{padding-bottom:9px}.dash-resource-panel>.dash-panel-head{margin-bottom:8px}.dash-resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 9px}.resource-item{display:flex;gap:9px;align-items:center;border:1px solid #e6edf3;border-radius:10px;padding:10px;background:#fff}.resource-icon{font-size:24px}.resource-item b,.resource-item strong,.resource-item small{display:block}.resource-item b{font-size:10px}.resource-item strong{font-size:15px;margin-top:2px}.resource-item small{font-size:9px;color:#64748b;margin-top:1px}.resource-item.budget{border-top:3px solid #f59e0b}.resource-item.fuel{border-top:3px solid #ef3340}.resource-item.allowance{border-top:3px solid #8b3eea}.dash-followup{min-height:100%}.dash-followup #dashFollowupRows{padding:7px 11px}.dash-follow-item{display:flex;align-items:flex-start;gap:8px;padding:8px 2px;border-bottom:1px solid #edf1f5;font-size:10px;line-height:1.45}.follow-dot{width:9px;height:9px;border-radius:50%;margin-top:4px;flex:none}.follow-dot.red{background:#ef3340}.follow-dot.orange{background:#f59e0b}.follow-dot.yellow{background:#eab308}
 .main.dashboard-active>.top{background:linear-gradient(135deg,#062c52,#0d4c7c);color:#fff;border-radius:16px;padding:11px 14px 12px;margin-bottom:10px;border:0;box-shadow:0 8px 18px rgba(7,43,77,.14)}.main.dashboard-active>.top .muted{color:rgba(255,255,255,.8)}.main.dashboard-active>.top h1{font-size:18px}.main.dashboard-active>.top .db-status{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;box-shadow:none}.main.dashboard-active>.top .auth-user .pill{background:rgba(255,255,255,.1);color:#fff}.main.dashboard-active>.top .logout-btn{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff}
 @media(max-width:1100px){.dash-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.dash-main-grid{grid-template-columns:1fr 1fr}.dash-vehicle-panel{grid-column:1/-1}.dash-lower-grid{grid-template-columns:1fr}.dash-bottom-grid{grid-template-columns:1fr}}
-@media(max-width:720px){.dashboard-command-center{gap:8px}.dash-hero{grid-template-columns:1fr 1fr;padding:10px 11px;border-radius:12px}.dash-hero-brand{grid-column:1/-1}.dash-hero-title{font-size:17px}.dash-hero-sub{font-size:9px}.dash-hero-date,.dash-hero-status{border-left:0;padding:5px 0}.dash-hero-date{border-right:1px solid rgba(255,255,255,.18)}.dash-hero-date b,.dash-hero-status b{font-size:10px}.dash-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.dash-kpi{border-radius:11px;padding:9px}.dash-kpi-icon{font-size:21px}.dash-kpi-main small{font-size:9px}.dash-kpi-main strong{font-size:21px}.dash-kpi-break{font-size:8px;gap:5px}.dash-main-grid{grid-template-columns:1fr;gap:8px}.dash-panel-head{padding:9px 10px}.dash-panel-head h3{font-size:13px}.dash-table{font-size:9px}.dash-table th,.dash-table td{padding:6px 5px}.dash-area-content{min-height:220px;padding:9px}.dash-data-empty{min-height:200px}.dash-vehicle-summary{padding:10px}.dash-donut{width:92px;height:92px}.dash-donut>div{width:58px;height:58px}.dash-donut strong{font-size:19px}.dash-vehicle-list{max-height:220px}.dash-lower-grid,.dash-bottom-grid{grid-template-columns:1fr;gap:8px}.dash-resource-grid{grid-template-columns:1fr;gap:6px}.resource-item{padding:8px}.dash-follow-item{font-size:9px}.dash-free-list{max-height:250px}.main.dashboard-active>.top{border-radius:12px;padding:9px 10px}.main.dashboard-active>.top h1{font-size:16px}}
+@media(max-width:720px){.dashboard-command-center{gap:8px}.dash-hero{grid-template-columns:1fr 1fr;padding:10px 11px;border-radius:12px}.dash-hero-brand{grid-column:1/-1}.dash-hero .auth-user{grid-column:1/-1;border-left:0;padding:5px 0;justify-content:flex-end}.dash-hero-title{font-size:17px}.dash-hero-sub{font-size:9px}.dash-hero-date,.dash-hero-status{border-left:0;padding:5px 0}.dash-hero-date{border-right:1px solid rgba(255,255,255,.18)}.dash-hero-date b,.dash-hero-status b{font-size:10px}.dash-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.dash-kpi{border-radius:11px;padding:9px}.dash-kpi-icon{font-size:21px}.dash-kpi-main small{font-size:9px}.dash-kpi-main strong{font-size:21px}.dash-kpi-break{font-size:8px;gap:5px}.dash-main-grid{grid-template-columns:1fr;gap:8px}.dash-panel-head{padding:9px 10px}.dash-panel-head h3{font-size:13px}.dash-table{font-size:9px}.dash-table th,.dash-table td{padding:6px 5px}.dash-area-content{min-height:220px;padding:9px}.dash-data-empty{min-height:200px}.dash-vehicle-summary{padding:10px}.dash-donut{width:92px;height:92px}.dash-donut>div{width:58px;height:58px}.dash-donut strong{font-size:19px}.dash-vehicle-list{max-height:220px}.dash-lower-grid,.dash-bottom-grid{grid-template-columns:1fr;gap:8px}.dash-resource-grid{grid-template-columns:1fr;gap:6px}.resource-item{padding:8px}.dash-follow-item{font-size:9px}.dash-free-list{max-height:250px}.main.dashboard-active>.top{border-radius:12px;padding:9px 10px}.main.dashboard-active>.top h1{font-size:16px}}
 @media(max-width:420px){.dash-kpis{grid-template-columns:1fr 1fr}.dash-kpi-main strong{font-size:19px}.dash-kpi-break span{max-width:100%;overflow:hidden;text-overflow:ellipsis}.dash-hero-title{font-size:15px}.dash-hero-sub{font-size:8px}.dash-table{min-width:700px}}
 </style>
 </head>
@@ -1802,22 +1805,7 @@ html,body{width:100%;min-width:0;max-width:100%;}
 </aside>
 
 <main class="main dashboard-active">
-<header class="top">
-  <div class="top-main">
-    <div class="eyebrow">ศูนย์บริหารแผนงาน</div>
-    <h1 id="title">Dashboard</h1>
-    <div class="muted">ข้อมูลทุกหน้ามาจาก Supabase ชุดเดียวกัน</div>
-  </div>
-  <div class="top-actions">
-    <div class="muted top-date" id="today"></div>
-    <div id="dbStatus" class="db-status db-offline" role="status" aria-live="polite">
-      <span class="db-dot" aria-hidden="true"></span>
-      <span class="db-copy"><span class="db-label">ฐานข้อมูล</span><span id="dbStatusText">🔴 ยังไม่ยืนยันการเชื่อมต่อ</span></span>
-      <span class="db-provider" aria-label="แหล่งข้อมูล">SUPABASE</span>
-    </div>
-    <div class="auth-user"><span id="authUserBadge" class="pill blue">🔐 —</span><button id="logoutBtn" class="logout-btn" type="button">ออกจากระบบ</button></div>
-  </div>
-</header>
+
 <div id="globalError" class="notice bad hidden" style="margin-bottom:14px"></div>
 
 <section id="dashboard" class="page active dashboard-command-center">
@@ -1828,13 +1816,14 @@ html,body{width:100%;min-width:0;max-width:100%;}
     </div>
     <div class="dash-hero-date"><span>📅</span><div><b id="dashTodayLabel">—</b><small id="dashTodayTime">—</small></div></div>
     <div class="dash-hero-status"><span class="dash-status-dot"></span><div><b>ข้อมูลจาก Supabase</b><small>ชุดข้อมูลจริง</small></div></div>
+    <div class="auth-user"><span id="authUserBadge" class="pill blue">🔐 —</span><button id="logoutBtn" class="logout-btn" type="button">ออกจากระบบ</button></div>
   </div>
 
   <div class="dash-kpis">
     <div class="dash-kpi people"><div class="dash-kpi-icon">👥</div><div class="dash-kpi-main"><small>กำลังพลทั้งหมด</small><strong id="kPeople">—</strong><span>คน</span></div><div class="dash-kpi-break"><span>🔴 ติดภารกิจ <b id="dashBusyPeople">—</b></span><span>🟢 ไม่ติดภารกิจ <b id="dashFreePeople">—</b></span></div></div>
     <div class="dash-kpi projects"><div class="dash-kpi-icon">📋</div><div class="dash-kpi-main"><small>โครงการ/ภารกิจวันนี้</small><strong id="kProjects">—</strong><span>รายการ</span></div><div class="dash-kpi-break"><span>มีข้อมูลจริงจากแผน <b id="dashProjectPlanCount">—</b></span></div></div>
     <div class="dash-kpi budget"><div class="dash-kpi-icon">🪙</div><div class="dash-kpi-main"><small>งบประมาณวันนี้</small><strong id="dashBudgetValue">—</strong><span>ยอดเงินจริง</span></div><div class="dash-kpi-break"><span>ยังไม่มีฟิลด์ยอดเงินในข้อมูลปัจจุบัน</span></div></div>
-    <div class="dash-kpi fuel"><div class="dash-kpi-icon">⛽</div><div class="dash-kpi-main"><small>น้ำมันวันนี้</small><strong id="dashFuelCount">—</strong><span>รายการ</span></div><div class="dash-kpi-break"><span>ปริมาณลิตร <b>—</b></span></div></div>
+    <div class="dash-kpi fuel"><div class="dash-kpi-icon">⛽</div><div class="dash-kpi-main"><small>น้ำมันวันนี้</small><strong id="dashFuelCount">—</strong><span>รายการ</span></div><div class="dash-kpi-break"><span>ประจำวันคงเหลือ <b id="dashFuelDailyRemaining">—</b></span><span>ปฏิบัติการคงเหลือ <b id="dashFuelOperationalRemaining">—</b></span></div></div>
     <div class="dash-kpi allowance"><div class="dash-kpi-icon">🍱</div><div class="dash-kpi-main"><small>ค่าเลี้ยงดูวันนี้</small><strong id="dashAllowanceEligible">—</strong><span>คนมีสิทธิ</span></div><div class="dash-kpi-break"><span>ยอดเงินจริง <b>—</b></span></div></div>
   </div>
 
@@ -2039,7 +2028,8 @@ html,body{width:100%;min-width:0;max-width:100%;}
 
 <section id="budget" class="page"><div class="row"><div class="card"><h3>💰 งบทรงชีพ</h3><div id="budgetSustain"></div></div><div class="card"><h3>🎯 งบโครงการ</h3><div id="budgetProject"></div></div></div><div class="card" style="margin-top:14px"><div class="notice">ยังไม่มีการกำหนดวงเงินงบประมาณใน Master Data จึงไม่สร้างยอดงบหรือยอดคงเหลือขึ้นมาเอง</div></div></section>
 
-<section id="fuel" class="page"><div class="card"><h3>⛽ ควบคุมน้ำมัน</h3><div class="toolbar"><input id="fuelDate" type="date"><select id="fuelVehicle"></select><button id="fuelAdd" class="primary">＋ บันทึกน้ำมัน</button></div><div id="fuelDecision" class="notice">เลือกวันที่และรถเพื่อให้ระบบอ่านแผนก่อน</div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>วันที่</th><th>รถ</th><th>ประเภทงบ</th><th colspan="2">สถานะ</th></tr></thead><tbody id="fuelTable"></tbody></table></div></div></section>
+<section id="fuel" class="page"><div class="card"><h3>⛽ ควบคุมน้ำมัน — งบทรงชีพ ปีงบประมาณ 2570</h3><div id="fuelBackendNotice" class="notice">กำลังตรวจสอบโครงสร้างข้อมูลควบคุมน้ำมัน…</div><div class="fuel-summary-grid"><article class="fuel-summary-card"><h4>① น้ำมันประจำวัน</h4><div class="fuel-amount" id="fuelDailyRemaining">—</div><div class="muted">ยอดคงเหลือ</div><dl><dt>วงเงินตั้งต้น</dt><dd id="fuelDailyAllocated">—</dd><dt>ใช้ไปสะสม</dt><dd id="fuelDailyUsed">—</dd></dl></article><article class="fuel-summary-card operational"><h4>② น้ำมันปฏิบัติการ</h4><div class="fuel-amount" id="fuelOperationalRemaining">—</div><div class="muted">ยอดคงเหลือ</div><dl><dt>วงเงินตั้งต้น</dt><dd id="fuelOperationalAllocated">—</dd><dt>ใช้ไปสะสม</dt><dd id="fuelOperationalUsed">—</dd></dl></article></div><form id="fuelBudgetForm" class="formgrid fuel-form-card"><div class="field"><label>วงเงินน้ำมันประจำวัน (บาท)</label><input id="fuelDailyBudget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="กรอกวงเงินจริง"></div><div class="field"><label>วงเงินน้ำมันปฏิบัติการ (บาท)</label><input id="fuelOperationalBudget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="กรอกวงเงินจริง"></div><div class="full"><button id="fuelBudgetSave" class="secondary" type="submit">บันทึกวงเงินปี 2570</button><span class="muted"> ไม่กำหนดค่าเริ่มต้น ระบบจะใช้เฉพาะวงเงินที่เจ้าหน้าที่กรอก</span></div></form><hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h4>บันทึกการเติมน้ำมัน</h4><form id="fuelRefillForm" class="formgrid"><div class="field"><label>วันที่ <span class="required-mark">*</span></label><input id="fuelDate" type="date" required></div><div class="field"><label>รถ <span class="required-mark">*</span></label><select id="fuelVehicle" required></select></div><div class="field"><label>ประเภทการใช้ <span class="required-mark">*</span></label><select id="fuelUsageType" required><option value="daily">น้ำมันประจำวัน</option><option value="operational">น้ำมันปฏิบัติการ</option></select></div><div class="field"><label>ประเภทน้ำมัน</label><div class="fuel-fixed">ดีเซล (ล็อกโดยระบบ)</div></div><div class="field"><label>จำนวนเงินที่เติม (บาท) <span class="required-mark">*</span></label><input id="fuelAmount" type="number" min="0.01" step="0.01" inputmode="decimal" required></div><div class="field"><label>ปริมาณ (ลิตร)</label><div id="fuelLitersPreview" class="fuel-fixed fuel-result">—</div></div><div class="field"><label>ผู้รับน้ำมัน / ผู้เติม <span class="required-mark">*</span></label><input id="fuelReceiver" maxlength="200" required></div><div class="field"><label>เลขที่ใบเบิก <span class="required-mark">*</span></label><input id="fuelVoucher" maxlength="100" required></div><div class="field"><label>หมายเหตุ</label><input id="fuelNote" maxlength="500"></div><div id="fuelDecision" class="notice full">กรอกข้อมูลการเติม ระบบตรวจวงเงินและส่งเข้าทะเบียนตามประเภทที่เลือก โดยไม่คำนวณปริมาณลิตรอัตโนมัติ</div><div class="full"><button id="fuelAdd" class="primary" type="submit">＋ บันทึกการเติมน้ำมัน</button></div></form><h4 class="fuel-table-title">ทะเบียนคุมน้ำมันประจำวัน</h4><div class="table-wrap responsive-data-table"><table class="table"><thead><tr><th>วัน เดือน ปี</th><th>เลขที่ใบเบิก</th><th>รถ/ทะเบียน</th><th>ผู้รับ</th><th>น้ำมัน</th><th>ปริมาณ (ลิตร)</th><th>วงเงิน (บาท)</th><th>วงเงินสะสม (บาท)</th><th>ผู้บันทึก</th><th>หมายเหตุ</th></tr></thead><tbody id="fuelDailyTable"></tbody></table></div><h4 class="fuel-table-title">ทะเบียนคุมน้ำมันปฏิบัติการ</h4><div class="table-wrap responsive-data-table"><table class="table"><thead><tr><th>วัน เดือน ปี</th><th>เลขที่ใบเบิก</th><th>รถ/ทะเบียน</th><th>ผู้รับ</th><th>น้ำมัน</th><th>ปริมาณ (ลิตร)</th><th>วงเงิน (บาท)</th><th>วงเงินสะสม (บาท)</th><th>ผู้บันทึก</th><th>หมายเหตุ</th></tr></thead><tbody id="fuelOperationalTable"></tbody></table></div></div></section>
 
 <section id="allowance" class="page"><div class="card"><div class="toolbar"><input id="allowDate" type="date"></div><div id="allowanceInfo"></div><div class="table-wrap responsive-data-table" style="margin-top:12px"><table class="table"><thead><tr><th>ชื่อ</th><th>สถานะ</th><th>สิทธิ</th><th>เหตุผล</th></tr></thead><tbody id="allowTable"></tbody></table></div></div></section>
 
@@ -2237,11 +2227,10 @@ document.querySelectorAll('.nav button').forEach(button=>{
 const SUPABASE_URL='https://fbehuqojyebgaeoxubud.supabase.co';
 const SUPABASE_KEY='sb_publishable_91PHdBPTs1hI2cMzKkD8bg_q_PGjxsf';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let people=[],personnelAll=[],vehicles=[],projects=[],plans=[],planPeople=[],fuels=[],allowances=[],cursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+let people=[],personnelAll=[],vehicles=[],projects=[],plans=[],planPeople=[],fuels=[],allowances=[],fuelBudgets=[],fuelBackendReady=false,cursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
 
 function localDate(y,m,d){const dt=new Date(y,m,d);return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`}
 const today=()=>localDate(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
-$('today').textContent=new Intl.DateTimeFormat('th-TH',{dateStyle:'full'}).format(new Date());
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function pname(id){return projects.find(x=>x.id===id)?.project_name||'—'} function vname(id){let v=vehicles.find(x=>x.id===id);return v?v.vehicle_type+' · '+v.registration:'—'}
 function planStart(p){return p.start_date||p.plan_date}
@@ -2306,13 +2295,14 @@ async function load(){
  $('globalError').classList.add('hidden');
  setDbStatus(false,'🔴 กำลังตรวจสอบการเชื่อมต่อฐานข้อมูล');
  try{
- [personnelAll,vehicles,projects,plans,planPeople,fuels,allowances]=await Promise.all([
+ [personnelAll,vehicles,projects,plans,planPeople,allowances]=await Promise.all([
  q('personnel'),
  q('vehicles').then(x=>x.filter(a=>a.active)),
  q('projects').then(x=>x.filter(a=>a.active)),
  q('plans').then(x=>x.filter(a=>a.status==='planned')),
- q('plan_personnel'),q('fuel_transactions'),q('allowance_transactions')
+ q('plan_personnel'),q('allowance_transactions')
  ]);
+ try{[fuelBudgets,fuels]=await Promise.all([q('fuel_allocations'),q('fuel_refills')]);fuelBackendReady=true}catch(fuelError){console.warn('Fuel control schema unavailable',fuelError);fuelBudgets=[];fuels=[];fuelBackendReady=false}
  applyAccessFilter();
  people=personnelAll.filter(a=>a.active);
  setDbStatus(true,'🟢 ฐานข้อมูลเชื่อมต่อแล้ว');
@@ -2333,6 +2323,8 @@ function render(){
  $('dashFreePeopleTitle').textContent=freePeople.length;
  $('dashProjectPlanCount').textContent=ps.length;
  $('dashFuelCount').textContent=fuels.filter(x=>x.transaction_date===td).length;
+ $('dashFuelDailyRemaining').textContent=fuelSummary('daily').configured?money(fuelSummary('daily').remaining):'ยังไม่กำหนด';
+ $('dashFuelOperationalRemaining').textContent=fuelSummary('operational').configured?money(fuelSummary('operational').remaining):'ยังไม่กำหนด';
  $('dashResourceFuel').textContent=fuels.filter(x=>x.transaction_date===td).length;
  $('dashResourceAllowance').textContent=people.filter(p=>p.personnel_section==='กอ.รมน.จังหวัด ม.ห.'&&!used.has(p.id)).length;
  $('dashAllowanceEligible').textContent=people.filter(p=>p.personnel_section==='กอ.รมน.จังหวัด ม.ห.'&&!used.has(p.id)).length;
@@ -2559,30 +2551,60 @@ async function deletePlan(id){
  if(r.error){alert('ลบแผนไม่สำเร็จ: '+r.error.message);return}
  $('modal').classList.add('hidden');await load();
 }
-function fuelPlanForDate(v,d){return plans.find(x=>x.vehicle_id===v&&x.status==='planned'&&isDateInPlan(x,d))}
-function renderFuel(){
- const d=$('fuelDate').value||today(),v=$('fuelVehicle').value,p=fuelPlanForDate(v,d),tx=fuels.filter(x=>x.transaction_date===d&&x.vehicle_id===v),exists=tx.length>0;
- if(!v){$('fuelDecision').textContent='⚪ ยังไม่มีข้อมูลรถ';$('fuelAdd').disabled=true;return}
- if(p&&p.plan_type==='official_trip'&&p.transport_type==='unit_vehicle'&&p.budget_type==='project'){$('fuelDecision').className='notice bad';$('fuelDecision').innerHTML='🔵 <b>เติมได้ด้วยงบโครงการ</b><br>รถอยู่ระหว่างไปราชการช่วง '+esc(planStart(p))+' ถึง '+esc(planEnd(p))+' — 🔒 งบทรงชีพใช้ไม่ได้';}
- else if(p&&p.plan_type==='official_trip'&&p.transport_type==='unit_vehicle'){$('fuelDecision').className='notice bad';$('fuelDecision').innerHTML='🔴 <b>รถอยู่ระหว่างไปราชการ</b><br>ช่วง '+esc(planStart(p))+' ถึง '+esc(planEnd(p))+' — 🔒 ห้ามเติมน้ำมันงบทรงชีพจนกว่ารถจะกลับมา';}
- else if(p&&p.plan_type==='official_trip'&&p.transport_type==='private_vehicle'){$('fuelDecision').className='notice';$('fuelDecision').innerHTML='🟢 <b>ไปราชการด้วยรถส่วนตัว</b><br>ไม่ล็อกรถหน่วยงาน — รถหน่วยงานตรวจสิทธิ์น้ำมันตามแผนของรถแต่ละคัน';}
- else if(p&&p.budget_type==='project'){$('fuelDecision').className='notice bad';$('fuelDecision').innerHTML=`🔵 <b>เติมได้ด้วยงบโครงการ</b><br>รถคันนี้ออก ${esc(pname(p.project_id))} และผูกกับ <b>งบโครงการ</b> — 🔒 งบทรงชีพใช้ไม่ได้`;}
- else if(p){$('fuelDecision').className='notice';$('fuelDecision').innerHTML='🟢 <b>เติมได้ด้วยงบทรงชีพ</b><br>ระบบจะบันทึกประเภทงบตามแผนโดยอัตโนมัติ';}
- else{$('fuelDecision').className='notice ok';$('fuelDecision').innerHTML='🟢 <b>เติมงบทรงชีพได้</b><br>ยังไม่มีแผนรถในวันที่เลือก — สิทธิ์การบันทึกยังคงเป็นไปตามกฎเดิมของระบบ';}
- $('fuelAdd').disabled=!p||(p.plan_type==='official_trip'&&p.transport_type==='unit_vehicle'&&p.budget_type!=='project')||exists;
- if(exists)$('fuelDecision').innerHTML+='<div class="muted" style="margin-top:6px">มีรายการน้ำมันของรถ/วันที่นี้แล้ว จึงบันทึกซ้ำไม่ได้</div>';
- $('fuelTable').innerHTML=tx.length?tx.map(t=>`<tr><td>${t.transaction_date}</td><td>${esc(vname(t.vehicle_id))}</td><td>${t.budget_type==='project'?'งบโครงการ':'งบทรงชีพ'}</td><td colspan="2"><span class="pill ${t.budget_type==='project'?'blue':'ok'}">บันทึกแล้ว</span></td></tr>`).join(''):'<tr><td colspan="5" class="empty">ยังไม่มีรายการน้ำมันของรถ/วันที่นี้</td></tr>';
+/* Fuel control 2570 — single source of client-side fuel business logic. */
+const money=n=>new Intl.NumberFormat('th-TH',{style:'currency',currency:'THB',minimumFractionDigits:2}).format(Number(n||0));
+const liters=n=>Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
+function fuelBudget(kind){return fuelBudgets.find(x=>x.fiscal_year===2570&&x.usage_type===kind)||null}
+function isFuelFY2570Date(date){return /^2026-10-\d{2}$/.test(String(date||''))||/^2027-(0[1-9]|[0-9]|1[0-2])-\d{2}$/.test(String(date||''))}
+function fuelUsed(kind){return fuels.filter(x=>isFuelFY2570Date(x.transaction_date)&&x.usage_type===kind).reduce((sum,x)=>sum+Number(x.amount||0),0)}
+function fuelSummary(kind){const a=fuelBudget(kind),allocated=Number(a?.allocated_amount||0),used=fuelUsed(kind);return {allocated,used,remaining:allocated-used,configured:!!a}}
+function showFuelSummary(kind,p){const s=fuelSummary(kind);$(p+'Allocated').textContent=s.configured?money(s.allocated):'ยังไม่กำหนด';$(p+'Used').textContent=money(s.used);$(p+'Remaining').textContent=s.configured?money(s.remaining):'ยังไม่กำหนด'}
+function thaiDate(d){return d?new Intl.DateTimeFormat('th-TH',{dateStyle:'medium'}).format(new Date(d+'T00:00:00')):'—'}
+function fuelPlansForDate(vehicleId,date){return plans.filter(p=>String(p.vehicle_id)===String(vehicleId)&&p.status==='planned'&&p.transport_type==='unit_vehicle'&&isDateInPlan(p,date))} // ไม่บังคับให้มีแผนรถเพื่อเติมน้ำมัน; ใช้ข้อมูลแผนเฉพาะเพื่อตรวจภารกิจที่ห้ามเติม
+function fuelPlanForDate(vehicleId,date){return fuelPlansForDate(vehicleId,date)[0]||null}
+function fuelTripBlocked(plan){return !!(plan&&plan.transport_type==='unit_vehicle'&&(plan.plan_type==='project'||plan.plan_type==='official_trip'))}
+function fuelBlockedPlanForDate(vehicleId,date){return fuelPlansForDate(vehicleId,date).find(fuelTripBlocked)||null}
+function fuelDuplicate(vehicleId,date,ignoreId=''){return fuels.some(x=>String(x.vehicle_id)===String(vehicleId)&&x.transaction_date===date&&String(x.id)!==String(ignoreId))}
+function fuelCanManage(record){return !!(record&&authUser?.id&&String(record.created_by||'')===String(authUser.id))}
+function fuelValidateContext(vehicleId,date,usageType,amount,ignoreId=''){
+ const plansForDate=fuelPlansForDate(vehicleId,date);
+ const blockedPlan=plansForDate.find(fuelTripBlocked)||null;
+ if(!vehicleId||!date)return {ok:false,message:'🔴 กรุณาเลือกวันที่และรถ'};
+ if(blockedPlan)return {ok:false,message:`🔴 ไม่สามารถเติมน้ำมันงบทรงชีพ: รถติดภารกิจ${blockedPlan.plan_type==='project'?'โครงการ':'เดินทางไปราชการ'} ${planStart(blockedPlan)} ถึง ${planEnd(blockedPlan)}`};
+ if(fuelDuplicate(vehicleId,date,ignoreId))return {ok:false,message:'🔴 รถคันนี้มีรายการน้ำมันในวันที่เลือกแล้ว จึงบันทึกซ้ำไม่ได้'};
+ const summary=fuelSummary(usageType);
+ if(!summary.configured)return {ok:false,message:'🔴 กรุณากำหนดวงเงินก่อนบันทึก'};
+ if(Number(amount)>summary.remaining)return {ok:false,message:`⚠️ วงเงินคงเหลือไม่เพียงพอ — คงเหลือ ${money(summary.remaining)}`};
+ return {ok:true,summary};
 }
-async function addFuel(){
- const d=$('fuelDate').value||today(),v=$('fuelVehicle').value,p=fuelPlanForDate(v,d);
- if(!p){alert('🔴 ไม่สามารถบันทึก: ไม่พบแผนรถในวันที่เลือก');return}
- if(p.plan_type==='official_trip'&&p.transport_type==='unit_vehicle'&&p.budget_type!=='project'){alert('🔴 ไม่สามารถเติมน้ำมันงบทรงชีพ: รถอยู่ระหว่างไปราชการ '+planStart(p)+' ถึง '+planEnd(p));return}
- if(p.plan_type==='official_trip'&&p.transport_type==='private_vehicle'){alert('🔴 รายการไปราชการนี้ใช้รถส่วนตัว จึงไม่สร้างรายการน้ำมันให้รถหน่วยงานจากภารกิจนี้');return}
- if(fuels.some(x=>x.transaction_date===d&&x.vehicle_id===v)){alert('🔴 ไม่สามารถบันทึก: รถคันนี้มีรายการน้ำมันในวันที่เลือกแล้ว');return}
- const r=await db.from('fuel_transactions').insert({transaction_date:d,vehicle_id:v,budget_type:p.budget_type});if(r.error)alert('🔴 '+r.error.message);else await load();
+function fuelRows(kind){let total=0;return fuels.filter(x=>isFuelFY2570Date(x.transaction_date)&&x.usage_type===kind).slice().sort((a,b)=>String(a.transaction_date).localeCompare(String(b.transaction_date))||String(a.created_at||'').localeCompare(String(b.created_at||''))).map(x=>{total+=Number(x.amount||0);const actions=fuelCanManage(x)?`<br><button class="secondary" type="button" onclick="editFuelRecord('${x.id}')">แก้ไข</button> <button class="dangerbtn" type="button" onclick="deleteFuelRecord('${x.id}')">ลบ</button>`:'';return `<tr><td>${thaiDate(x.transaction_date)}</td><td>${esc(x.voucher_no)}</td><td>${esc(vname(x.vehicle_id))}</td><td>${esc(x.receiver_name)}</td><td>ดีเซล</td><td>—</td><td>${money(x.amount)}</td><td>${money(total)}</td><td>${esc(x.recorded_by_name||x.created_by||'—')}</td><td>${esc(x.note||'—')}${actions}</td></tr>`}).join('')}
+function updateFuelPreview(){if(!$('fuelAmount'))return;const type=$('fuelUsageType').value,amount=Number($('fuelAmount').value||0),vehicleId=$('fuelVehicle').value,date=$('fuelDate').value||today(),out=$('fuelLitersPreview'),decision=$('fuelDecision');if(out)out.textContent='—';if(!fuelBackendReady){decision.className='notice bad';decision.textContent='🔴 ยังไม่พร้อมบันทึก: ต้องใช้สคริปต์ย้ายฐานข้อมูลก่อน';$('fuelAdd').disabled=true;return}const plansForDate=fuelPlansForDate(vehicleId,date);const blockedPlan=plansForDate.find(fuelTripBlocked)||null;if(!vehicleId){decision.className='notice';decision.textContent='⚪ กรุณาเลือกรถ';$('fuelAdd').disabled=true;return}if(blockedPlan){decision.className='notice bad';decision.textContent=`🔴 รถติดภารกิจ${blockedPlan.plan_type==='project'?'โครงการ':'เดินทางไปราชการ'} ${planStart(blockedPlan)} ถึง ${planEnd(blockedPlan)} — ห้ามเติมน้ำมันงบทรงชีพ`;$('fuelAdd').disabled=true;return}if(fuelDuplicate(vehicleId,date)){decision.className='notice bad';decision.textContent='🔴 รถคันนี้มีรายการน้ำมันในวันที่เลือกแล้ว จึงบันทึกซ้ำไม่ได้';$('fuelAdd').disabled=true;return}const s=fuelSummary(type);if(!s.configured){decision.className='notice bad';decision.textContent='🔴 กรุณากำหนดวงเงินของประเภทนี้ก่อนบันทึก';$('fuelAdd').disabled=true;return}if(amount<=0||amount>s.remaining){decision.className='notice bad';decision.textContent=amount>s.remaining?`⚠️ วงเงินคงเหลือไม่เพียงพอ — คงเหลือ ${money(s.remaining)}`:'กรอกจำนวนเงินที่ต้องการเติม';$('fuelAdd').disabled=true;return}decision.className='notice ok';decision.textContent=`🟢 พร้อมบันทึก — ไม่คำนวณปริมาณลิตรอัตโนมัติ`;$('fuelAdd').disabled=false}
+function renderFuel(){if(!$('fuelBackendNotice'))return;const selected=$('fuelVehicle').value;$('fuelVehicle').innerHTML=vehicles.length?'<option value="">— เลือกรถ —</option>'+vehicles.map(v=>`<option value="${esc(v.id)}">${esc(v.vehicle_type)} · ${esc(v.registration)}</option>`).join(''):'<option value="">ยังไม่มีข้อมูลรถ</option>';$('fuelVehicle').value=selected;showFuelSummary('daily','fuelDaily');showFuelSummary('operational','fuelOperational');$('fuelDailyBudget').value=fuelBudget('daily')?.allocated_amount??'';$('fuelOperationalBudget').value=fuelBudget('operational')?.allocated_amount??'';$('fuelBackendNotice').className=fuelBackendReady?'notice ok':'notice bad';$('fuelBackendNotice').textContent=fuelBackendReady?'🟢 เชื่อมข้อมูลควบคุมน้ำมันแล้ว — ไม่แสดงหรือสร้างรายการตัวอย่าง':'🔴 ยังไม่พบโครงสร้างข้อมูลใหม่: ให้ผู้ดูแลระบบรัน fuel-control-2570-migration.sql ใน Supabase ก่อนใช้งาน';$('fuelDailyTable').innerHTML=fuelRows('daily')||'<tr><td colspan="10" class="empty">ยังไม่มีรายการน้ำมันประจำวัน</td></tr>';$('fuelOperationalTable').innerHTML=fuelRows('operational')||'<tr><td colspan="10" class="empty">ยังไม่มีรายการน้ำมันปฏิบัติการ</td></tr>';updateFuelPreview()}
+async function saveFuelBudget(e){e.preventDefault();if(!fuelBackendReady){alert('🔴 ยังไม่พบโครงสร้างข้อมูลใหม่');return}const rows=[['daily',Number($('fuelDailyBudget').value)],['operational',Number($('fuelOperationalBudget').value)]];for(const [t,a] of rows){if(!Number.isFinite(a)||a<0){alert('🔴 กรุณากรอกวงเงินเป็นจำนวนตั้งแต่ 0 บาท');return}if(a<fuelUsed(t)){alert(`🔴 ลดวงเงินต่ำกว่ายอดใช้ไปไม่ได้ (${money(fuelUsed(t))})`);return}}const r=await db.from('fuel_allocations').upsert(rows.map(([usage_type,allocated_amount])=>({fiscal_year:2570,usage_type,allocated_amount,set_by:authUser?.id||null})),{onConflict:'fiscal_year,usage_type'});if(r.error){alert('🔴 บันทึกวงเงินไม่สำเร็จ: '+r.error.message);return}await load()}
+async function addFuel(e){e.preventDefault();if(!fuelBackendReady){alert('🔴 ยังไม่พบโครงสร้างข้อมูลใหม่');return}const transaction_date=$('fuelDate').value,vehicle_id=$('fuelVehicle').value,usage_type=$('fuelUsageType').value,amount=Number($('fuelAmount').value),receiver_name=$('fuelReceiver').value.trim(),voucher_no=$('fuelVoucher').value.trim(),note=$('fuelNote').value.trim();if(!transaction_date||!vehicle_id||!receiver_name||!voucher_no||!Number.isFinite(amount)||amount<=0){alert('🔴 กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบถ้วน');return}const check=fuelValidateContext(vehicle_id,transaction_date,usage_type,amount);if(!check.ok){alert(check.message);return}if(!authUser?.id){alert('🔴 ไม่พบบัญชีผู้ใช้งานจาก Supabase Auth');return}const r=await db.from('fuel_refills').insert({transaction_date,vehicle_id,usage_type,fuel_type:'diesel',amount,diesel_price:null,liters:null,receiver_name,voucher_no,note:note||null,recorded_by_name:authUser?.user_metadata?.full_name||authUser?.email||'เจ้าหน้าที่',created_by:authUser.id});if(r.error){alert('🔴 บันทึกไม่สำเร็จ: '+r.error.message);return}
+try{
+  const vehicleLabel=vname(vehicle_id)||vehicle_id;
+  const lineResult=await db.functions.invoke('fuel-line-notify',{
+    body:{
+      transaction_date,
+      vehicle:vehicleLabel,
+      amount,
+      receiver:receiver_name,
+      usage_type,
+      voucher_no
+    }
+  });
+  if(lineResult.error){
+    console.warn('Fuel saved but LINE notification failed:',lineResult.error);
+  }else if(lineResult.data && lineResult.data.ok===false){
+    console.warn('Fuel saved but LINE notification is not configured/failed:',lineResult.data);
+  }
+}catch(lineError){
+  console.warn('Fuel saved but LINE notification could not be sent:',lineError);
 }
+$('fuelRefillForm').reset();$('fuelDate').value=today();$('fuelLitersPreview').textContent='—';await load()}
 function renderAllowance(){let d=$('allowDate').value||today(),dt=new Date(d+'T00:00:00'),monthStart=localDate(dt.getFullYear(),dt.getMonth(),1),monthEnd=localDate(dt.getFullYear(),dt.getMonth()+1,0),days=[],eligiblePeople=people.filter(p=>p.personnel_section==='กอ.รมน.จังหวัด ม.ห.');for(let cur=new Date(dt.getFullYear(),dt.getMonth(),1);cur<=new Date(dt.getFullYear(),dt.getMonth()+1,0);cur.setDate(cur.getDate()+1))days.push(localDate(cur.getFullYear(),cur.getMonth(),cur.getDate()));let eligiblePersonDays=0,ineligiblePersonDays=0;days.forEach(day=>{const u=assignedPeople(day);const eligibleBusy=[...u].filter(id=>personnelAll.find(p=>p.id===id)?.personnel_section==='กอ.รมน.จังหวัด ม.ห.').length;eligiblePersonDays+=Math.max(eligiblePeople.length-eligibleBusy,0);ineligiblePersonDays+=eligibleBusy});let used=assignedPeople(d);$('allowTable').innerHTML=eligiblePeople.map(p=>{let has=used.has(p.id),reason=has?plansOn(d).filter(pl=>peopleOnPlan(pl.id).some(pp=>pp.id===p.id)).map(pl=>pl.plan_type==='official_trip'?'เดินทางไปราชการ':'อยู่โครงการ').join(', '):'ไม่มีภารกิจในปฏิทิน';return `<tr><td>${esc(p.full_name)}</td><td>${has?'<span class="pill warn">มีภารกิจ</span>':'<span class="pill ok">ว่าง</span>'}</td><td>${has?'<span class="pill bad">ไม่มีสิทธิ</span>':'<span class="pill ok">มีสิทธิ</span>'}</td><td>${esc(reason)}</td></tr>`}).join('');$('allowanceInfo').innerHTML=`<div class="notice"><b>สรุปเดือน ${new Intl.DateTimeFormat('th-TH',{month:'long',year:'numeric'}).format(dt)}</b><br>เฉพาะ กอ.รมน.จังหวัด ม.ห. — ${eligiblePeople.length} อัตรา<br>ช่วงวันที่: ${monthStart} ถึง ${monthEnd}<br>🟢 วัน-กำลังพลที่มีสิทธิรวม: <b>${eligiblePersonDays}</b> รายการสิทธิ<br>🔴 วัน-กำลังพลที่ไม่มีสิทธิรวม: <b>${ineligiblePersonDays}</b> รายการสิทธิ<br><span class="muted">ระบบตรวจทุกวันของเดือน รวมเสาร์–อาทิตย์และวันหยุดราชการ และตัดสิทธิเฉพาะวันที่มีกำลังพลอยู่โครงการหรือเดินทางไปราชการ</span></div>`}
-function renderBudget(){let s=fuels.filter(x=>x.budget_type==='sustainment'),p=fuels.filter(x=>x.budget_type==='project');$('budgetSustain').innerHTML=`รายการน้ำมัน: ${s.length}<br><span class="muted">ยังไม่มีข้อมูลจำนวนเงิน</span><br><span class="muted">ยังไม่มีวงเงินงบประมาณ</span>`;$('budgetProject').innerHTML=`รายการน้ำมัน: ${p.length}<br><span class="muted">ยังไม่มีข้อมูลจำนวนเงิน</span><br><span class="muted">ยังไม่มีวงเงินงบประมาณ</span>`}
+function renderBudget(){const d=fuelSummary('daily'),o=fuelSummary('operational');$('budgetSustain').innerHTML=`<b>น้ำมันประจำวัน</b><br>วงเงิน: ${d.configured?money(d.allocated):'ยังไม่กำหนด'}<br>ใช้ไป: ${money(d.used)}<br><b>คงเหลือ: ${d.configured?money(d.remaining):'ยังไม่กำหนด'}</b><hr style="border:0;border-top:1px solid #e3e8ef"><b>น้ำมันปฏิบัติการ</b><br>วงเงิน: ${o.configured?money(o.allocated):'ยังไม่กำหนด'}<br>ใช้ไป: ${money(o.used)}<br><b>คงเหลือ: ${o.configured?money(o.remaining):'ยังไม่กำหนด'}</b>`;$('budgetProject').innerHTML=`รายการงบโครงการ: ${plans.filter(x=>x.budget_type==='project').length}<br><span class="muted">ข้อมูลวงเงินโครงการยังใช้ตาม Master Data เดิม</span>`}
 async function listOrderDocuments(){
   const box=$('orderDocuments'); if(!box)return;
   const r=await db.storage.from('personnel-orders').list('commands',{limit:100,sortBy:{column:'name',order:'desc'}});
@@ -2733,7 +2755,222 @@ document.querySelectorAll('[data-settings-modal]').forEach(b=>b.addEventListener
 $('settingsUserAdd').onclick=()=>{resetSettingsUserForm();populateSettingsUserProjects();$('settingsUserForm').classList.remove('hidden');$('settingsUserPassword').required=true;$('settingsUserForm').scrollIntoView({behavior:'smooth',block:'nearest'});};$('settingsUserCancel').onclick=()=>{$('settingsUserForm').classList.add('hidden');resetSettingsUserForm()};$('settingsUserRefresh').onclick=loadSettingsUsers;$('settingsUserForm').addEventListener('submit',saveSettingsUser);
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const msg=$('loginMsg');msg.textContent='กำลังเข้าสู่ระบบ…';const {data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error){msg.textContent='🔴 เข้าสู่ระบบไม่สำเร็จ: '+error.message;return}authSession=data.session;authUser=data.user;try{await loadRoleMapping();}catch(err){msg.textContent='🔴 ตรวจสอบสิทธิ์ไม่สำเร็จ: '+err.message;await db.auth.signOut();return}updateAuthUI();applySettingsRoleGuard();$('loginGate').classList.add('hidden');await load()});
 $('logoutBtn').onclick=async()=>{await db.auth.signOut();location.reload()};
+$('fuelDate').onchange=updateFuelPreview;$('fuelVehicle').onchange=updateFuelPreview;$('fuelUsageType').onchange=updateFuelPreview;$('fuelAmount').oninput=updateFuelPreview;$('fuelBudgetForm').onsubmit=saveFuelBudget;$('fuelRefillForm').onsubmit=addFuel;
+function openFuelEditModal(record){let m=$('fuelEditModal');if(!m){document.body.insertAdjacentHTML('beforeend','<div id="fuelEditModal" class="modal hidden"><div class="modalbox" style="max-width:760px;height:auto"><div style="display:flex;justify-content:space-between;align-items:center"><h3>✏️ แก้ไขรายการเติมน้ำมัน</h3><button id="fuelEditClose" type="button" class="secondary">ปิด</button></div><form id="fuelEditForm" class="formgrid" style="margin-top:12px"><input id="fuelEditId" type="hidden"><div class="field"><label>วันที่</label><input id="fuelEditDate" type="date" required></div><div class="field"><label>รถ</label><select id="fuelEditVehicle" required></select></div><div class="field"><label>ประเภทการใช้</label><select id="fuelEditType"><option value="daily">น้ำมันประจำวัน</option><option value="operational">น้ำมันปฏิบัติการ</option></select></div><div class="field"><label>จำนวนเงิน (บาท)</label><input id="fuelEditAmount" type="number" min="0.01" step="0.01" required></div><div class="field"><label>ปริมาณ (ลิตร)</label><div id="fuelEditLiters" class="fuel-fixed fuel-result"></div></div><div class="field"><label>ผู้รับน้ำมัน / ผู้เติม</label><input id="fuelEditReceiver" maxlength="200" required></div><div class="field"><label>เลขที่ใบเบิก</label><input id="fuelEditVoucher" maxlength="100" required></div><div class="field full"><label>หมายเหตุ</label><input id="fuelEditNote" maxlength="500"></div><div id="fuelEditMsg" class="notice full"></div><div class="full"><button class="primary" type="submit">บันทึกการแก้ไข</button></div></form></div></div>');m=$('fuelEditModal');$('fuelEditClose').onclick=()=>m.classList.add('hidden');$('fuelEditAmount').oninput=updateFuelEditPreview;$('fuelEditType').onchange=updateFuelEditPreview;$('fuelEditDate').onchange=updateFuelEditPreview;$('fuelEditVehicle').onchange=updateFuelEditPreview;$('fuelEditForm').onsubmit=saveFuelEdit}$('fuelEditId').value=record.id;$('fuelEditDate').value=record.transaction_date;$('fuelEditVehicle').innerHTML=vehicles.map(v=>`<option value="${esc(v.id)}">${esc(v.vehicle_type)} · ${esc(v.registration)}</option>`).join('');$('fuelEditVehicle').value=record.vehicle_id;$('fuelEditType').value=record.usage_type;$('fuelEditAmount').value=record.amount;$('fuelEditReceiver').value=record.receiver_name;$('fuelEditVoucher').value=record.voucher_no;$('fuelEditNote').value=record.note||'';m.classList.remove('hidden');updateFuelEditPreview()}
+function updateFuelEditPreview(){const id=$('fuelEditId')?.value,old=fuels.find(x=>x.id===id),amount=Number($('fuelEditAmount')?.value||0),kind=$('fuelEditType')?.value,vehicleId=$('fuelEditVehicle')?.value,date=$('fuelEditDate')?.value,available=fuelSummary(kind).remaining+(old?.usage_type===kind?Number(old.amount||0):0),msg=$('fuelEditMsg');if(!old){if(msg){msg.className='notice bad';msg.textContent='🔴 ไม่พบรายการน้ำมัน'};return}if($('fuelEditLiters'))$('fuelEditLiters').textContent='—';const plansForDate=fuelPlansForDate(vehicleId,date),blockedPlan=plansForDate.find(fuelTripBlocked)||null;let error='';if(!fuelCanManage(old))error='🔴 บัญชีนี้ไม่มีสิทธิ์แก้ไขรายการของผู้อื่น';else if(blockedPlan)error=`🔴 รถติดภารกิจ${blockedPlan.plan_type==='project'?'โครงการ':'เดินทางไปราชการ'} ${planStart(blockedPlan)} ถึง ${planEnd(blockedPlan)} — ห้ามเติมน้ำมันงบทรงชีพ`;else if(fuelDuplicate(vehicleId,date,id))error='🔴 รถคันนี้มีรายการน้ำมันในวันที่เลือกแล้ว';else if(!Number.isFinite(amount)||amount<=0)error='🔴 กรุณาระบุจำนวนเงิน';else if(amount>available)error=`⚠️ วงเงินคงเหลือไม่เพียงพอ — แก้ไขได้สูงสุด ${money(available)}`;if(msg){msg.className=error?'notice bad':'notice ok';msg.textContent=error||`🟢 คงเหลือหลังแก้ไข ${money(available-amount)}`}}
+async function saveFuelEdit(e){e.preventDefault();const id=$('fuelEditId').value,old=fuels.find(x=>x.id===id),amount=Number($('fuelEditAmount').value),usage_type=$('fuelEditType').value,vehicleId=$('fuelEditVehicle').value,date=$('fuelEditDate').value;if(!old||!fuelCanManage(old)){alert('🔴 บัญชีนี้ไม่มีสิทธิ์แก้ไขรายการน้ำมันของผู้อื่น');return}const check=fuelValidateContext(vehicleId,date,usage_type,amount,id);if(!check.ok){alert(check.message);return}const r=await db.from('fuel_refills').update({transaction_date:date,vehicle_id:vehicleId,usage_type,amount,diesel_price:null,liters:null,receiver_name:$('fuelEditReceiver').value.trim(),voucher_no:$('fuelEditVoucher').value.trim(),note:$('fuelEditNote').value.trim()||null}).eq('id',id).eq('created_by',authUser.id);if(r.error){alert('🔴 แก้ไขไม่สำเร็จ: '+r.error.message);return}$('fuelEditModal').classList.add('hidden');await load()}
+async function deleteFuelRecord(id){const record=fuels.find(x=>x.id===id);if(!record)return;if(!fuelCanManage(record)){alert('🔴 บัญชีนี้ไม่มีสิทธิ์ลบรายการน้ำมันของผู้อื่น');return}if(!confirm(`ยืนยันลบรายการ ${record.voucher_no}?`))return;const r=await db.from('fuel_refills').delete().eq('id',id).eq('created_by',authUser.id);if(r.error){alert('🔴 ลบไม่สำเร็จ: '+r.error.message);return}await load()}
+$('fuelDate').onchange=updateFuelPreview;$('fuelVehicle').onchange=updateFuelPreview;$('fuelUsageType').onchange=updateFuelPreview;$('fuelAmount').oninput=updateFuelPreview;$('fuelBudgetForm').onsubmit=saveFuelBudget;$('fuelRefillForm').onsubmit=addFuel;$('fuelAdd').onclick=null;
 db.auth.onAuthStateChange((_event,session)=>{authSession=session;authUser=session?.user||null});
 (async()=>{try{if(await initAuth())await load()}catch(e){console.error(e);$('loginMsg').textContent='🔴 ไม่สามารถตรวจสอบการเข้าสู่ระบบ: '+e.message;$('loginGate').classList.remove('hidden')}})();
 </script>
+
+<div class="toolbar" style="justify-content:flex-end;margin:14px 0 0">
+  <button id="fuelExportExcel" class="secondary" type="button">📊 Export Excel ทะเบียนคุมน้ำมัน</button><div id="fuelLineNotice" class="muted" style="font-size:12px;margin-top:6px">LINE: แจ้งเตือนหลังบันทึกสำเร็จ (ต้องตั้งค่า Secrets ใน Supabase)</div>
+</div>
+<script>
+/* ============================================================
+   FUEL REGISTER — OFFICIAL A4 LANDSCAPE EXCEL EXPORT
+   Source: current in-memory Supabase-backed fuels array only.
+   No mock/sample data is generated.
+   ============================================================ */
+function fuelExportRows(kind){
+  let cumulative = 0;
+  return fuels
+    .filter(x => isFuelFY2570Date(x.transaction_date) && x.usage_type === kind)
+    .slice()
+    .sort((a,b) =>
+      String(a.transaction_date).localeCompare(String(b.transaction_date)) ||
+      String(a.created_at || '').localeCompare(String(b.created_at || ''))
+    )
+    .map((x, i) => {
+      cumulative += Number(x.amount || 0);
+      return {
+        no: i + 1,
+        date: thaiDate(x.transaction_date),
+        voucher: x.voucher_no || '',
+        vehicle: vname(x.vehicle_id) || '',
+        receiver: x.receiver_name || '',
+        fuel: 'ดีเซล',
+        liters: x.liters == null ? '' : Number(x.liters),
+        amount: Number(x.amount || 0),
+        cumulative: cumulative,
+        recorder: x.recorded_by_name || x.created_by || '',
+        note: x.note || ''
+      };
+    });
+}
+
+function fuelExcelStyleSheet(rows, title, subtitle){
+  const headers = [
+    'ลำดับ','วัน เดือน ปี','เลขที่ใบเบิก','รถ/ทะเบียน','ผู้รับน้ำมัน',
+    'น้ำมัน','ปริมาณ (ลิตร)','จำนวนเงิน (บาท)','วงเงินสะสม (บาท)',
+    'ผู้บันทึก','หมายเหตุ'
+  ];
+
+  const aoa = [
+    ['กองอำนวยการรักษาความมั่นคงภายในจังหวัดมุกดาหาร'],
+    ['ทะเบียนคุมการใช้น้ำมันเชื้อเพลิง'],
+    ['ประจำปีงบประมาณ พ.ศ. 2570'],
+    [title],
+    [subtitle],
+    headers
+  ];
+
+  rows.forEach(r => aoa.push([
+    r.no, r.date, r.voucher, r.vehicle, r.receiver, r.fuel,
+    r.liters, r.amount, r.cumulative, r.recorder, r.note
+  ]));
+
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+
+  ws['!merges'] = [
+    {s:{r:0,c:0}, e:{r:0,c:10}},
+    {s:{r:1,c:0}, e:{r:1,c:10}},
+    {s:{r:2,c:0}, e:{r:2,c:10}},
+    {s:{r:3,c:0}, e:{r:3,c:10}},
+    {s:{r:4,c:0}, e:{r:4,c:10}}
+  ];
+
+  ws['!cols'] = [
+    {wch:7}, {wch:14}, {wch:16}, {wch:23}, {wch:22},
+    {wch:12}, {wch:15}, {wch:16}, {wch:19}, {wch:25}, {wch:28}
+  ];
+
+  ws['!rows'] = [
+    {hpt:24}, {hpt:23}, {hpt:21}, {hpt:20}, {hpt:18}, {hpt:30}
+  ];
+
+  // A4 Landscape / print-ready settings.
+  ws['!pageSetup'] = {
+    paperSize: 9,
+    orientation: 'landscape',
+    fitToWidth: 1,
+    fitToHeight: 0
+  };
+  ws['!margins'] = {
+    left: 0.25, right: 0.25, top: 0.45, bottom: 0.45,
+    header: 0.2, footer: 0.2
+  };
+  ws['!freeze'] = {xSplit:0, ySplit:6};
+  ws['!autofilter'] = {ref:`A6:K${Math.max(6, aoa.length)}`};
+
+  const titleStyle = {
+    font:{name:'TH Sarabun New', sz:18, bold:true},
+    alignment:{horizontal:'center', vertical:'center'}
+  };
+  const subtitleStyle = {
+    font:{name:'TH Sarabun New', sz:14, bold:true},
+    alignment:{horizontal:'center', vertical:'center'}
+  };
+  const headerStyle = {
+    font:{name:'TH Sarabun New', sz:13, bold:true},
+    alignment:{horizontal:'center', vertical:'center', wrapText:true},
+    fill:{patternType:'solid', fgColor:{rgb:'D9EAF7'}},
+    border:{
+      top:{style:'thin',color:{rgb:'000000'}},
+      bottom:{style:'thin',color:{rgb:'000000'}},
+      left:{style:'thin',color:{rgb:'000000'}},
+      right:{style:'thin',color:{rgb:'000000'}}
+    }
+  };
+  const cellBorder = {
+    top:{style:'thin',color:{rgb:'000000'}},
+    bottom:{style:'thin',color:{rgb:'000000'}},
+    left:{style:'thin',color:{rgb:'000000'}},
+    right:{style:'thin',color:{rgb:'000000'}}
+  };
+
+  ['A1','A2','A3'].forEach(c => { if(ws[c]) ws[c].s = titleStyle; });
+  ['A4','A5'].forEach(c => { if(ws[c]) ws[c].s = subtitleStyle; });
+
+  for(let c=0;c<11;c++){
+    const cell = ws[XLSX.utils.encode_cell({r:5,c})];
+    if(cell) cell.s = headerStyle;
+  }
+
+  for(let r=6;r<aoa.length;r++){
+    for(let c=0;c<11;c++){
+      const cell = ws[XLSX.utils.encode_cell({r,c})];
+      if(!cell) continue;
+      cell.s = {
+        font:{name:'TH Sarabun New', sz:12},
+        alignment:{
+          vertical:'center',
+          horizontal:(c===0 || c===1 || c===2 || c===5) ? 'center' : (c===6 || c===7 || c===8 ? 'right' : 'left'),
+          wrapText:true
+        },
+        border:cellBorder
+      };
+      if(c===6 || c===7 || c===8){
+        cell.z = '#,##0.00';
+      }
+    }
+  }
+
+  // Blank-state row still prints as a clean official register.
+  if(rows.length === 0){
+    const r = 6;
+    ws[XLSX.utils.encode_cell({r,c:0})] = {v:'—', t:'s', s:{
+      font:{name:'TH Sarabun New', sz:12},
+      alignment:{horizontal:'center',vertical:'center'},
+      border:cellBorder
+    }};
+    ws['!merges'].push({s:{r,c:0},e:{r,c:10}});
+  }
+
+  return ws;
+}
+
+function exportFuelExcel(){
+  if(typeof XLSX === 'undefined'){
+    alert('🔴 ไม่พบระบบสร้างไฟล์ Excel กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่');
+    return;
+  }
+
+  if(!Array.isArray(fuels)){
+    alert('🔴 ไม่พบข้อมูลทะเบียนคุมน้ำมันจากระบบ');
+    return;
+  }
+
+  const dailyRows = fuelExportRows('daily');
+  const operationalRows = fuelExportRows('operational');
+
+  const wb = XLSX.utils.book_new();
+  wb.Props = {
+    Title:'ทะเบียนคุมการใช้น้ำมันเชื้อเพลิง',
+    Subject:'ทะเบียนคุมน้ำมัน ปีงบประมาณ พ.ศ. 2570',
+    Author:'ระบบบริหารทรัพยากร',
+    Company:'กองอำนวยการรักษาความมั่นคงภายในจังหวัดมุกดาหาร',
+    CreatedDate:new Date()
+  };
+
+  const dailyWs = fuelExcelStyleSheet(
+    dailyRows,
+    'ทะเบียนคุมน้ำมันประจำวัน',
+    `ข้อมูลจริงจากระบบ • รายการ ${dailyRows.length} รายการ`
+  );
+  const opWs = fuelExcelStyleSheet(
+    operationalRows,
+    'ทะเบียนคุมน้ำมันปฏิบัติการ',
+    `ข้อมูลจริงจากระบบ • รายการ ${operationalRows.length} รายการ`
+  );
+
+  XLSX.utils.book_append_sheet(wb, dailyWs, 'น้ำมันประจำวัน');
+  XLSX.utils.book_append_sheet(wb, opWs, 'น้ำมันปฏิบัติการ');
+
+  const d = new Date();
+  const stamp = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  XLSX.writeFile(wb, `ทะเบียนคุมน้ำมัน_พ.ศ.2570_${stamp}.xlsx`, {
+    bookType:'xlsx',
+    compression:true
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('fuelExportExcel');
+  if(btn) btn.addEventListener('click', exportFuelExcel);
+});
+</script>
+
 </body></html>
